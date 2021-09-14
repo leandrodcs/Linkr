@@ -13,7 +13,7 @@ export default function LoginCover() {
 const Wrapper = styled.div`
     width: calc(100vw - 535px);
     height: 100vh;
-    padding: 304px 0px 0px 104px;
+    padding: 304px 104px 0px;
     background-color: #151515;
     box-shadow: 4px 0px 4px 0px #00000040;
     color: #FFF;
