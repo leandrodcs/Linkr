@@ -51,7 +51,6 @@ const DropDownWindow = styled.nav`
     padding-top: 10px;
     padding-bottom: 17px;
     transition: 0.3s;
-
     a {
         font-size: 17px;
         line-height: 20px;
@@ -61,7 +60,17 @@ const DropDownWindow = styled.nav`
         font-family: 'Lato', sans-serif;
         font-weight: 700;
     }
-
+    @media(max-width: 937px) {
+        width: 150px;
+        height: 97px;
+        padding-top: 8px;
+        padding-bottom: 15px;
+        a {
+            font-size: 15px;
+            line-height: 18px;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+    }
 `;
 
 const HeaderWrapper= styled.header`
@@ -75,7 +84,6 @@ const HeaderWrapper= styled.header`
     top: 0;
     left: 0;
     z-index: 3;
-
     a {
         color: #FFFFFF;
         margin-left: 28px;
@@ -84,8 +92,9 @@ const HeaderWrapper= styled.header`
         text-decoration: none;
         letter-spacing: 0.05em;
         font-family: 'Passion One', cursive;
+        transition: 0.3s;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
-
     div {
         display: flex;
         align-items: center;
@@ -94,23 +103,29 @@ const HeaderWrapper= styled.header`
         color: #FFFFFF;
         font-size: 25px;
     }
-
     svg {
         transform: rotate(${({showNavBar}) => showNavBar ? `180deg` : `0deg`});
         transition: 0.3s;
     }
-
     img {
         width: 53px;
         height: 53px;
         border-radius: 26.5px;
         object-fit: cover;
+        transition: 0.3s;
     }
-
-    @media(max-width: 800px) {
-
-        button {
-        margin-left: 0px;
-        margin-top: 10px;
+    @media(max-width: 937px) {
+        a {
+        margin-left: 17px;
+        font-size: 45px;
+    }
+        div {
+            gap: 12px;
+            margin-right: 14px;
+            font-size: 20px;
         }
+        img {
+        width: 44px;
+        height: 44px;
+    }
 `;
