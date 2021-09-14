@@ -2,6 +2,7 @@ import SignUp from "./pages/sign-up/SignUp";
 import Timeline from "./pages/Timeline/Timeline";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Header from "./components/Header";
 import { createGlobalStyle } from "styled-components";
 
 export default function App() {
@@ -9,8 +10,7 @@ export default function App() {
     <Router>
       <GlobalReset />
       <Switch>
-        <Route path = "/" exact>
-          Base project created and deployed
+        <Route path = "/" exact render={() => <Header />}>
         </Route>
         <Route exact path="/sign-up">
           <SignUp />
