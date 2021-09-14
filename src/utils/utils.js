@@ -1,11 +1,16 @@
-const add30Minutes = (time) => {
-    kjahdkaj
-    sdlkjla
-    return dklasjhdasi
+const ContainerMarginLeft = (postWidth, widthBetweenPostAndTrending, trendingWidth) => {
+    const marginLeft = `calc( ( 100vw - ${ postWidth }px - ${ widthBetweenPostAndTrending }px - ${ trendingWidth }px ) / 2)`;
+    console.log(marginLeft)
+    return marginLeft;
 }
 
-const addedTime = add30Minutes(40)
+const ContainerMarginRight = (postWidth, widthBetweenPostAndTrending, trendingWidth) => {
+    const marginLeft = ContainerMarginLeft(postWidth, widthBetweenPostAndTrending, trendingWidth);
+    const marginRight = `calc( 100vw - ${marginLeft} - ${postWidth}px )`;
+    return marginRight;
+}
 
 export {
-    add30Minutes,
+    ContainerMarginLeft,
+    ContainerMarginRight
 }

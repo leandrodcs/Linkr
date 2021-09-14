@@ -1,4 +1,5 @@
 import SignUp from "./pages/sign-up/SignUp";
+import Timeline from "./pages/Timeline/Timeline";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
@@ -11,7 +12,12 @@ export default function App() {
         <Route path = "/" exact>
           Base project created and deployed
         </Route>
-        <Route exact path="/sign-up" component={SignUp} />
+        <Route exact path="/sign-up">
+          <SignUp />
+        </Route>
+        <Route exact path="/timeline" >
+          <Timeline />
+        </Route>
       </Switch>
     </Router>
   );
