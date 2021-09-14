@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Timeline from "./pages/Timeline/Timeline";
 
 export default function App() {
   return (
@@ -6,6 +7,9 @@ export default function App() {
       <Switch>
         <Route path = "/" exact>
           Base project created and deployed
+        </Route>
+        <Route path = "/timeline" exact>
+          <Timeline />
         </Route>
       </Switch>
     </Router>
