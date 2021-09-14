@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {IoIosArrowDown} from 'react-icons/all';
+import {IoIosArrowDown } from 'react-icons/io';
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -118,7 +118,7 @@ const HeaderWrapper= styled.header`
         a {
         margin-left: 17px;
         font-size: 45px;
-    }
+        }
         div {
             gap: 12px;
             margin-right: 14px;
@@ -127,5 +127,6 @@ const HeaderWrapper= styled.header`
         img {
         width: 44px;
         height: 44px;
+        }
     }
-`;
+`
