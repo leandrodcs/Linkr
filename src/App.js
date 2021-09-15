@@ -1,12 +1,15 @@
 import SignUp from "./pages/sign-up/SignUp";
 import SignIn from "./pages/sign-in/SignIn";
 import Timeline from "./pages/Timeline/Timeline";
+import MyPosts from "./pages/MyPosts/MyPosts";
+
+
 import UserContext from "./contexts/UserContext";
 import { getFromLocalStorage } from "./utils/localStorageUtils";
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from "react";
 import { createGlobalStyle } from "styled-components";
-import MyPosts from "./pages/MyPosts/MyPosts";
 
 export default function App() {
   const [user, setUser] = useState(() => getFromLocalStorage());
@@ -16,21 +19,13 @@ export default function App() {
   return (
     <Router>
       <UserContext.Provider value={{user, setUser}}>
-      <GlobalReset />
-      <Switch>
-        <Route exact path="/">
-          <SignIn skipThisPage={skipSignIn} />
-        </Route>
-        <Route exact path="/sign-up">
-          <SignUp />
-        </Route>
-        <Route exact path="/timeline" >
-          <Timeline />
-        </Route>
-        <Route exact path="/my-posts" >
-          <MyPosts />
-        </Route>
-      </Switch>
+        <GlobalReset />
+        <Switch>
+          <Route exact path="/" render={() => <SignIn skipThisPage={skipSignIn} />} />
+          <Route exact path="/sign-up" render={() => <SignUp />} />
+          <Route exact path="/timeline" render={() => <Timeline />} />
+          <Route exact path="/my-posts" render={() => <MyPosts />} />
+        </Switch>
       </UserContext.Provider>
     </Router>
   );
