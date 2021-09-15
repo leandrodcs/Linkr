@@ -31,7 +31,24 @@ function login(body, history, setUser, setIsButtonEnabled) {
         });
 }
 
+function getUserPosts(token, userId, setUserPosts, setLoading) {
+    const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${userId}/posts`, config)
+        .then(res => {
+            setUserPosts(res.data.posts);
+            setLoading(false);
+        })
+        .catch(err => {
+            setLoading(false);
+            alert(err)});
+}
+
 export {
     createNewUser,
-    login
+    login,
+    getUserPosts,
 };

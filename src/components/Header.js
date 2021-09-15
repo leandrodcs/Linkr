@@ -59,6 +59,7 @@ const DropDownWindow = styled.nav`
         text-decoration: none;
         font-family: 'Lato', sans-serif;
         font-weight: 700;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
     @media(max-width: 937px) {
         width: 150px;
@@ -68,7 +69,7 @@ const DropDownWindow = styled.nav`
         a {
             font-size: 15px;
             line-height: 18px;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
+
         }
     }
 `;
