@@ -1,21 +1,81 @@
-import { Link } from "react-router-dom";
+import { createNewUser, login } from "../service/service";
+import UserContext from "../contexts/UserContext";
+
 import styled from "styled-components";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 
 export default function SignForm({isSignUp}) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [pictureUrl, setPictureUrl] = useState("");
+    const [isButtonEnabled, setIsButtonEnabled] = useState(true);
+    const history = useHistory();
+    const {setUser} = useContext(UserContext);
+
+    function signHelper(event) {
+        event.preventDefault();
+        setIsButtonEnabled(false);
+        let body;
+
+        if(isSignUp) {
+            body = {
+                email,
+                password,
+                username,
+                pictureUrl
+            }
+            createNewUser(body, history, setUser, setIsButtonEnabled);
+        }
+        else {
+            body = {
+                email,
+                password
+            }
+            login(body, history, setUser, setIsButtonEnabled);
+        }
+    }
+
     return (
-        <Form>
-            <input type="email" placeholder="e-mail" required />
-            <input type="password" placeholder="password" required />
+        <Form onSubmit={isButtonEnabled ? signHelper : null} isButtonEnabled={isButtonEnabled}>
+            <input
+                type="email"
+                placeholder="e-mail"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+            />
+            <input
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+            />
             {isSignUp ?
                 <>
-                    <input type="text" placeholder="username" required />
-                    <input type="url" placeholder="picture url" required />
+                    <input
+                        type="text"
+                        placeholder="username"
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="url"
+                        placeholder="picture url"
+                        value={pictureUrl}
+                        onChange={e => setPictureUrl(e.target.value)}
+                        required
+                    />
                 </>
                 : ""
             }
             <button type="submit">{isSignUp ? "Sign Up" : "Log In"}</button>
             {isSignUp ? 
-                <Link to="/sign-in">Switch back to log in</Link>
+                <Link to="/">Switch back to log in</Link>
                 :
                 <Link to="/sign-up">First time? Create an account!</Link>
             }
@@ -60,6 +120,7 @@ const Form = styled.form`
         font-family: Oswald;
         font-size: 27px;
         color: #FFF;
+        opacity: ${props => props.isButtonEnabled ? 1 : 0.5};
     }
 
     a {

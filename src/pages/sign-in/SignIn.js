@@ -1,10 +1,14 @@
 import SignForm from "../../components/SignForm";
-
 import LoginCover from "../../components/LoginCover";
 
 import styled from "styled-components";
+import { useHistory } from "react-router";
 
-export default function SignIn() {
+export default function SignIn({skipThisPage}) {
+    const history = useHistory();
+
+    if(skipThisPage) history.push("/timeline");
+
     return (
         <Wrapper>
             <LoginCover />
