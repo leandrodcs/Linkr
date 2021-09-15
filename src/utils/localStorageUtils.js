@@ -6,26 +6,22 @@ function saveToLocalStorage(resp) {
     localStorage.setItem("username", resp.user.username);
 }
 
-function getFromLocalStorage(user, setUser) {
+function getFromLocalStorage() {
     const token = localStorage.getItem("token");
     const avatar = localStorage.getItem("avatar");
     const email = localStorage.getItem("email");
     const id = localStorage.getItem("id");
     const username = localStorage.getItem("username");
     
-    if(token) {
-        setUser({
-            token,
-            user: {
-                avatar,
-                email,
-                id,
-                username
-            }
-        });
-        return true;
-    }
-    return false;
+    return {
+        token,
+        user: {
+            avatar,
+            email,
+            id,
+            username
+        }
+    };
 }
 
 export {

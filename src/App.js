@@ -6,17 +6,15 @@ import UserContext from "./contexts/UserContext";
 import { getFromLocalStorage } from "./utils/localStorageUtils";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 
 export default function App() {
-  const [user, setUser] = useState({});
-  const [skipSignIn, setSkipSignIn] = useState(false);
-  
-  useEffect((() => {
-    const isLocalStoragePopulated = getFromLocalStorage(user, setUser);
-    setSkipSignIn(isLocalStoragePopulated);
-  }), []);
+  const [user, setUser] = useState(() => getFromLocalStorage());
+  const {token} = user;
+  const skipSignIn = !!token;
+
+  console.log(user, token)
   
   return (
     <Router>
