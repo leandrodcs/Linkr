@@ -1,3 +1,5 @@
+import { saveToLocalStorage } from "../utils/localStorageUtils";
+
 import axios from "axios";
 
 const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr";
@@ -19,6 +21,7 @@ function login(body, history, setUser, setIsButtonEnabled) {
     axios.post(`${URL}/sign-in`, body)
         .then(resp => {
             setUser(resp.data);
+            saveToLocalStorage(resp.data);
             history.push("/timeline");
         })
         .catch(err => {
