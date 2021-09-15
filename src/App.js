@@ -13,23 +13,15 @@ export default function App() {
   const [user, setUser] = useState(() => getFromLocalStorage());
   const {token} = user;
   const skipSignIn = !!token;
-
-  console.log(user, token)
   
   return (
     <Router>
       <UserContext.Provider value={{user, setUser}}>
       <GlobalReset />
       <Switch>
-        <Route exact path="/">
-          <SignIn skipThisPage={skipSignIn} />
-        </Route>
-        <Route exact path="/sign-up">
-          <SignUp />
-        </Route>
-        <Route exact path="/timeline" >
-          <Timeline />
-        </Route>
+        <Route exact path="/" render={() => <SignIn skipThisPage={skipSignIn} />} />
+        <Route exact path="/sign-up" render={() => <SignUp />} />
+        <Route exact path="/timeline" render={() => <Timeline />} />
       </Switch>
       </UserContext.Provider>
     </Router>
