@@ -6,8 +6,8 @@ import Post from "../../components/Post";
 import PageTitle from "../../components/PageTitle";
 import Loading from "../../components/Loading";
 import Header from "../../components/Header";
-import axios from "axios";
 import UserContext from "../../contexts/UserContext";
+import {getUserPosts} from "../../service/service";
 
 export default function MyPosts() {
     const {user} = useContext(UserContext);
@@ -16,20 +16,9 @@ export default function MyPosts() {
 
     useEffect(() => {
         setLoading(true);
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user.token}`
-          }
-        }
-        axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.user.id}/posts`, config)
-        .then(res => {
-            setUserPosts(res.data);
-            setLoading(false);
-        })
-        .catch(err => {
-            setLoading(false);
-            alert(err)});
+        getUserPosts(user.token, user.user.id, setUserPosts, setLoading)
       }, [user.token, user.user.id]);
+      console.log(userPosts);
 
     if(loading) {
         return (
