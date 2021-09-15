@@ -12,8 +12,6 @@ export default function App() {
     <Router>
       <GlobalReset />
       <Switch>
-        <Route exact path = "/" render={() => <Header />}>
-        </Route>
         <Route exact path="/sign-up">
           <SignUp />
         </Route>
