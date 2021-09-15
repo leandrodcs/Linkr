@@ -1,19 +1,24 @@
 import styled from "styled-components";
 import { TiPencil, TiTrash } from "react-icons/ti";
 import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
-export default function Post({text, user, likes}) {
+export default function Post({ id, text, user, likes}) {
     const isLiked = true;
     return (
         <Wrapper>
             <ProfileImgAndLikeButton>
-                <img src = { user.avatar } alt = {user.username} />
+                <Link to={`/user/${id}`}>
+                    <img src = { user.avatar } alt = {user.username} />
+                </Link>
                 {isLiked ? <LikedHeart /> : <NotLikedHeart />}
-                <p>{ likesText(likes.length) }</p>
+                <p>{ formattedNumberOfLikes(likes.length) }</p>
             </ProfileImgAndLikeButton>
             <PostContent>
                 <Header>
-                    {user.username}
+                    <Link to={`/user/${id}`}>
+                        {user.username}
+                    </Link>
                     <IconButton right = {"25px"}>
                         <TiPencil />
                     </IconButton>
@@ -108,6 +113,6 @@ const LinkBox = styled.div`
 
 `
 
-function likesText(numberOfLikes) {
+function formattedNumberOfLikes(numberOfLikes) {
     return `${numberOfLikes} ${numberOfLikes > 1 ? "likes" : "like"}`
 }

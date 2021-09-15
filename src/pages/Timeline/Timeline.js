@@ -6,6 +6,7 @@ import Post from "../../components/Post";
 import PageTitle from "../../components/PageTitle";
 import Loading from "../../components/Loading";
 import { getTimelinePosts } from "../../service/service";
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import mockUser from "../../temp_mocks/mock_User";
 import mockPosts from "../../temp_mocks/mock_posts"
@@ -38,7 +39,9 @@ export default function Timeline() {
             <Wrapper>
                 <PageTitle text = "timeline" />
                 <PublishingBox>
-                    <img src = { userData.user.avatar } alt = {userData.user.username} />
+                    <Link to={`/user/${userData.user.id}`}>
+                        <img src = { userData.user.avatar } alt = {userData.user.username} />
+                    </Link>
                     <PublishingBoxContent>
                         <p>O que você tem pra favoritar hoje?</p>
                         <Input 
@@ -52,10 +55,11 @@ export default function Timeline() {
                 </PublishingBox>
                 { posts.length ? posts.map( ({id, text, user, likes}) => 
                     <Post 
-                        key = {id}
-                        text = {text}
-                        user = {user}
-                        likes = {likes}
+                        key = { id }
+                        id = { id }
+                        text = { text }
+                        user = { user }
+                        likes = { likes }
                     />)
                     : <p>Nenhum post encontrado</p>
                 }
@@ -110,11 +114,11 @@ const Input = styled.input`
     padding-left: 15px;
     display: inline-block;
     background-color: #EFEFEF;
+    font-family: 'Lato', sans-serif;
     border: none;
     border-radius: 5px;
     &::placeholder {
         color: #949494;
-        font-family: 'Lato', sans-serif;
         font-weight: 300;
     }
 `
@@ -126,12 +130,12 @@ const TextArea = styled.textarea`
     padding: 8px 15px;
     display: inline-block;
     background-color: #EFEFEF;
+    font-family: 'Lato', sans-serif;
     border: none;
     resize: none;
     border-radius: 5px;
     &::placeholder {
         color: #949494;
-        font-family: 'Lato', sans-serif;
         font-weight: 300;
     }
 `

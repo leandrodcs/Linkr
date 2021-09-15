@@ -66,4 +66,12 @@ const GlobalReset = createGlobalStyle`
     border-collapse: collapse;
     border-spacing: 0;
   }
+
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+  color: inherit;
+  text-decoration: none;
+}
 `;
