@@ -13,14 +13,15 @@ import { createGlobalStyle } from "styled-components";
 
 export default function App() {
   const [user, setUser] = useState(() => getFromLocalStorage());
-  const skipSignIn = !!user.token;
   
   return (
     <Router>
       <UserContext.Provider value={{user, setUser}}>
         <GlobalReset />
         <Switch>
-          <Route exact path="/" render={() => <SignIn skipThisPage={skipSignIn} />} />
+          <Route exact path="/">
+            <SignIn skipThisPage={!!user.token} />
+          </Route>
           <Route exact path="/sign-up" render={() => <SignUp />} />
           <Route exact path="/timeline" render={() => <Timeline />} />
           <Route exact path="/my-posts" render={() => <MyPosts />} />

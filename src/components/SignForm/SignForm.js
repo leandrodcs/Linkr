@@ -22,6 +22,7 @@ export default function SignForm({isSignUp}) {
         event.preventDefault();
         setIsButtonEnabled(false);
         let body;
+        let proceed = false
 
         if(isSignUp) {
             body = {
@@ -30,15 +31,16 @@ export default function SignForm({isSignUp}) {
                 username,
                 pictureUrl
             }
-            createNewUser(body, history, setUser, setIsButtonEnabled);
+            proceed = createNewUser(body, history, setIsButtonEnabled);
         }
         else {
             body = {
                 email,
                 password
             }
-            login(body, history, setUser, setIsButtonEnabled);
+            login(body, setUser, setIsButtonEnabled, history);
         }
+
     }
 
     return (
