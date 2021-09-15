@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import Container from "../../components/Container";
 import Trending from "../../components/Trending";
@@ -9,24 +9,24 @@ import MockPosts from "../../temp_mocks/mock_posts";
 import Header from "../../components/Header";
 import user from "../../temp_mocks/mock_otherUser";
 import axios from "axios";
-
+import UserContext from "../../contexts/UserContext";
 
 export default function MyPosts() {
+    const {user} = useContext(UserContext);
     const [userPosts, setUserPosts] = useState(MockPosts.posts);
-    const token = "37262632-0377-4e35-88df-debb5bcf32da";
 
     useEffect(() => {
         const config = {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${user.token}`
           }
         }
-        axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.id}`, config)
+        axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.user.id}/posts`, config)
         .then(res => {
           console.log(res);
-          setUserPosts(res.data);
+          //setUserPosts(res.data);
         })
-        .catch(err => console.log);
+        .catch(err => alert(err));
       }, []);
 
     if(!userPosts) {
