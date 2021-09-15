@@ -1,8 +1,6 @@
 import SignUp from "./pages/sign-up/SignUp";
 import SignIn from "./pages/sign-in/SignIn";
 import Timeline from "./pages/Timeline/Timeline";
-import Header from "./components/Header";
-
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import MyPosts from "./pages/MyPosts/MyPosts";
