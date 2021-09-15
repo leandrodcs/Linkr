@@ -13,6 +13,7 @@ export default function MyPosts() {
     const {user} = useContext(UserContext);
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(false);
+    console.log(user);
 
     useEffect(() => {
         setLoading(true);
@@ -36,7 +37,7 @@ export default function MyPosts() {
                 <PageTitle text = "my posts" />
                 {userPosts.length ?
                 userPosts.map( ({id, text, user, likes}) => <Post key={id} text={text} user={user} likes={likes}/>) :
-                <p>Você ainda não criou nenhum post!</p>
+                <EmptyMsg>Você ainda não criou nenhum post!</EmptyMsg>
                 }
             </Wrapper>
             <Trending />
@@ -46,14 +47,14 @@ export default function MyPosts() {
 
 const Wrapper = styled.section`
     width: 611px;
-
-    p {
-        font-family: 'Lato', sans-serif;
-        font-size: 20px;
-        color: #151515;
-    }
     
     @media(max-width: 937px) {
         width: 100%;
     }
+`;
+
+const EmptyMsg = styled.p`
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    color: #151515;
 `;
