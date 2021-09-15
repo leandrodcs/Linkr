@@ -1,7 +1,7 @@
 import SignUp from "./pages/sign-up/SignUp";
 import SignIn from "./pages/sign-in/SignIn";
-import Timeline from "./pages/Timeline/Timeline";
-import MyPosts from "./pages/MyPosts/MyPosts";
+import Timeline from "./pages/timeline/Timeline";
+import MyPosts from "./pages/my-posts/MyPosts";
 
 
 import UserContext from "./contexts/UserContext";
@@ -13,8 +13,7 @@ import { createGlobalStyle } from "styled-components";
 
 export default function App() {
   const [user, setUser] = useState(() => getFromLocalStorage());
-  const {token} = user;
-  const skipSignIn = !!token;
+  const skipSignIn = !!user.token;
   
   return (
     <Router>

@@ -42,7 +42,7 @@ export default function SignForm({isSignUp}) {
     }
 
     return (
-        <Form onSubmit={isButtonEnabled ? signHelper : null} isButtonEnabled={isButtonEnabled}>
+        <Form onSubmit={isButtonEnabled ? signHelper : e => e.preventDefault()}>
             <Input
                 type="email"
                 placeholder="e-mail"
@@ -76,7 +76,7 @@ export default function SignForm({isSignUp}) {
                 </>
                 : ""
             }
-            <Button type="submit">{isSignUp ? "Sign Up" : "Log In"}</Button>
+            <Button type="submit" isButtonEnabled={isButtonEnabled}>{isSignUp ? "Sign Up" : "Log In"}</Button>
             {isSignUp ? 
                 <Link to="/">Switch back to log in</Link>
                 :
