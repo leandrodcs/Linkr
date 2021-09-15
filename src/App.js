@@ -14,7 +14,7 @@ export default function App() {
   const [skipSignIn, setSkipSignIn] = useState(false);
   
   useEffect((() => {
-    const temp = getFromLocalStorage(user, setUser);
+    const isLocalStoragePopulated = getFromLocalStorage(user, setUser);
     setSkipSignIn(temp);
   }), []);
   
