@@ -1,8 +1,9 @@
 import SignUp from "./pages/sign-up/SignUp";
+import SignIn from "./pages/sign-in/SignIn";
 import Timeline from "./pages/Timeline/Timeline";
+import Header from "./components/Header";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Header from "./components/Header";
 import { createGlobalStyle } from "styled-components";
 
 export default function App() {
@@ -10,10 +11,13 @@ export default function App() {
     <Router>
       <GlobalReset />
       <Switch>
-        <Route path = "/" exact render={() => <Header />}>
+        <Route exact path = "/" render={() => <Header />}>
         </Route>
         <Route exact path="/sign-up">
           <SignUp />
+        </Route>
+        <Route exact path="/sign-in">
+          <SignIn />
         </Route>
         <Route exact path="/timeline" >
           <Timeline />

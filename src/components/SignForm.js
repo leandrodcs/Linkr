@@ -65,9 +65,36 @@ const Form = styled.form`
     a {
         text-decoration: none;
         font-family: Lato;
+        font-size: 20px;
         color: #FFF;
         margin: 6px 0px;
         padding-bottom: 2px;
         border-bottom: 1px solid #FFF;
+    }
+
+    @media (max-width: 937px) {
+        width: 100vw;
+        padding: 0px 22px;
+        justify-content: initial;
+        margin-top: 40px;
+
+        input {
+            height: 55px;
+            font-size: 22px;
+        }
+
+        input::placeholder {
+            font-size: 22px;
+        }
+
+        button {
+            height: 55px;
+            font-size: 22px;
+        }
+
+        a {
+            font-size: 17px;
+            margin-top: 10px
+        }
     }
 `;
