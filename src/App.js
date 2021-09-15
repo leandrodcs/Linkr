@@ -15,7 +15,7 @@ export default function App() {
   
   useEffect((() => {
     const isLocalStoragePopulated = getFromLocalStorage(user, setUser);
-    setSkipSignIn(temp);
+    setSkipSignIn(isLocalStoragePopulated);
   }), []);
   
   return (
