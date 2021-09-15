@@ -11,12 +11,13 @@ import { createGlobalStyle } from "styled-components";
 
 export default function App() {
   const [user, setUser] = useState({});
-  let skipSignIn;
-
+  const [skipSignIn, setSkipSignIn] = useState(false);
+  
   useEffect((() => {
-    skipSignIn = getFromLocalStorage(user, setUser);
+    const temp = getFromLocalStorage(user, setUser);
+    setSkipSignIn(temp);
   }), []);
-
+  
   return (
     <Router>
       <UserContext.Provider value={{user, setUser}}>

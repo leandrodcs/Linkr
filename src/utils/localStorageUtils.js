@@ -12,18 +12,19 @@ function getFromLocalStorage(user, setUser) {
     const email = localStorage.getItem("email");
     const id = localStorage.getItem("id");
     const username = localStorage.getItem("username");
-
-    setUser({
-        token,
-        user: {
-            avatar,
-            email,
-            id,
-            username
-        }
-    });
-
-    if(user.token) return true;
+    
+    if(token) {
+        setUser({
+            token,
+            user: {
+                avatar,
+                email,
+                id,
+                username
+            }
+        });
+        return true;
+    }
     return false;
 }
 
