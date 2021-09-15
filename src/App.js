@@ -5,6 +5,7 @@ import Header from "./components/Header";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import MyPosts from "./pages/MyPosts/MyPosts";
 
 export default function App() {
   return (
@@ -21,6 +22,9 @@ export default function App() {
         </Route>
         <Route exact path="/timeline" >
           <Timeline />
+        </Route>
+        <Route exact path="/my-posts" >
+          <MyPosts />
         </Route>
       </Switch>
     </Router>
