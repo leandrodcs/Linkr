@@ -7,7 +7,7 @@ export default function Post({text, user, likes}) {
     return (
         <Wrapper>
             <ProfileImgAndLikeButton>
-                <img src = { user.avatar } alt = {`${user.username} Profile Picture`} />
+                <img src = { user.avatar } alt = {user.username} />
                 {isLiked ? <LikedHeart /> : <NotLikedHeart />}
                 <p>{ likesText(likes.length) }</p>
             </ProfileImgAndLikeButton>

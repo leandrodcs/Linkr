@@ -25,7 +25,7 @@ const getPosts = {
             ]
         },
         {
-            "id": 2,
+            "id": 3,
             "text": "Never Gonna Give You Up #rickroll",
             "link": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             "linkTitle": "Rick Astley - Never Gonna Give You Up (Video)",
@@ -49,7 +49,7 @@ const getPosts = {
             ]
         },
         {
-            "id": 2,
+            "id": 4,
             "text": "Never Gonna Give You Up #rickroll",
             "link": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             "linkTitle": "Rick Astley - Never Gonna Give You Up (Video)",
@@ -73,7 +73,7 @@ const getPosts = {
             ]
         },
         {
-            "id": 2,
+            "id": 5,
             "text": "Never Gonna Give You Up #rickroll",
             "link": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             "linkTitle": "Rick Astley - Never Gonna Give You Up (Video)",
@@ -97,7 +97,7 @@ const getPosts = {
             ]
         },
         {
-            "id": 2,
+            "id": 6,
             "text": "Never Gonna Give You Up #rickroll",
             "link": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             "linkTitle": "Rick Astley - Never Gonna Give You Up (Video)",
