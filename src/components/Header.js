@@ -1,10 +1,32 @@
 import styled from "styled-components";
-import {IoIosArrowDown} from 'react-icons/io';
-import { useState } from "react";
+
+import UserContext from "../contexts/UserContext";
+
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from 'react-router';
+import {IoIosArrowDown} from 'react-icons/io';
 
 export default function Header() {
     const [showNavBar, setShowNavBar] = useState(false);
+    const history = useHistory();
+    const {user, setUser} = useContext(UserContext);
+    console.log(user);
+
+    function relocateToMyPosts() {
+        setShowNavBar(false);
+        history.push("/my-posts");
+    }
+    function relocateToMyLikes() {
+        setShowNavBar(false);
+        history.push("/my-likes");
+    }
+    function relocateToLogin() {
+        localStorage.clear();
+        setUser({});
+        setShowNavBar(false);
+        history.push("/");
+    }
 
     return (
         <>
@@ -12,13 +34,13 @@ export default function Header() {
                 <Link to="/timeline">linkr</Link>
                 <div onClick={() => showNavBar ? setShowNavBar(false) : setShowNavBar(true)}>
                     <IoIosArrowDown />
-                    <img src="https://loucosporgeek.com.br/wp-content/uploads/2020/09/edward-elric-1-1.jpg" alt="" />
+                    <img src={user.user.avatar} alt="" />
                 </div>
             </HeaderWrapper>
             <DropDownWindow showNavBar={showNavBar}>
-                <Link to="/my-posts">My posts</Link>
-                <Link to="/my-likes">My likes</Link>
-                <Link to="/">Logout</Link>
+                <p onClick={relocateToMyPosts} to="/my-posts">My posts</p>
+                <p onClick={relocateToMyLikes} to="/my-likes">My likes</p>
+                <p onClick={relocateToLogin}>Logout</p>
             </DropDownWindow>
             {showNavBar ? <Blank onClick={() => setShowNavBar(false)}/> : ""}
         </>
@@ -51,7 +73,7 @@ const DropDownWindow = styled.nav`
     padding-top: 10px;
     padding-bottom: 17px;
     transition: 0.3s;
-    a {
+    p {
         font-size: 17px;
         line-height: 20px;
         letter-spacing: 0.05em;
@@ -60,6 +82,7 @@ const DropDownWindow = styled.nav`
         font-family: 'Lato', sans-serif;
         font-weight: 700;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
+        cursor: pointer;
     }
     @media(max-width: 937px) {
         width: 150px;
@@ -103,6 +126,8 @@ const HeaderWrapper= styled.header`
         margin-right: 17px;
         color: #FFFFFF;
         font-size: 25px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
     svg {
         transform: rotate(${({showNavBar}) => showNavBar ? `180deg` : `0deg`});

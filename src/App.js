@@ -2,6 +2,7 @@ import SignUp from "./pages/sign-up/SignUp";
 import SignIn from "./pages/sign-in/SignIn";
 import Timeline from "./pages/Timeline/Timeline";
 import MyPosts from "./pages/MyPosts/MyPosts";
+import Header from "./components/Header";
 
 
 import UserContext from "./contexts/UserContext";
@@ -23,8 +24,11 @@ export default function App() {
         <Switch>
           <Route exact path="/" render={() => <SignIn skipThisPage={skipSignIn} />} />
           <Route exact path="/sign-up" render={() => <SignUp />} />
-          <Route exact path="/timeline" render={() => <Timeline />} />
-          <Route exact path="/my-posts" render={() => <MyPosts />} />
+          <>
+            <Header />
+            <Route exact path="/timeline" render={() => <Timeline />} />
+            <Route exact path="/my-posts" render={() => <MyPosts />} />
+          </>
         </Switch>
       </UserContext.Provider>
     </Router>

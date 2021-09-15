@@ -5,7 +5,6 @@ import Trending from "../../components/Trending";
 import Post from "../../components/Post";
 import PageTitle from "../../components/PageTitle";
 import Loading from "../../components/Loading";
-import Header from "../../components/Header";
 import UserContext from "../../contexts/UserContext";
 import {getUserPosts} from "../../service/service";
 
@@ -32,7 +31,6 @@ export default function MyPosts() {
 
     return (
         <Container>
-            <Header />
             <Wrapper>
                 <PageTitle text = "my posts" />
                 {userPosts.length ?
@@ -47,7 +45,7 @@ export default function MyPosts() {
 
 const Wrapper = styled.section`
     width: 611px;
-    
+
     @media(max-width: 937px) {
         width: 100%;
     }
