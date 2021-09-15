@@ -8,7 +8,8 @@ import Loading from "../../components/Loading";
 import MockPosts from "../../temp_mocks/mock_posts";
 
 export default function Timeline() {
-    const [posts] = useState(MockPosts.posts);
+    //const [posts] = useState(MockPosts.posts);
+    const [posts] = useState("");
 
     if(!posts) {
         return (

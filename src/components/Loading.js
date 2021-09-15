@@ -1,10 +1,16 @@
 import styled from "styled-components";
-import LoadingGif from "../assets/Loading.gif";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default function Loading() {
     return (
         <Wrapper>
-            <img src = { LoadingGif } alt = "Carregando"/>
+            <SpinLoader
+                type="TailSpin"
+                color="#FFFFFF"
+                height={300}
+                width={300}
+            />
             Carregando...
         </Wrapper>
     );
@@ -18,9 +24,8 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    & img {
-        width: 50%;
-        margin-bottom: 5px;
-    }
-    
+`
+
+const SpinLoader = styled(Loader)`
+    margin-bottom: 50px;
 `
