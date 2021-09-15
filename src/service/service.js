@@ -39,8 +39,15 @@ function login(body, history, setUser, setIsButtonEnabled) {
         });
 }
 
-function getTimelinePosts(userToken) {
-    return axios.get(`${URL}/posts`,createConfig(userToken))
+function getTimelinePosts(userToken , setPosts, browsingHistory) {
+    axios.get(`${URL}/posts`,createConfig(userToken))
+    .then(resp => {
+        setPosts(resp.data.posts);
+    })
+    .catch(error => {
+        alert("Houve uma falha ao obter os posts! A página será atualizada");
+        browsingHistory.push("/");
+    })
 }
 
 export {
