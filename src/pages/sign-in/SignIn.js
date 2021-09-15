@@ -1,5 +1,5 @@
-import SignForm from "../../components/SignForm";
-import LoginCover from "../../components/LoginCover";
+import SignForm from "../../components/SignForm/SignForm";
+import LoginCover from "../../components/LoginCover/LoginCover";
 
 import styled from "styled-components";
 import { useHistory } from "react-router";

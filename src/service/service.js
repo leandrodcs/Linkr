@@ -11,7 +11,8 @@ function createNewUser(body, history, setUser, setIsButtonEnabled) {
             history.push("/");
         })
         .catch(err => {
-            if(err.response.status === 400) alert("E-mail já cadastrado!");
+            if(err.response.status === 403) alert("E-mail já cadastrado!");
+            if(err.response.status === 400) alert("Preencha os campos corretamente!");
             else alert("Erro no servidor\nTente novamente...");
             setIsButtonEnabled(true);
         });
