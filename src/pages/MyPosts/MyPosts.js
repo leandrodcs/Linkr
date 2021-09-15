@@ -5,9 +5,7 @@ import Trending from "../../components/Trending";
 import Post from "../../components/Post";
 import PageTitle from "../../components/PageTitle";
 import Loading from "../../components/Loading";
-import MockPosts from "../../temp_mocks/mock_posts";
 import Header from "../../components/Header";
-import user from "../../temp_mocks/mock_otherUser";
 import axios from "axios";
 import UserContext from "../../contexts/UserContext";
 
@@ -30,7 +28,7 @@ export default function MyPosts() {
           //setUserPosts(res.data);
         })
         .catch(err => alert(err));
-      }, []);
+      }, [user.token, user.user.id]);
 
     if(loading) {
         return (
@@ -46,11 +44,8 @@ export default function MyPosts() {
             <Header />
             <Wrapper>
                 <PageTitle text = "my posts" />
-                {
-                userPosts.length 
-                ?
-                userPosts.map( ({id, text, user, likes}) => <Post key={id} text={text} user={user} likes={likes}/>) 
-                :
+                {userPosts.length ?
+                userPosts.map( ({id, text, user, likes}) => <Post key={id} text={text} user={user} likes={likes}/>) :
                 <p>Você ainda não criou nenhum post!</p>
                 }
             </Wrapper>
