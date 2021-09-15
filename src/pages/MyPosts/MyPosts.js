@@ -23,11 +23,12 @@ export default function MyPosts() {
         }
         axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.user.id}/posts`, config)
         .then(res => {
-          console.log(res);
-          setLoading(false);
-          //setUserPosts(res.data);
+            setUserPosts(res.data);
+            setLoading(false);
         })
-        .catch(err => alert(err));
+        .catch(err => {
+            setLoading(false);
+            alert(err)});
       }, [user.token, user.user.id]);
 
     if(loading) {

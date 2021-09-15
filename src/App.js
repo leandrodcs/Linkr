@@ -12,8 +12,6 @@ export default function App() {
   const [user, setUser] = useState(() => getFromLocalStorage());
   const {token} = user;
   const skipSignIn = !!token;
-
-  console.log(user, token)
   
   return (
     <Router>
