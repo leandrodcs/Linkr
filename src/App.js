@@ -1,8 +1,7 @@
-import SignUp from "./pages/sign-up/SignUp";
-import SignIn from "./pages/sign-in/SignIn";
-import Timeline from "./pages/timeline/Timeline";
-import MyPosts from "./pages/my-posts/MyPosts";
-
+import SignUp from "./pages/SignUp/SignUp";
+import SignIn from "./pages/SignIn/SignIn";
+import Timeline from "./pages/Timeline/Timeline";
+import MyPosts from "./pages/MyPosts/MyPosts";
 
 import UserContext from "./contexts/UserContext";
 import { getFromLocalStorage } from "./utils/localStorageUtils";
