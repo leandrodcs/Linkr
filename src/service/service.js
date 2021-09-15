@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr";
 
-function createNewUser(body, history, setUser) {
+function createNewUser(body, history, setUser, setIsButtonEnabled) {
     axios.post(`${URL}/sign-up`, body)
         .then(resp => {
             setUser(resp.data);
@@ -11,10 +11,11 @@ function createNewUser(body, history, setUser) {
         .catch(err => {
             if(err.response.status === 400) alert("E-mail já cadastrado!");
             else alert("Erro no servidor\nTente novamente...");
+            setIsButtonEnabled(true);
         });
 }
 
-function login(body, history, setUser) {
+function login(body, history, setUser, setIsButtonEnabled) {
     axios.post(`${URL}/sign-in`, body)
         .then(resp => {
             setUser(resp.data);
@@ -23,6 +24,7 @@ function login(body, history, setUser) {
         .catch(err => {
             if(err.response.status === 403) alert("E-mail e/ou senha incorretos!");
             else alert("Erro no servidor\nTente novamente...");
+            setIsButtonEnabled(true);
         });
 }
 

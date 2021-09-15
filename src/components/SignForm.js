@@ -1,5 +1,4 @@
 import { createNewUser, login } from "../service/service";
-
 import UserContext from "../contexts/UserContext";
 
 import styled from "styled-components";
@@ -12,11 +11,13 @@ export default function SignForm({isSignUp}) {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [pictureUrl, setPictureUrl] = useState("");
+    const [isButtonEnabled, setIsButtonEnabled] = useState(true);
     const history = useHistory();
     const {setUser} = useContext(UserContext);
 
     function signHelper(event) {
         event.preventDefault();
+        setIsButtonEnabled(false);
         let body;
 
         if(isSignUp) {
@@ -26,19 +27,19 @@ export default function SignForm({isSignUp}) {
                 username,
                 pictureUrl
             }
-            createNewUser(body, history, setUser);
+            createNewUser(body, history, setUser, setIsButtonEnabled);
         }
         else {
             body = {
                 email,
                 password
             }
-            login(body, history, setUser);
+            login(body, history, setUser, setIsButtonEnabled);
         }
     }
 
     return (
-        <Form onSubmit={signHelper}>
+        <Form onSubmit={isButtonEnabled ? signHelper : null} isButtonEnabled={isButtonEnabled}>
             <input
                 type="email"
                 placeholder="e-mail"
@@ -119,6 +120,7 @@ const Form = styled.form`
         font-family: Oswald;
         font-size: 27px;
         color: #FFF;
+        opacity: ${props => props.isButtonEnabled ? 1 : 0.5};
     }
 
     a {
