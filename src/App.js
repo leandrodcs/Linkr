@@ -1,7 +1,7 @@
 import SignUp from "./pages/sign-up/SignUp";
 import SignIn from "./pages/sign-in/SignIn";
-import Timeline from "./pages/Timeline/Timeline";
-import MyPosts from "./pages/MyPosts/MyPosts";
+import Timeline from "./pages/timeline/Timeline";
+import MyPosts from "./pages/my_posts/MyPosts";
 
 
 import UserContext from "./contexts/UserContext";
