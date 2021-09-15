@@ -3,12 +3,18 @@ import SignIn from "./pages/sign-in/SignIn";
 import Timeline from "./pages/Timeline/Timeline";
 import Header from "./components/Header";
 
+import UserContext from "./contexts/UserContext";
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { useState } from "react";
 
 export default function App() {
+  const [user, setUser] = useState({});
+
   return (
     <Router>
+      <UserContext.Provider value={{user, setUser}}>
       <GlobalReset />
       <Switch>
         <Route exact path="/">
@@ -21,6 +27,7 @@ export default function App() {
           <Timeline />
         </Route>
       </Switch>
+      </UserContext.Provider>
     </Router>
   );
 }

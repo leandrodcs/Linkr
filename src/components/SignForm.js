@@ -1,32 +1,44 @@
-import { createNewUser } from "../service/service";
+import { createNewUser, login } from "../service/service";
 
-import { useState } from "react";
+import UserContext from "../contexts/UserContext";
+
+import styled from "styled-components";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
-import styled from "styled-components";
 
 export default function SignForm({isSignUp}) {
-    const [email, setEmail] = useState("teste@teste.com");
-    const [password, setPassword] = useState("123");
-    const [username, setUsername] = useState("teste");
-    const [pictureUrl, setPictureUrl] = useState("https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile.png");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [pictureUrl, setPictureUrl] = useState("");
     const history = useHistory();
+    const {setUser} = useContext(UserContext);
 
-    function createNewUserHelper(event) {
+    function signHelper(event) {
         event.preventDefault();
+        let body;
 
-        const body = {
-            email,
-            password,
-            username,
-            pictureUrl
+        if(isSignUp) {
+            body = {
+                email,
+                password,
+                username,
+                pictureUrl
+            }
+            createNewUser(body, history, setUser);
         }
-
-        createNewUser(body, history);
+        else {
+            body = {
+                email,
+                password
+            }
+            login(body, history, setUser);
+        }
     }
 
     return (
-        <Form onSubmit={isSignUp ? createNewUserHelper : ""}>
+        <Form onSubmit={signHelper}>
             <input
                 type="email"
                 placeholder="e-mail"
