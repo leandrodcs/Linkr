@@ -1,34 +1,48 @@
+import { useState } from "react";
 import styled from "styled-components";
+import Container from "../../components/Container";
+import Trending from "../../components/Trending";
+import Post from "../../components/Post";
+import PageTitle from "../../components/PageTitle";
+import Loading from "../../components/Loading";
+import MockPosts from "../../temp_mocks/mock_posts";
 import Header from "../../components/Header";
 
 export default function MyPosts() {
+    const [posts] = useState(MockPosts.posts);
 
-    function deletePost() {
+    if(!posts) {
+        return (
+            <Container>
+                <Loading />
+                <Trending />
+            </Container>
+        );
     }
 
     return (
-        <>
-        <Header />
-        <TestBox>
-            <button></button>
-            <button></button>
-        </TestBox>
-        </>
+        <Container>
+            <Header />
+            <Wrapper>
+                <PageTitle text = "my posts" />
+                { posts.map( ({id, text, user, likes}) => 
+                    <Post 
+                        key = {id}
+                        text = {text}
+                        user = {user}
+                        likes = {likes}
+                    />)
+                }
+            </Wrapper>
+            <Trending />
+        </Container>
     );
 }
 
-const TestBox = styled.div`
-
-    width: 500px;
-    height: 300px;
-    background: red;
-    margin-top: 200px;
-    margin-left: 100px;
-    display: flex;
-    gap: 30px;
-    padding: 20px;
-    button {
-        width: 30px;
-        height: 30px;
+const Wrapper = styled.section`
+    width: 611px;
+    
+    @media(max-width: 937px) {
+        width: 100%;
     }
 `;
