@@ -1,21 +1,68 @@
+import { createNewUser } from "../service/service";
+
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 import styled from "styled-components";
 
 export default function SignForm({isSignUp}) {
+    const [email, setEmail] = useState("teste@teste.com");
+    const [password, setPassword] = useState("123");
+    const [username, setUsername] = useState("teste");
+    const [pictureUrl, setPictureUrl] = useState("https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile.png");
+    const history = useHistory();
+
+    function createNewUserHelper(event) {
+        event.preventDefault();
+
+        const body = {
+            email,
+            password,
+            username,
+            pictureUrl
+        }
+
+        createNewUser(body, history);
+    }
+
     return (
-        <Form>
-            <input type="email" placeholder="e-mail" required />
-            <input type="password" placeholder="password" required />
+        <Form onSubmit={isSignUp ? createNewUserHelper : ""}>
+            <input
+                type="email"
+                placeholder="e-mail"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+            />
+            <input
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+            />
             {isSignUp ?
                 <>
-                    <input type="text" placeholder="username" required />
-                    <input type="url" placeholder="picture url" required />
+                    <input
+                        type="text"
+                        placeholder="username"
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="url"
+                        placeholder="picture url"
+                        value={pictureUrl}
+                        onChange={e => setPictureUrl(e.target.value)}
+                        required
+                    />
                 </>
                 : ""
             }
             <button type="submit">{isSignUp ? "Sign Up" : "Log In"}</button>
             {isSignUp ? 
-                <Link to="/sign-in">Switch back to log in</Link>
+                <Link to="/">Switch back to log in</Link>
                 :
                 <Link to="/sign-up">First time? Create an account!</Link>
             }

@@ -11,13 +11,11 @@ export default function App() {
     <Router>
       <GlobalReset />
       <Switch>
-        <Route exact path = "/" render={() => <Header />}>
+        <Route exact path="/">
+          <SignIn />
         </Route>
         <Route exact path="/sign-up">
           <SignUp />
-        </Route>
-        <Route exact path="/sign-in">
-          <SignIn />
         </Route>
         <Route exact path="/timeline" >
           <Timeline />
