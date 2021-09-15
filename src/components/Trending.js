@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { TrendingMarginLeft } from "../utils/utils";
 
 export default function Trending() {
     return (
@@ -14,8 +13,7 @@ const Wrapper = styled.section`
     width: 301px;
     height: 406px;
     border-radius: 16px;
-    margin-left: ${TrendingMarginLeft(601,25,301)};
-    margin-top: 232px;
+    margin-top: 160px;
     background-color: #171717;
     color: #ffffff;
     font-family: 'Oswald', sans-serif;
@@ -24,5 +22,8 @@ const Wrapper = styled.section`
     line-height: 23px;
     position: sticky;
     top: 80px;
+    @media(max-width: 937px) {
+        display: none;
+    }
 
 `

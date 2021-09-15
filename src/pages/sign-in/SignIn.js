@@ -1,22 +1,13 @@
 import SignForm from "../../components/SignForm";
 import LoginCover from "../../components/LoginCover";
 
-import { getFromLocalStorage } from "../../utils/localStorageUtils";
-import UserContext from "../../contexts/UserContext";
-
 import styled from "styled-components";
 import { useHistory } from "react-router";
-import { useContext, useEffect } from "react";
 
-export default function SignIn() {
-    const { user, setUser } = useContext(UserContext);
+export default function SignIn({skipThisPage}) {
     const history = useHistory();
 
-    useEffect((() => {
-        setUser(getFromLocalStorage());
-    }), []);
-
-    if(user.token) history.push("/timeline");
+    if(skipThisPage) history.push("/timeline");
 
     return (
         <Wrapper>

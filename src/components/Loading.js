@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import LoadingGif from "../assets/Loading.gif";
-import { PostMarginLeft } from "../utils/utils";
 
 export default function Loading() {
     return (
@@ -14,7 +13,6 @@ export default function Loading() {
 const Wrapper = styled.div`
     width: 601px;
     font-family: 'Oswald', sans-serif;
-    margin-left: ${PostMarginLeft(601,25,301)};
     font-size: 40px;
     color: #FFF;
     display: flex;
