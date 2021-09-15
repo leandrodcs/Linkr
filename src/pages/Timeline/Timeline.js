@@ -3,7 +3,7 @@ import Container from "../../components/Container";
 import Header from "../../components/Header/Header";
 import PageTitle from "../../components/PageTitle";
 import Trending from "../../components/Trending";
-import Post from "../../components/Post";
+import Post from "../../components/Post/Post";
 
 import MockPosts from "../../temp_mocks/mock_posts";
 
