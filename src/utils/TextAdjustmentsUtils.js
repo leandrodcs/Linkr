@@ -37,7 +37,6 @@ function TextWithHighlightedHashtags({text, MainStyledComponent, HashtagStyledCo
             );
         }
     });
-    console.log(TextWithStyledHashtags);
     if (MainStyledComponent) {
         return (
             <MainStyledComponent>

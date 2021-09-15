@@ -19,8 +19,10 @@ export default function Timeline() {
     const browsingHistory = useHistory();
 
     useEffect(() => {
-        getTimelinePosts(login.token, setPosts, browsingHistory)
-    },[]);
+        if(login.token) {
+            getTimelinePosts(login.token, setPosts, browsingHistory)
+        }
+    },[login]);
 
     if(!posts) {
         return (
