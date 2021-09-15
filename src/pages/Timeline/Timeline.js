@@ -1,14 +1,17 @@
-import { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
 import Container from "../../components/Container";
+import Header from "../../components/Header";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post/Post";
 import PageTitle from "../../components/PageTitle";
 import Loading from "../../components/Loading";
-import { getTimelinePosts } from "../../service/service";
 import PublishingBox from "./Elements/PublishingBox";
-import { useHistory } from "react-router";
+
+import { getTimelinePosts } from "../../service/service";
 import UserContext from "../../contexts/UserContext";
+
+import { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import styled from "styled-components";
 
 export default function Timeline() {
     const [posts, setPosts] = useState("");
@@ -22,6 +25,7 @@ export default function Timeline() {
     if(!posts) {
         return (
             <Container>
+                <Header />
                 <Loading />
                 <Trending />
             </Container>
@@ -30,6 +34,7 @@ export default function Timeline() {
 
     return (
         <Container>
+            <Header />
             <Wrapper>
                 <PageTitle text = "timeline" />
                 <PublishingBox />

@@ -20,7 +20,7 @@ export default function ProfileImgAndLikeButton() {
 }
 
 const Wrapper = styled.div`
-margin-right: 18px;
+    margin-right: 18px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,16 +36,35 @@ margin-right: 18px;
         font-weight: 400;
         color: #FFFFFF;
     }
+    @media(max-width: 937px) {
+        margin-right: 14px;
+        & img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 17px;
+        }
+        & p {
+            font-size: 11px;
+        }
+    }
 `
 
 const LikedHeart = styled(AiTwotoneHeart)`
-font-size: 20px;
-color: #AC0000;
-margin-bottom: 6px;
+    font-size: 20px;
+    color: #AC0000;
+    margin-bottom: 6px;
+    @media(max-width: 937px) {
+        font-size: 17px;
+        margin-bottom: 12px;
+    }
 `
 
 const NotLikedHeart = styled(AiOutlineHeart)`
-font-size: 20px;
-color: #FFFFFF;
-margin-bottom: 6px;
+    font-size: 20px;
+    color: #FFFFFF;
+    margin-bottom: 6px;
+    @media(max-width: 937px) {
+        font-size: 17px;
+        margin-bottom: 12px;
+    }
 `

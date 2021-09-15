@@ -8,12 +8,16 @@ const TextArea = styled.textarea`
     display: inline-block;
     background-color: #EFEFEF;
     font-family: 'Lato', sans-serif;
+    font-size: 15px;
     border: none;
     resize: none;
     border-radius: 5px;
     &::placeholder {
         color: #949494;
         font-weight: 300;
+    }
+    @media(max-width: 937px) {
+        font-size: 13px;
     }
 `
 

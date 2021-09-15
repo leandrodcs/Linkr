@@ -26,4 +26,8 @@ const Wrapper = styled.div`
     &:last-child {
         margin-bottom: 0px;
     }
+    @media(max-width: 937px) {
+        border-radius: 0px;
+        padding: 15px;
+    }
 `

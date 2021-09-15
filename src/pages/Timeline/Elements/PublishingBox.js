@@ -6,7 +6,7 @@ import Input from "./Input";
 import TextArea from "./TextArea";
 import Button from "./Button";
 
-export default function PublishingBox({}) {
+export default function PublishingBox() {
     const { login } = useContext(UserContext);
     return (
         <Wrapper>
@@ -38,6 +38,12 @@ const Wrapper = styled.div`
         margin-right: 18px;
         object-fit: cover;
     }
+    @media(max-width: 937px) {
+        border-radius: 0px;
+        & img {
+            display: none;
+        }
+    }
 `
 
 const PublishingBoxContent = styled.div`
@@ -48,5 +54,12 @@ const PublishingBoxContent = styled.div`
         font-weight: 300;
         font-size: 20px;
         line-height: 30px;
+    }
+    @media(max-width: 937px) {
+        text-align: center;
+        & p {
+        font-size: 17px;
+        line-height: 25px;
+    }
     }
 `

@@ -20,10 +20,14 @@ const Wrapper = styled.div`
     width: 601px;
     font-family: 'Oswald', sans-serif;
     font-size: 40px;
+    margin-top: 40px;
     color: #FFF;
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media(max-width: 937px) {
+        width: 100%;
+    }
 `
 
 const SpinLoader = styled(Loader)`

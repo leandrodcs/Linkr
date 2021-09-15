@@ -29,6 +29,10 @@ const Description = styled.span`
     color: #B7B7B7;
     display: inline-block;
     margin: 8px 0px;
+    word-wrap: break-word;
+    @media(max-width: 937px) {
+        font-size: 15px;
+    }
 `
 
 const Hashtag = styled.p`
@@ -37,4 +41,8 @@ const Hashtag = styled.p`
     color: #FAFAFA;
     display: inline-block;
     margin: 8px 0px;
+    word-wrap: break-word;
+    @media(max-width: 937px) {
+        font-size: 15px;
+    }
 `

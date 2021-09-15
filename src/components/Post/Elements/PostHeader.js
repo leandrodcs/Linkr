@@ -27,6 +27,14 @@ const Wrapper = styled.div`
     font-weight: 400;
     color: #FFFFFF;
     position: relative;
+    & a {
+            display: inline-block;
+            width: 85%;
+        }
+    @media(max-width: 937px) {
+        font-size: 17px;
+        line-height: 20px;
+    }
 `
 
 const IconButton = styled.button`

@@ -22,10 +22,10 @@ function TextWithHighlightedHashtags({text, MainStyledComponent, HashtagStyledCo
             activeText = "";
         }
     });
-    const TextWithStyledHashtags = brokenText.map(fragment => {
+    const TextWithStyledHashtags = brokenText.map((fragment, index) => {
         if (fragment[0] === "#") {
             return (
-                <Link to= { `/hashtag/${fragment.slice(1)}` }>
+                <Link key = { index } to= { `/hashtag/${fragment.slice(1)}` }>
                     <HashtagStyledComponent>
                         {fragment}
                     </HashtagStyledComponent>
@@ -51,7 +51,7 @@ function TextWithHighlightedHashtags({text, MainStyledComponent, HashtagStyledCo
     );
 }
 
-function CheckTextSizeAndReduceItIfNeeded(text, MaxCharactersLength) {
+function CheckTextLengthAndReduceItIfNeeded(text, MaxCharactersLength) {
     if (text && text.length > MaxCharactersLength) {
         return text.slice(0,MaxCharactersLength) + "..."
     }
@@ -60,5 +60,5 @@ function CheckTextSizeAndReduceItIfNeeded(text, MaxCharactersLength) {
 
 export {
     TextWithHighlightedHashtags,
-    CheckTextSizeAndReduceItIfNeeded
+    CheckTextLengthAndReduceItIfNeeded
 }
