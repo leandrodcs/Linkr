@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { containerPadding} from "../utils/utils"
+import { containerPadding} from "../utils/MarginAndPaddingUtils"
 
 const Container = styled.main`
     width: 100%;

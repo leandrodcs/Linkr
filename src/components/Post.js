@@ -2,16 +2,19 @@ import styled from "styled-components";
 import { TiPencil, TiTrash } from "react-icons/ti";
 import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import {TextWithHighlightedHashtags, CheckTextSizeAndReduceItIfNeeded} from "../utils/TextAdjustmentsUtils";
+import { formattedNumberOfLikes, OpenLinkInNewPage } from "../utils/PostsUtils";
 
-export default function Post({ id, text, user, likes}) {
-    const isLiked = true;
+
+export default function Post({post:{ id, text, link, linkTitle, linkDescription, linkImage, user, likes}}) {
+    const hasUserLikedThisPost = false;
     return (
         <Wrapper>
             <ProfileImgAndLikeButton>
                 <Link to={`/user/${id}`}>
                     <img src = { user.avatar } alt = {user.username} />
                 </Link>
-                {isLiked ? <LikedHeart /> : <NotLikedHeart />}
+                {hasUserLikedThisPost ? <LikedHeart /> : <NotLikedHeart />}
                 <p>{ formattedNumberOfLikes(likes.length) }</p>
             </ProfileImgAndLikeButton>
             <PostContent>
@@ -26,10 +29,19 @@ export default function Post({ id, text, user, likes}) {
                         <TiTrash />
                     </IconButton>
                 </Header>
-                <Description>
-                    {text}
-                </Description>
-                <LinkBox />
+                <TextWithHighlightedHashtags 
+                    text = {text}
+                    MainStyledComponent = {Description}
+                    HashtagStyledComponent = {Hashtag}
+                />
+                <LinkBox onClick = {() => OpenLinkInNewPage(link)}>
+                    <LinkBoxContent>
+                        <LinkTitle>{CheckTextSizeAndReduceItIfNeeded(linkTitle,60)}</LinkTitle>
+                        <LinkDescription>{CheckTextSizeAndReduceItIfNeeded(linkDescription,160)}</LinkDescription>
+                        <LinkUrl>{link}</LinkUrl>
+                    </LinkBoxContent>
+                    <img src = {linkImage} alt = "link" />
+                </LinkBox>
             </PostContent>
         </Wrapper>
     );
@@ -98,21 +110,57 @@ const IconButton = styled.button`
     top: 0;
 `
 
-const Description = styled.p`
+const Description = styled.span`
     font-size: 18px;
     color: #B7B7B7;
     display: inline-block;
     margin: 8px 0px;
 `
 
-const LinkBox = styled.div`
-    width: 100%;
-    height: 155px;
-    border: 1px solid #C4C4C4;
-    border-radius: 11px;
-
+const Hashtag = styled.p`
+    font-size: 18px;
+    font-weight: 700;
+    color: #FAFAFA;
+    display: inline-block;
+    margin: 8px 0px;
 `
 
-function formattedNumberOfLikes(numberOfLikes) {
-    return `${numberOfLikes} ${numberOfLikes > 1 ? "likes" : "like"}`
-}
+const LinkBox = styled.div`
+    width: 100%;
+    border: 1px solid #C4C4C4;
+    border-radius: 11px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    & img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 0px 11px 11px 0px;
+    }
+`
+
+const LinkBoxContent = styled.div`
+    width: 100%;
+    padding: 16px;
+    font-weight: 400;
+    color: #CECECE;
+`
+
+const LinkTitle = styled.p`
+    font-size: 16px;
+    line-height: 20px;
+`
+
+const LinkDescription = styled.p`
+    font-size: 11px;
+    line-height: 14px;
+    color: #9B9595;
+    display: inline-block;
+    margin: 5px 0px 13px;
+`
+
+const LinkUrl = styled.p`
+    font-size: 11px;
+    line-height: 14px;
+`

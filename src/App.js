@@ -10,15 +10,13 @@ import { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 
 export default function App() {
-  const [user, setUser] = useState(() => getFromLocalStorage());
-  const {token} = user;
+  const [login, setLogin] = useState(() => getFromLocalStorage());
+  const {token} = login;
   const skipSignIn = !!token;
-
-  console.log(user, token)
   
   return (
     <Router>
-      <UserContext.Provider value={{user, setUser}}>
+      <UserContext.Provider value={{login, setLogin}}>
       <GlobalReset />
       <Switch>
         <Route exact path="/">
@@ -75,7 +73,6 @@ const GlobalReset = createGlobalStyle`
     border-collapse: collapse;
     border-spacing: 0;
   }
-
   a:link,
   a:visited,
   a:hover,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import Container from "../../components/Container";
 import Trending from "../../components/Trending";
@@ -8,22 +8,25 @@ import Loading from "../../components/Loading";
 import { getTimelinePosts } from "../../service/service";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
-import mockUser from "../../temp_mocks/mock_User";
-import mockPosts from "../../temp_mocks/mock_posts"
+import UserContext from "../../contexts/UserContext";
+import MockPost from "../../temp_mocks/mock_posts";
 
 export default function Timeline() {
-    const [posts] = useState(mockPosts.posts);
-    const [userData] = useState(mockUser);
-    const token = "37262632-0377-4e35-88df-debb5bcf32da";
+    const [posts, setPosts] = useState("");
+    const { login } = useContext(UserContext);
     const browsingHistory = useHistory();
 
     useEffect(() => {
-        getTimelinePosts(token)
+        getTimelinePosts(login.token)
+        .then(resp => {
+            setPosts(resp.data.posts);
+        })
         .catch(error => {
             alert("Houve uma falha ao obter os posts! A página será atualizada");
             browsingHistory.push("/");
         })
     },[]);
+
 
     if(!posts) {
         return (
@@ -39,8 +42,8 @@ export default function Timeline() {
             <Wrapper>
                 <PageTitle text = "timeline" />
                 <PublishingBox>
-                    <Link to={`/user/${userData.user.id}`}>
-                        <img src = { userData.user.avatar } alt = {userData.user.username} />
+                    <Link to={`/user/${login.user.id}`}>
+                        <img src = { login.user.avatar } alt = {login.user.username} />
                     </Link>
                     <PublishingBoxContent>
                         <p>O que você tem pra favoritar hoje?</p>
@@ -53,13 +56,10 @@ export default function Timeline() {
                         <Button>Publicar</Button>
                     </PublishingBoxContent>
                 </PublishingBox>
-                { posts.length ? posts.map( ({id, text, user, likes}) => 
+                { posts.length ? posts.map( (post) => 
                     <Post 
-                        key = { id }
-                        id = { id }
-                        text = { text }
-                        user = { user }
-                        likes = { likes }
+                        key = { post.id }
+                        post = { post }
                     />)
                     : <p>Nenhum post encontrado</p>
                 }
@@ -154,5 +154,9 @@ const Button = styled.button`
     position: absolute;
     bottom: 0px;
     right: 0px;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.8;
+    }
 
 `
