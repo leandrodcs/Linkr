@@ -6,6 +6,7 @@ import Post from "../../components/Post";
 import PageTitle from "../../components/PageTitle";
 import Loading from "../../components/Loading";
 import MockPosts from "../../temp_mocks/mock_posts";
+import Header from "../../components/Header";
 
 export default function Timeline() {
     const [posts] = useState(MockPosts.posts);
@@ -21,6 +22,7 @@ export default function Timeline() {
 
     return (
         <Container>
+            <Header />
             <Wrapper>
                 <PageTitle text = "timeline" />
                 { posts.map( ({id, text, user, likes}) => 
