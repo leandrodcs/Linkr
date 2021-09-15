@@ -1,8 +1,9 @@
+import PostContext from "../../../contexts/PostContext";
+
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { TiPencil, TiTrash } from "react-icons/ti";
 import { useContext } from "react";
-import PostContext from "../../../contexts/PostContext";
 
 export default function PostHeader() {
     const { id, user } = useContext(PostContext);

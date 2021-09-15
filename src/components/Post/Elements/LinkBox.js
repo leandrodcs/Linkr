@@ -1,8 +1,9 @@
-import { useContext } from "react";
-import styled from "styled-components";
 import PostContext from "../../../contexts/PostContext";
 import { OpenLinkInNewPage } from "../../../utils/PostsUtils";
 import { CheckTextLengthAndReduceItIfNeeded } from "../../../utils/TextAdjustmentsUtils";
+
+import styled from "styled-components";
+import { useContext } from "react";
 
 export default function LinkBox() {
     const { link, linkTitle, linkDescription, linkImage } = useContext(PostContext);

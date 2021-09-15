@@ -1,9 +1,10 @@
+import PostContext from "../../../contexts/PostContext";
+import { formattedNumberOfLikes } from "../../../utils/PostsUtils";
+
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { formattedNumberOfLikes } from "../../../utils/PostsUtils";
 import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 import { useContext } from "react";
-import PostContext from "../../../contexts/PostContext";
 
 export default function ProfileImgAndLikeButton() {
     const {id, user, likes} = useContext(PostContext);

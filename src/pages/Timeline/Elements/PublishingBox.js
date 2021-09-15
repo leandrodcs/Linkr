@@ -1,10 +1,12 @@
-import styled from "styled-components";
-import { useContext } from "react";
-import UserContext from "../../../contexts/UserContext";
-import { Link } from "react-router-dom";
 import Input from "./Input";
 import TextArea from "./TextArea";
 import Button from "./Button";
+
+import UserContext from "../../../contexts/UserContext";
+
+import styled from "styled-components";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 export default function PublishingBox() {
     const { login } = useContext(UserContext);

@@ -1,7 +1,9 @@
-import styled from "styled-components";
 import ProfileImgAndLikeButton from "./Elements/ProfileImgAndLikeButton";
 import PostBox from "./Elements/PostBox";
+
 import PostContext from "../../contexts/PostContext";
+
+import styled from "styled-components";
 
 export default function Post({post:{ id, text, link, linkTitle, linkDescription, linkImage, user, likes}}) {
 

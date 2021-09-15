@@ -18,6 +18,6 @@ const Wrapper = styled.div`
     @media(max-width: 937px) {
         font-size: 33px;
         line-height: 48px;
-        margin-left: 18px ;
+        margin: 19px 0px 19px 18px;
     }
 `
