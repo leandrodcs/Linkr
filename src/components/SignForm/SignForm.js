@@ -1,7 +1,10 @@
-import { createNewUser, login } from "../service/service";
-import UserContext from "../contexts/UserContext";
+import Form from "./elements/Form";
+import Input from "./elements/Input";
+import Button from "./elements/Button";
 
-import styled from "styled-components";
+import { createNewUser, login } from "../../service/service";
+import UserContext from "../../contexts/UserContext";
+
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
@@ -27,27 +30,28 @@ export default function SignForm({isSignUp}) {
                 username,
                 pictureUrl
             }
-            createNewUser(body, history, setUser, setIsButtonEnabled);
+            createNewUser(body, history, setIsButtonEnabled);
         }
         else {
             body = {
                 email,
                 password
             }
-            login(body, history, setUser, setIsButtonEnabled);
+            login(body, setUser, setIsButtonEnabled, history);
         }
+
     }
 
     return (
-        <Form onSubmit={isButtonEnabled ? signHelper : null} isButtonEnabled={isButtonEnabled}>
-            <input
+        <Form onSubmit={isButtonEnabled ? signHelper : e => e.preventDefault()}>
+            <Input
                 type="email"
                 placeholder="e-mail"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
             />
-            <input
+            <Input
                 type="password"
                 placeholder="password"
                 value={password}
@@ -56,14 +60,14 @@ export default function SignForm({isSignUp}) {
             />
             {isSignUp ?
                 <>
-                    <input
+                    <Input
                         type="text"
                         placeholder="username"
                         value={username}
                         onChange={e => setUsername(e.target.value)}
                         required
                     />
-                    <input
+                    <Input
                         type="url"
                         placeholder="picture url"
                         value={pictureUrl}
@@ -73,7 +77,7 @@ export default function SignForm({isSignUp}) {
                 </>
                 : ""
             }
-            <button type="submit">{isSignUp ? "Sign Up" : "Log In"}</button>
+            <Button type="submit" isButtonEnabled={isButtonEnabled}>{isSignUp ? "Sign Up" : "Log In"}</Button>
             {isSignUp ? 
                 <Link to="/">Switch back to log in</Link>
                 :
@@ -82,80 +86,3 @@ export default function SignForm({isSignUp}) {
         </Form>
     );
 }
-
-const Form = styled.form`
-    width: 535px;
-    height: 100vh;
-    padding: 0px 54px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    input {
-        width: 100%;
-        height: 65px;
-        border-radius: 6px;
-        border: none;
-        padding: 12px 16px;
-        margin: 6px 0px;
-        font-family: Oswald;
-        font-size: 27px;
-        color: #151515;
-    }
-
-    input::placeholder {
-        font-family: Oswald;
-        font-size: 27px;
-        color: #9F9F9F;
-    }
-
-    button {
-        width: 100%;
-        height: 65px;
-        border-radius: 6px;
-        border: none;
-        margin: 6px 0px;
-        background-color: #1877F2;
-        font-family: Oswald;
-        font-size: 27px;
-        color: #FFF;
-        opacity: ${props => props.isButtonEnabled ? 1 : 0.5};
-    }
-
-    a {
-        text-decoration: none;
-        font-family: Lato;
-        font-size: 20px;
-        color: #FFF;
-        margin: 6px 0px;
-        padding-bottom: 2px;
-        border-bottom: 1px solid #FFF;
-    }
-
-    @media (max-width: 937px) {
-        width: 100vw;
-        padding: 0px 22px;
-        justify-content: initial;
-        margin-top: 40px;
-
-        input {
-            height: 55px;
-            font-size: 22px;
-        }
-
-        input::placeholder {
-            font-size: 22px;
-        }
-
-        button {
-            height: 55px;
-            font-size: 22px;
-        }
-
-        a {
-            font-size: 17px;
-            margin-top: 10px
-        }
-    }
-`;

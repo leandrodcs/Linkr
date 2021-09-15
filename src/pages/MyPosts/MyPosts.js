@@ -1,13 +1,15 @@
-import { useEffect, useState, useContext } from "react";
-import styled from "styled-components";
-import Container from "../../components/Container";
-import Trending from "../../components/Trending";
-import Post from "../../components/Post";
-import PageTitle from "../../components/PageTitle";
 import Loading from "../../components/Loading";
-import Header from "../../components/Header";
+import Header from "../../components/Header/Header";
+import Container from "../../components/Container";
+import PageTitle from "../../components/PageTitle";
+import Trending from "../../components/Trending";
+import Post from "../../components/Post/Post";
+
 import UserContext from "../../contexts/UserContext";
 import {getUserPosts} from "../../service/service";
+
+import { useEffect, useState, useContext } from "react";
+import styled from "styled-components";
 
 export default function MyPosts() {
     const {user} = useContext(UserContext);
