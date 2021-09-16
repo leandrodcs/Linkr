@@ -1,18 +1,17 @@
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
 
+import {deletePost} from "../../../service/service";
+
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { TiPencil, TiTrash } from "react-icons/ti";
 import { useContext } from "react";
+import axios from "axios";
 
 export default function PostHeader() {
     const { id, user } = useContext(PostContext);
     const {login} = useContext(UserContext);
-
-    function deletePost() {
-        console.log(login);
-    }
 
     return (
         <Wrapper>
@@ -20,11 +19,11 @@ export default function PostHeader() {
                 {user.username}
             </Link>
             {(login.user.id == user.id) ? 
-                    <>
+                <>
                     <IconButton right = {"25px"}>
                         <TiPencil />
                     </IconButton>
-                    <IconButton right = {"0px"} onClick={() => deletePost()}>
+                    <IconButton right = {"0px"} onClick={() => deletePost(login.token, id)}>
                         <TiTrash />
                     </IconButton>
                 </>

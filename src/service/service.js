@@ -65,6 +65,16 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading) {
             alert(err)});
 }
 
+function deletePost(userToken, postId) {
+    console.log(login);
+    axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))
+    .then(res => {
+        console.log(res);
+    })
+    .catch(err => {
+        alert(err)});
+}
+
 function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
     axios.post(`${URL}/posts`, body, createConfig(userToken))
     .then( resp => {
@@ -94,5 +104,6 @@ export {
     getTimelinePosts,
     getUserPosts,
     publishNewPost,
-    getTrendingTopics
+    getTrendingTopics,
+    deletePost,
 };
