@@ -13,14 +13,14 @@ const DropDownWindow = styled.nav`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding-top: 10px;
-    padding-bottom: 17px;
+    padding: 10px 0px 17px;
     transition: 0.3s;
+    color: #FFFFFF;
+    
     p {
         font-size: 17px;
         line-height: 20px;
         letter-spacing: 0.05em;
-        color: #FFFFFF;
         text-decoration: none;
         font-family: 'Lato', sans-serif;
         font-weight: 700;
@@ -35,7 +35,6 @@ const DropDownWindow = styled.nav`
         a {
             font-size: 15px;
             line-height: 18px;
-
         }
     }
 `;

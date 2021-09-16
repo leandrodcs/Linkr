@@ -1,16 +1,27 @@
-import Loading from "../../components/Loading";
 import Container from "../../components/Container";
 import PageTitle from "../../components/PageTitle";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post/Post";
+import Loading from "../../components/Loading";
+import PublishingBox from "./elements/PublishingBox";
 
-import MockPosts from "../../temp_mocks/mock_posts";
+import { getTimelinePosts } from "../../service/service";
+import UserContext from "../../contexts/UserContext";
+import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 export default function Timeline() {
-    const [posts] = useState(MockPosts.posts);
+    const [posts, setPosts] = useState("");
+    const { login } = useContext(UserContext);
+    const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+
+    useEffect(() => {
+        if(login.token) {
+            getTimelinePosts(login.token, setPosts)
+        }
+    },[login,isDataBeingEvaluated]);
 
     if(!posts) {
         return (
@@ -25,14 +36,8 @@ export default function Timeline() {
         <Container>
             <Wrapper>
                 <PageTitle text = "timeline" />
-                { posts.map( ({id, text, user, likes}) => 
-                    <Post 
-                        key = {id}
-                        text = {text}
-                        user = {user}
-                        likes = {likes}
-                    />)
-                }
+                <PublishingBox />
+                { PrintedPosts(posts) }
             </Wrapper>
             <Trending />
         </Container>
@@ -41,8 +46,21 @@ export default function Timeline() {
 
 const Wrapper = styled.section`
     width: 611px;
-    
+    color: #FFF;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
     @media(max-width: 937px) {
         width: 100%;
     }
 `
+
+function PrintedPosts(posts) {
+    return (
+        posts.length ? posts.map( (post) => 
+            <Post 
+                key = { post.id }
+                post = { post }
+            />)
+            : <p> Nenhum post encontrado </p>
+    );
+}

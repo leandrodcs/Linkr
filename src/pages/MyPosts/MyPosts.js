@@ -11,14 +11,14 @@ import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 
 export default function MyPosts() {
-    const {user} = useContext(UserContext);
+    const {login} = useContext(UserContext);
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
-        getUserPosts(user.token, user.user.id, setUserPosts, setLoading)
-      }, [user.token, user.user.id]);
+        getUserPosts(login.token, login.user.id, setUserPosts, setLoading)
+    }, [login.token, login.user.id]);
 
     if(loading) {
         return (
@@ -34,7 +34,7 @@ export default function MyPosts() {
             <Wrapper>
                 <PageTitle text = "my posts" />
                 {userPosts.length ?
-                userPosts.map( ({id, text, user, likes}) => <Post key={id} text={text} user={user} likes={likes}/>) :
+                userPosts.map(post => <Post key ={post.id} post={post}/>) :
                 <EmptyMsg>Você ainda não criou nenhum post!</EmptyMsg>
                 }
             </Wrapper>

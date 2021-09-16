@@ -12,13 +12,13 @@ import {IoIosArrowDown} from 'react-icons/io';
 export default function Header() {
     const [showNavBar, setShowNavBar] = useState(false);
     const history = useHistory();
-    const {user, setUser} = useContext(UserContext);
+    const {login, setLogin} = useContext(UserContext);
 
     function relocate(whereTo) {
         setShowNavBar(false);
         if(!whereTo) {
             localStorage.clear();
-            setUser({});
+            setLogin({});
             history.push("/");
             return;
         }
@@ -31,7 +31,7 @@ export default function Header() {
                 <Link to="/timeline">linkr</Link>
                 <div onClick={() => showNavBar ? setShowNavBar(false) : setShowNavBar(true)}>
                     <IoIosArrowDown />
-                    <img src={!!user.token ? user.user.avatar : ""} alt="avatar" />
+                    <img src={!!login.token ? login.user.avatar : ""} alt="avatar" />
                 </div>
             </HeaderWrapper>
             <DropDownWindow showNavBar={showNavBar}>

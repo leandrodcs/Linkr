@@ -8,11 +8,11 @@ const HeaderWrapper= styled.header`
     justify-content: space-between;
     align-items: center;
     position: fixed;
+    color: #FFFFFF;
     top: 0;
     left: 0;
     z-index: 3;
     a {
-        color: #FFFFFF;
         margin-left: 28px;
         font-weight: bold;
         font-size: 49px;

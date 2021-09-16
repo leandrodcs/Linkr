@@ -16,7 +16,7 @@ export default function SignForm({isSignUp}) {
     const [pictureUrl, setPictureUrl] = useState("");
     const [isButtonEnabled, setIsButtonEnabled] = useState(true);
     const history = useHistory();
-    const {setUser} = useContext(UserContext);
+    const {setLogin} = useContext(UserContext);
 
     function signHelper(event) {
         event.preventDefault();
@@ -37,7 +37,7 @@ export default function SignForm({isSignUp}) {
                 email,
                 password
             }
-            login(body, setUser, setIsButtonEnabled, history);
+            login(body, setLogin, setIsButtonEnabled, history);
         }
 
     }

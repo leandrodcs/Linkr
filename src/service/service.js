@@ -54,13 +54,8 @@ function getTimelinePosts(userToken , setPosts) {
     })
 }
 
-function getUserPosts(token, userId, setUserPosts, setLoading) {
-    const config = {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${userId}/posts`, config)
+function getUserPosts(userToken, userId, setUserPosts, setLoading) {
+    axios.get(`${URL}/users/${userId}/posts`, createConfig(userToken))
         .then(res => {
             setUserPosts(res.data.posts);
             setLoading(false);
@@ -70,9 +65,34 @@ function getUserPosts(token, userId, setUserPosts, setLoading) {
             alert(err)});
 }
 
+function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
+    axios.post(`${URL}/posts`, body, createConfig(userToken))
+    .then( resp => {
+        setIsDataBeingEvaluated(false);
+        setNewPost({ text:"",link:"" })
+    })
+    .catch( error => {
+        alert("Parece que houve um erro! Tente novamente mais tarde")
+        setIsDataBeingEvaluated(false);
+    })
+}
+
+function getTrendingTopics( userToken, setTrendingTopics ) {
+    axios.get(`${URL}/hashtags/trending`,createConfig(userToken))
+    .then( resp => {
+        setTrendingTopics(resp.data.hashtags);
+    })
+    .catch( error => {
+        alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
+
+    })
+}
+
 export {
     createNewUser,
     login,
     getTimelinePosts,
     getUserPosts,
+    publishNewPost,
+    getTrendingTopics
 };

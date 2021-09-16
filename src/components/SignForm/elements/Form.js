@@ -8,12 +8,12 @@ const Form = styled.form`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    color: #FFF;
 
     a {
         text-decoration: none;
         font-family: Lato;
         font-size: 20px;
-        color: #FFF;
         margin: 6px 0px;
         padding-bottom: 2px;
         border-bottom: 1px solid #FFF;
@@ -27,7 +27,8 @@ const Form = styled.form`
 
         a {
             font-size: 17px;
-            margin-top: 10px
+            margin-top: 10px;
+
         }
     }
 `;
