@@ -1,11 +1,22 @@
+import DataEvaluationContext from "../contexts/DataEvaluationContext";
+import UserContext from "../contexts/UserContext";
 import { TextWithHighlightedHashtags } from "../utils/TextAdjustmentsUtils";
+import { getTrendingTopics } from "../service/service";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 export default function Trending() {
-    const example = ["javascript", 'react', 'react-native', 'material', "web-dev", 'mobile', 'css', 'html', 'node', 'sql']
-    const [trendingTopics, setTrendingTopics ] = useState(example);
+    const [trendingTopics, setTrendingTopics ] = useState([]);
+    const { login } = useContext(UserContext);
+    const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    
+    useEffect(() => {
+        if(login.token) {
+            getTrendingTopics(login.token, setTrendingTopics)
+        }
+    },[login,isDataBeingEvaluated]);
+    
     return (
         <Wrapper>
             <Title> trending </Title>
@@ -55,10 +66,10 @@ const Hashtags = styled.p`
 `
 
 function PostHashtags(hashtags){
-    return hashtags.map( (hashtag,index) => 
+    return hashtags.map( ({name},index) => 
         <TextWithHighlightedHashtags
             key = { index }
-            text = {`#${hashtag}`}
+            text = {`#${name}`}
             HashtagStyledComponent = {Hashtags}
         />
     );
