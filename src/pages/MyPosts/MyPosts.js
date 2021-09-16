@@ -14,13 +14,11 @@ export default function MyPosts() {
     const {user} = useContext(UserContext);
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(false);
-    console.log(user);
 
     useEffect(() => {
         setLoading(true);
         getUserPosts(user.token, user.user.id, setUserPosts, setLoading)
       }, [user.token, user.user.id]);
-      console.log(userPosts);
 
     if(loading) {
         return (

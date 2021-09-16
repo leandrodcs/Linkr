@@ -13,7 +13,6 @@ export default function Header() {
     const [showNavBar, setShowNavBar] = useState(false);
     const history = useHistory();
     const {user, setUser} = useContext(UserContext);
-    console.log(user);
 
     function relocateToMyPosts() {
         setShowNavBar(false);
