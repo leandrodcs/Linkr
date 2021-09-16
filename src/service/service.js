@@ -4,6 +4,15 @@ import axios from "axios";
 
 const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr";
 
+function createConfig(userToken) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${userToken}`
+        }
+    }
+    return config
+}
+
 function createNewUser(body, history, setIsButtonEnabled) {
     axios.post(`${URL}/sign-up`, body)
         .then(resp => {
@@ -18,18 +27,30 @@ function createNewUser(body, history, setIsButtonEnabled) {
         });
 }
 
-function login(body, setUser, setIsButtonEnabled, history) {
+function login(body, setLogin, setIsButtonEnabled, history) {
     axios.post(`${URL}/sign-in`, body)
         .then(resp => {
             saveToLocalStorage(resp.data);
             history.push("/timeline");
-            setUser(resp.data);
+            setLogin(resp.data);
         })
         .catch(err => {
             if(err.response.status === 403) alert("E-mail e/ou senha incorretos!");
             else alert("Erro no servidor\nTente novamente...");
             setIsButtonEnabled(true);
         });
+}
+
+function getTimelinePosts(userToken , setPosts) {
+    axios.get(`${URL}/posts`,createConfig(userToken))
+    .then(resp => {
+        setPosts(resp.data.posts);
+    })
+    .catch(error => {
+        alert("Houve uma falha ao obter os posts! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
+    })
 }
 
 function getUserPosts(token, userId, setUserPosts, setLoading) {
@@ -51,5 +72,6 @@ function getUserPosts(token, userId, setUserPosts, setLoading) {
 export {
     createNewUser,
     login,
+    getTimelinePosts,
     getUserPosts,
 };

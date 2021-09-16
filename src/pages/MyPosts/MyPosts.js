@@ -12,15 +12,14 @@ import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 
 export default function MyPosts() {
-    const {user} = useContext(UserContext);
+    const {login} = useContext(UserContext);
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(false);
-    console.log(user);
 
     useEffect(() => {
         setLoading(true);
-        getUserPosts(user.token, user.user.id, setUserPosts, setLoading)
-      }, [user.token, user.user.id]);
+        getUserPosts(login.token, login.user.id, setUserPosts, setLoading)
+      }, [login.token, login.user.id]);
       console.log(userPosts);
 
     if(loading) {

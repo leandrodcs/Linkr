@@ -2,6 +2,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
 import Timeline from "./pages/Timeline/Timeline";
 import MyPosts from "./pages/MyPosts/MyPosts";
+import Header from "./components/Header/Header";
 
 import UserContext from "./contexts/UserContext";
 import { getFromLocalStorage } from "./utils/localStorageUtils";
@@ -10,20 +11,23 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 
+
 export default function App() {
-  const [user, setUser] = useState(() => getFromLocalStorage());
-  
+  const [login, setLogin] = useState(() => getFromLocalStorage());
   return (
     <Router>
-      <UserContext.Provider value={{user, setUser}}>
+      <UserContext.Provider value={{login, setLogin}}>
         <GlobalReset />
         <Switch>
           <Route exact path="/">
-            <SignIn skipThisPage={!!user.token} />
+            <SignIn skipThisPage={!!login.token} />
           </Route>
           <Route exact path="/sign-up" render={() => <SignUp />} />
-          <Route exact path="/timeline" render={() => <Timeline />} />
-          <Route exact path="/my-posts" render={() => <MyPosts />} />
+          <>
+            <Header />
+            <Route exact path="/timeline" render={() => <Timeline />} />
+            <Route exact path="/my-posts" render={() => <MyPosts />} />
+          </>
         </Switch>
       </UserContext.Provider>
     </Router>
@@ -68,5 +72,12 @@ const GlobalReset = createGlobalStyle`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+  color: inherit;
+  text-decoration: none;
   }
 `;
