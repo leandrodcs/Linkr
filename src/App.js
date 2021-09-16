@@ -5,6 +5,7 @@ import MyPosts from "./pages/MyPosts/MyPosts";
 import Header from "./components/Header/Header";
 
 import UserContext from "./contexts/UserContext";
+import DataEvaluationContext from "./contexts/DataEvaluationContext";
 import { getFromLocalStorage } from "./utils/localStorageUtils";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -12,23 +13,27 @@ import { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 
 
+
 export default function App() {
   const [login, setLogin] = useState(() => getFromLocalStorage());
+  const [ isDataBeingEvaluated, setIsDataBeingEvaluated ] = useState(false);
   return (
     <Router>
       <UserContext.Provider value={{login, setLogin}}>
-        <GlobalReset />
-        <Switch>
-          <Route exact path="/">
-            <SignIn skipThisPage={!!login.token} />
-          </Route>
-          <Route exact path="/sign-up" render={() => <SignUp />} />
-          <>
-            <Header />
-            <Route exact path="/timeline" render={() => <Timeline />} />
-            <Route exact path="/my-posts" render={() => <MyPosts />} />
-          </>
-        </Switch>
+        <DataEvaluationContext.Provider value = {{isDataBeingEvaluated, setIsDataBeingEvaluated }} >
+          <GlobalReset />
+          <Switch>
+            <Route exact path="/">
+              <SignIn skipThisPage={!!login.token} />
+            </Route>
+            <Route exact path="/sign-up" render={() => <SignUp />} />
+            <>
+              <Header />
+              <Route exact path="/timeline" render={() => <Timeline />} />
+              <Route exact path="/my-posts" render={() => <MyPosts />} />
+            </>
+          </Switch>
+        </DataEvaluationContext.Provider>
       </UserContext.Provider>
     </Router>
   );

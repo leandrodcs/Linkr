@@ -3,10 +3,11 @@ import Trending from "../../components/Trending";
 import Post from "../../components/Post/Post";
 import PageTitle from "../../components/PageTitle";
 import Loading from "../../components/Loading";
-import PublishingBox from "./Elements/PublishingBox";
+import PublishingBox from "./elements/PublishingBox";
 
 import { getTimelinePosts } from "../../service/service";
 import UserContext from "../../contexts/UserContext";
+import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -14,12 +15,13 @@ import styled from "styled-components";
 export default function Timeline() {
     const [posts, setPosts] = useState("");
     const { login } = useContext(UserContext);
+    const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
 
     useEffect(() => {
         if(login.token) {
             getTimelinePosts(login.token, setPosts)
         }
-    },[login]);
+    },[login,isDataBeingEvaluated]);
 
     if(!posts) {
         return (

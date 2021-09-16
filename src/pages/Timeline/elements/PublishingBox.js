@@ -3,23 +3,45 @@ import TextArea from "./TextArea";
 import Button from "./Button";
 
 import UserContext from "../../../contexts/UserContext";
+import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
+import { adjustStateObjectData } from "../../../utils/ObjectsUtils";
 
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { CheckPublishingBoxAndSendPost } from "../../../utils/PostsUtils";
 
 export default function PublishingBox() {
     const { login } = useContext(UserContext);
+    const { isDataBeingEvaluated, setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [ newPost, setNewPost ] = useState({ text:"",link:"" });
+
     return (
         <Wrapper>
             <Link to={`/user/${login.user.id}`}>
                 <img src = { login.user.avatar } alt = {login.user.username} />
             </Link>
             <PublishingBoxContent>
-                <p>O que você tem pra favoritar hoje?</p>
-                <Input placeholder = "http://..." />
-                <TextArea placeholder = "Muito irado esse link falando de #javascript" />
-                <Button> Publicar </Button>
+                <p>
+                    O que você tem pra favoritar hoje?
+                </p>
+                <Input 
+                    placeholder = "http://..."
+                    value = {newPost.link}
+                    onChange = { e => adjustStateObjectData(newPost, setNewPost, "link", e.target.value)}
+                />
+                <TextArea
+                    placeholder = "Muito irado esse link falando de #javascript"
+                    value = {newPost.text}
+                    onChange = { e => adjustStateObjectData(newPost, setNewPost, "text", e.target.value)}
+                />
+                <Button 
+                    disabled = { isDataBeingEvaluated }
+                    isDataBeingEvaluated = { isDataBeingEvaluated }
+                    onClick = { () => CheckPublishingBoxAndSendPost(newPost, login.token, setIsDataBeingEvaluated) }
+                >
+                    { isDataBeingEvaluated ? "Publicando..." : "Publicar"}
+                </Button>
             </PublishingBoxContent>
         </Wrapper>
     );
