@@ -52,7 +52,7 @@ function TextWithHighlightedHashtags({text, MainStyledComponent, HashtagStyledCo
 }
 
 function CheckTextLengthAndReduceItIfNeeded(text, MaxCharactersLength) {
-    if (text && text.length > MaxCharactersLength) {
+    if (!!text && text.length > MaxCharactersLength) {
         return text.slice(0,MaxCharactersLength) + "..."
     }
     return text

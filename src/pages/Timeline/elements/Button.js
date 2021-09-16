@@ -15,6 +15,7 @@ const Button = styled.button`
     bottom: 0px;
     right: 0px;
     cursor: pointer;
+    opacity: ${ ({isDataBeingEvaluated}) => isDataBeingEvaluated ? 0.7 : 1 };
     &:hover{
         opacity: 0.8;
     }
