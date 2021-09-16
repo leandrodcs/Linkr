@@ -1,4 +1,5 @@
 import PostContext from "../../../contexts/PostContext";
+import UserContext from "../../../contexts/UserContext";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -7,18 +8,28 @@ import { useContext } from "react";
 
 export default function PostHeader() {
     const { id, user } = useContext(PostContext);
+    const {login} = useContext(UserContext);
+
+    function deletePost() {
+        console.log(login);
+    }
+
     return (
         <Wrapper>
-        <Link to={`/user/${id}`}>
-            {user.username}
-        </Link>
-        <IconButton right = {"25px"}>
-            <TiPencil />
-        </IconButton>
-        <IconButton right = {"0px"}>
-            <TiTrash />
-        </IconButton>
-    </Wrapper>
+            <Link to={`/user/${id}`}>
+                {user.username}
+            </Link>
+            {(login.user.id == user.id) ? 
+                    <>
+                    <IconButton right = {"25px"}>
+                        <TiPencil />
+                    </IconButton>
+                    <IconButton right = {"0px"} onClick={() => deletePost()}>
+                        <TiTrash />
+                    </IconButton>
+                </>
+            : ""}
+        </Wrapper>
     );
 }
 
@@ -36,7 +47,7 @@ const Wrapper = styled.div`
         font-size: 17px;
         line-height: 20px;
     }
-`
+`;
 
 const IconButton = styled.button`
     font-size: 14px;
@@ -44,4 +55,5 @@ const IconButton = styled.button`
     position: absolute;
     right: ${ ({right}) => right };
     top: 0;
-`
+    cursor: pointer;
+`;
