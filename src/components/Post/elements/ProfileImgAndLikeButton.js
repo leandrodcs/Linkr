@@ -1,4 +1,5 @@
 import PostContext from "../../../contexts/PostContext";
+import UserContext from "../../../contexts/UserContext";
 import { formattedNumberOfLikes } from "../../../utils/PostsUtils";
 
 import styled from "styled-components";
@@ -6,12 +7,15 @@ import { Link } from "react-router-dom";
 import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 import { useContext } from "react";
 
+
 export default function ProfileImgAndLikeButton() {
     const { user, likes} = useContext(PostContext);
+    const { login } = useContext(UserContext);
     const hasUserLikedThisPost = false;
+    const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
     return (
         <Wrapper>
-            <Link to={`/user/${user.id}`}>
+            <Link to={ imageRoute }>
                 <img src = { user.avatar } alt = {user.username} />
             </Link>
             {hasUserLikedThisPost ? <LikedHeart /> : <NotLikedHeart />}

@@ -18,9 +18,11 @@ export default function PublishingBox() {
 
     return (
         <Wrapper>
-            <Link to={`/user/${login.user.id}`}>
-                <img src = { login.user.avatar } alt = {login.user.username} />
-            </Link>
+            <div>
+                <Link to={`/my-posts`}>
+                    <img src = { login.user.avatar } alt = {login.user.username} />
+                </Link>
+            </div>
             <PublishingBoxContent>
                 <p>
                     O que você tem pra favoritar hoje?
