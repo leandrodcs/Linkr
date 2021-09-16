@@ -14,19 +14,15 @@ export default function Header() {
     const history = useHistory();
     const {user, setUser} = useContext(UserContext);
 
-    function relocateToMyPosts() {
+    function relocate(whereTo) {
         setShowNavBar(false);
-        history.push("/my-posts");
-    }
-    function relocateToMyLikes() {
-        setShowNavBar(false);
-        history.push("/my-likes");
-    }
-    function relocateToLogin() {
-        localStorage.clear();
-        setUser({});
-        setShowNavBar(false);
-        history.push("/");
+        if(!whereTo) {
+            localStorage.clear();
+            setUser({});
+            history.push("/");
+            return;
+        }
+        history.push(`/${whereTo}`);
     }
 
     return (
@@ -35,13 +31,13 @@ export default function Header() {
                 <Link to="/timeline">linkr</Link>
                 <div onClick={() => showNavBar ? setShowNavBar(false) : setShowNavBar(true)}>
                     <IoIosArrowDown />
-                    <img src={!!user.token ? user.user.avatar : ""} alt="" />
+                    <img src={!!user.token ? user.user.avatar : ""} alt="avatar" />
                 </div>
             </HeaderWrapper>
             <DropDownWindow showNavBar={showNavBar}>
-                <p onClick={relocateToMyPosts} to="/my-posts">My posts</p>
-                <p onClick={relocateToMyLikes} to="/my-likes">My likes</p>
-                <p onClick={relocateToLogin}>Logout</p>
+                <p onClick={() => relocate("my-posts")}>My posts</p>
+                <p onClick={() => relocate("my-likes")}>My likes</p>
+                <p onClick={() => relocate("")}>Logout</p>
             </DropDownWindow>
             {showNavBar ? <Blank onClick={() => setShowNavBar(false)}/> : ""}
         </>
