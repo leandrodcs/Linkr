@@ -13,25 +13,26 @@ function createConfig(userToken) {
     return config
 }
 
-function createNewUser(body, history, setUser, setIsButtonEnabled) {
+function createNewUser(body, history, setIsButtonEnabled) {
     axios.post(`${URL}/sign-up`, body)
         .then(resp => {
-            setUser(resp.data);
+            alert("Cadastro realizado com sucesso!");
             history.push("/");
         })
         .catch(err => {
-            if(err.response.status === 400) alert("E-mail já cadastrado!");
+            if(err.response.status === 403) alert("E-mail já cadastrado!");
+            if(err.response.status === 400) alert("Preencha os campos corretamente!");
             else alert("Erro no servidor\nTente novamente...");
             setIsButtonEnabled(true);
         });
 }
 
-function login(body, history, setUser, setIsButtonEnabled) {
+function login(body, setLogin, setIsButtonEnabled, history) {
     axios.post(`${URL}/sign-in`, body)
         .then(resp => {
-            setUser(resp.data);
             saveToLocalStorage(resp.data);
             history.push("/timeline");
+            setLogin(resp.data);
         })
         .catch(err => {
             if(err.response.status === 403) alert("E-mail e/ou senha incorretos!");
@@ -40,19 +41,37 @@ function login(body, history, setUser, setIsButtonEnabled) {
         });
 }
 
-function getTimelinePosts(userToken , setPosts, browsingHistory) {
+function getTimelinePosts(userToken , setPosts) {
     axios.get(`${URL}/posts`,createConfig(userToken))
     .then(resp => {
         setPosts(resp.data.posts);
     })
     .catch(error => {
         alert("Houve uma falha ao obter os posts! A página será atualizada");
-        browsingHistory.push("/");
+        localStorage.clear();
+        window.open("/","_self");
     })
+}
+
+function getUserPosts(token, userId, setUserPosts, setLoading) {
+    const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${userId}/posts`, config)
+        .then(res => {
+            setUserPosts(res.data.posts);
+            setLoading(false);
+        })
+        .catch(err => {
+            setLoading(false);
+            alert(err)});
 }
 
 export {
     createNewUser,
     login,
-    getTimelinePosts
+    getTimelinePosts,
+    getUserPosts,
 };

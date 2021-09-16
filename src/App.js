@@ -1,6 +1,8 @@
-import SignUp from "./pages/sign-up/SignUp";
-import SignIn from "./pages/sign-in/SignIn";
+import SignUp from "./pages/SignUp/SignUp";
+import SignIn from "./pages/SignIn/SignIn";
 import Timeline from "./pages/Timeline/Timeline";
+import MyPosts from "./pages/MyPosts/MyPosts";
+import Header from "./components/Header/Header";
 
 import UserContext from "./contexts/UserContext";
 import { getFromLocalStorage } from "./utils/localStorageUtils";
@@ -9,26 +11,24 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 
+
 export default function App() {
   const [login, setLogin] = useState(() => getFromLocalStorage());
-  const {token} = login;
-  const skipSignIn = !!token;
-  
   return (
     <Router>
       <UserContext.Provider value={{login, setLogin}}>
-      <GlobalReset />
-      <Switch>
-        <Route exact path="/">
-          <SignIn skipThisPage={skipSignIn} />
-        </Route>
-        <Route exact path="/sign-up">
-          <SignUp />
-        </Route>
-        <Route exact path="/timeline" >
-          <Timeline />
-        </Route>
-      </Switch>
+        <GlobalReset />
+        <Switch>
+          <Route exact path="/">
+            <SignIn skipThisPage={!!login.token} />
+          </Route>
+          <Route exact path="/sign-up" render={() => <SignUp />} />
+          <>
+            <Header />
+            <Route exact path="/timeline" render={() => <Timeline />} />
+            <Route exact path="/my-posts" render={() => <MyPosts />} />
+          </>
+        </Switch>
       </UserContext.Provider>
     </Router>
   );
@@ -79,5 +79,5 @@ const GlobalReset = createGlobalStyle`
   a:active {
   color: inherit;
   text-decoration: none;
-}
+  }
 `;

@@ -1,5 +1,5 @@
-import ProfileImgAndLikeButton from "./Elements/ProfileImgAndLikeButton";
-import PostBox from "./Elements/PostBox";
+import ProfileImgAndLikeButton from "./elements/ProfileImgAndLikeButton";
+import PostBox from "./elements/PostBox";
 
 import PostContext from "../../contexts/PostContext";
 

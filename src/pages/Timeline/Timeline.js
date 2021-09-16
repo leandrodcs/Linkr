@@ -1,5 +1,4 @@
 import Container from "../../components/Container";
-import Header from "../../components/Header";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post/Post";
 import PageTitle from "../../components/PageTitle";
@@ -10,24 +9,21 @@ import { getTimelinePosts } from "../../service/service";
 import UserContext from "../../contexts/UserContext";
 
 import { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import styled from "styled-components";
 
 export default function Timeline() {
     const [posts, setPosts] = useState("");
     const { login } = useContext(UserContext);
-    const browsingHistory = useHistory();
 
     useEffect(() => {
         if(login.token) {
-            getTimelinePosts(login.token, setPosts, browsingHistory)
+            getTimelinePosts(login.token, setPosts)
         }
     },[login]);
 
     if(!posts) {
         return (
             <Container>
-                <Header />
                 <Loading />
                 <Trending />
             </Container>
@@ -36,7 +32,6 @@ export default function Timeline() {
 
     return (
         <Container>
-            <Header />
             <Wrapper>
                 <PageTitle text = "timeline" />
                 <PublishingBox />

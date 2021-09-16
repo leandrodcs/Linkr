@@ -28,14 +28,14 @@ const Wrapper = styled.div`
     cursor: pointer;
     & img {
         width: 150px;
-        min-height: 150px;
+        height: 150px;
         object-fit: cover;
         border-radius: 0px 11px 11px 0px;
     }
     @media(max-width: 937px) {
         & img {
         width: 100px;
-        min-height: 100px;
+        height: 100px;
         }
     }
 `

@@ -7,16 +7,16 @@ import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 import { useContext } from "react";
 
 export default function ProfileImgAndLikeButton() {
-    const {id, user, likes} = useContext(PostContext);
+    const { user, likes} = useContext(PostContext);
     const hasUserLikedThisPost = false;
     return (
         <Wrapper>
-        <Link to={`/user/${id}`}>
-            <img src = { user.avatar } alt = {user.username} />
-        </Link>
-        {hasUserLikedThisPost ? <LikedHeart /> : <NotLikedHeart />}
-        <p>{ formattedNumberOfLikes(likes.length) }</p>
-    </Wrapper>
+            <Link to={`/user/${user.id}`}>
+                <img src = { user.avatar } alt = {user.username} />
+            </Link>
+            {hasUserLikedThisPost ? <LikedHeart /> : <NotLikedHeart />}
+            <p>{ formattedNumberOfLikes(likes.length) }</p>
+        </Wrapper>
     );
 }
 

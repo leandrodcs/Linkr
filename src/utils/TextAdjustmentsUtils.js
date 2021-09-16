@@ -23,7 +23,7 @@ function TextWithHighlightedHashtags({text, MainStyledComponent, HashtagStyledCo
         }
     });
     const TextWithStyledHashtags = brokenText.map((fragment, index) => {
-        if (fragment[0] === "#") {
+        if (fragment[0] === "#" && fragment.length !== 1) {
             return (
                 <Link key = { index } to= { `/hashtag/${fragment.slice(1)}` }>
                     <HashtagStyledComponent>
