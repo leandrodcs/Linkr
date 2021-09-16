@@ -1,9 +1,8 @@
-import SignUp from "./pages/sign-up/SignUp";
-import SignIn from "./pages/sign-in/SignIn";
+import SignUp from "./pages/SignUp/SignUp";
+import SignIn from "./pages/SignIn/SignIn";
 import Timeline from "./pages/Timeline/Timeline";
 import MyPosts from "./pages/MyPosts/MyPosts";
-import Header from "./components/Header";
-
+import Header from "./components/Header/Header";
 
 import UserContext from "./contexts/UserContext";
 import { getFromLocalStorage } from "./utils/localStorageUtils";
@@ -14,15 +13,15 @@ import { createGlobalStyle } from "styled-components";
 
 export default function App() {
   const [user, setUser] = useState(() => getFromLocalStorage());
-  const {token} = user;
-  const skipSignIn = !!token;
   
   return (
     <Router>
       <UserContext.Provider value={{user, setUser}}>
         <GlobalReset />
         <Switch>
-          <Route exact path="/" render={() => <SignIn skipThisPage={skipSignIn} />} />
+          <Route exact path="/">
+            <SignIn skipThisPage={!!user.token} />
+          </Route>
           <Route exact path="/sign-up" render={() => <SignUp />} />
           <>
             <Header />

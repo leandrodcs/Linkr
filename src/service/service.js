@@ -17,12 +17,13 @@ function createNewUser(body, history, setUser, setIsButtonEnabled) {
         });
 }
 
-function login(body, history, setUser, setIsButtonEnabled) {
+function login(body, setUser, setIsButtonEnabled, history) {
     axios.post(`${URL}/sign-in`, body)
         .then(resp => {
-            setUser(resp.data);
             saveToLocalStorage(resp.data);
             history.push("/timeline");
+            setUser(resp.data);
+
         })
         .catch(err => {
             if(err.response.status === 403) alert("E-mail e/ou senha incorretos!");

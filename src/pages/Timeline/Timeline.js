@@ -1,11 +1,13 @@
+import Loading from "../../components/Loading";
+import Container from "../../components/Container";
+import PageTitle from "../../components/PageTitle";
+import Trending from "../../components/Trending";
+import Post from "../../components/Post/Post";
+
+import MockPosts from "../../temp_mocks/mock_posts";
+
 import { useState } from "react";
 import styled from "styled-components";
-import Container from "../../components/Container";
-import Trending from "../../components/Trending";
-import Post from "../../components/Post";
-import PageTitle from "../../components/PageTitle";
-import Loading from "../../components/Loading";
-import MockPosts from "../../temp_mocks/mock_posts";
 
 export default function Timeline() {
     const [posts] = useState(MockPosts.posts);
