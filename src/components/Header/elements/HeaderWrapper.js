@@ -12,7 +12,6 @@ const HeaderWrapper= styled.header`
     top: 0;
     left: 0;
     z-index: 3;
-
     a {
         margin-left: 28px;
         font-weight: bold;
@@ -23,7 +22,6 @@ const HeaderWrapper= styled.header`
         transition: 0.3s;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
-
     div {
         display: flex;
         align-items: center;
@@ -31,13 +29,13 @@ const HeaderWrapper= styled.header`
         margin-right: 17px;
         color: #FFFFFF;
         font-size: 25px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
-
     svg {
         transform: rotate(${({showNavBar}) => showNavBar ? `180deg` : `0deg`});
         transition: 0.3s;
     }
-
     img {
         width: 53px;
         height: 53px;
@@ -45,24 +43,21 @@ const HeaderWrapper= styled.header`
         object-fit: cover;
         transition: 0.3s;
     }
-
     @media(max-width: 937px) {
         a {
         margin-left: 17px;
         font-size: 45px;
         }
-
         div {
             gap: 12px;
             margin-right: 14px;
             font-size: 20px;
         }
-        
         img {
         width: 44px;
         height: 44px;
         }
     }
-`;
+`
 
 export default HeaderWrapper;

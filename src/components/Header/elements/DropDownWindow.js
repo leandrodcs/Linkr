@@ -16,8 +16,8 @@ const DropDownWindow = styled.nav`
     padding: 10px 0px 17px;
     transition: 0.3s;
     color: #FFFFFF;
-
-    a {
+    
+    p {
         font-size: 17px;
         line-height: 20px;
         letter-spacing: 0.05em;
@@ -25,14 +25,13 @@ const DropDownWindow = styled.nav`
         font-family: 'Lato', sans-serif;
         font-weight: 700;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
+        cursor: pointer;
     }
-
     @media(max-width: 937px) {
         width: 150px;
         height: 97px;
         padding-top: 8px;
         padding-bottom: 15px;
-        
         a {
             font-size: 15px;
             line-height: 18px;

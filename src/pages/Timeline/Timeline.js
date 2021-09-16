@@ -1,7 +1,7 @@
 import Container from "../../components/Container";
+import PageTitle from "../../components/PageTitle";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post/Post";
-import PageTitle from "../../components/PageTitle";
 import Loading from "../../components/Loading";
 import PublishingBox from "./elements/PublishingBox";
 

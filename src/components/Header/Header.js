@@ -1,13 +1,29 @@
-import HeaderWrapper from "./elements/HeaderWrapper";
-import DropDownWindow from "./elements/DropDownWindow";
 import Blank from "./elements/Blank";
+import DropDownWindow from "./elements/DropDownWindow";
+import HeaderWrapper from "./elements/HeaderWrapper";
 
-import {IoIosArrowDown} from 'react-icons/io';
-import { useState } from "react";
+import UserContext from "../../contexts/UserContext";
+
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from 'react-router';
+import {IoIosArrowDown} from 'react-icons/io';
 
 export default function Header() {
     const [showNavBar, setShowNavBar] = useState(false);
+    const history = useHistory();
+    const {login, setLogin} = useContext(UserContext);
+
+    function relocate(whereTo) {
+        setShowNavBar(false);
+        if(!whereTo) {
+            localStorage.clear();
+            setLogin({});
+            history.push("/");
+            return;
+        }
+        history.push(`/${whereTo}`);
+    }
 
     return (
         <>
@@ -15,15 +31,17 @@ export default function Header() {
                 <Link to="/timeline">linkr</Link>
                 <div onClick={() => showNavBar ? setShowNavBar(false) : setShowNavBar(true)}>
                     <IoIosArrowDown />
-                    <img src="https://loucosporgeek.com.br/wp-content/uploads/2020/09/edward-elric-1-1.jpg" alt="" />
+                    <img src={!!login.token ? login.user.avatar : ""} alt="avatar" />
                 </div>
             </HeaderWrapper>
             <DropDownWindow showNavBar={showNavBar}>
-                <Link to="/my-posts">My posts</Link>
-                <Link to="/my-likes">My likes</Link>
-                <Link to="/">Logout</Link>
+                <p onClick={() => relocate("my-posts")}>My posts</p>
+                <p onClick={() => relocate("my-likes")}>My likes</p>
+                <p onClick={() => relocate("")}>Logout</p>
             </DropDownWindow>
             {showNavBar ? <Blank onClick={() => setShowNavBar(false)}/> : ""}
         </>
     );
 }
+
+
