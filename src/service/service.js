@@ -11,7 +11,7 @@ function createConfig(userToken) {
             Authorization: `Bearer ${userToken}`
         }
     }
-    return config
+    return config;
 }
 
 function createNewUser(body, history, setIsButtonEnabled) {
@@ -88,11 +88,21 @@ function getTrendingTopics( userToken, setTrendingTopics ) {
     })
 }
 
+function likePost( postID, userToken, likes ) {
+    axios.post(`${URL}/posts/${postID}/like`, "", createConfig(userToken))
+    .then(resp => {
+        console.log(likes)
+        likes = resp.data.post.likes;
+        console.log(likes)
+    })
+}
+
 export {
     createNewUser,
     login,
     getTimelinePosts,
     getUserPosts,
     publishNewPost,
-    getTrendingTopics
+    getTrendingTopics,
+    likePost
 };
