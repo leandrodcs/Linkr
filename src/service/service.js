@@ -3,7 +3,7 @@ import { saveToLocalStorage } from "../utils/localStorageUtils";
 
 import axios from "axios";
 
-const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr";
+const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr";
 
 function createConfig(userToken) {
     const config = {
