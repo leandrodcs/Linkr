@@ -13,10 +13,10 @@ function formattedNumberOfLikes(numberOfLikes) {
     return `${numberOfLikes} ${numberOfLikes > 1 ? "likes" : "like"}`
 }
 
-function CheckPublishingBoxAndSendPost(objectToPublish, userToken, setIsDataBeingEvaluated){
+function CheckPublishingBoxAndSendPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost){
     if (!isInputValid("link",objectToPublish.link)) {return}
     setIsDataBeingEvaluated(true);
-    publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated);
+    publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost);
 }
 
 export {

@@ -64,10 +64,11 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading) {
             alert(err)});
 }
 
-function publishNewPost(body, userToken, setIsDataBeingEvaluated){
+function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
     axios.post(`${URL}/posts`, body, createConfig(userToken))
     .then( resp => {
         setIsDataBeingEvaluated(false);
+        setNewPost({ text:"",link:"" })
     })
     .catch( error => {
         alert("Parece que houve um erro! Tente novamente mais tarde")

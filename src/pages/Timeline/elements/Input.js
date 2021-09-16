@@ -6,7 +6,8 @@ const Input = styled.input`
     margin: 10px 0px;
     padding-left: 15px;
     display: inline-block;
-    background-color: #EFEFEF;
+    background-color: ${ ({isDataBeingEvaluated}) => isDataBeingEvaluated ? "#E2E2E2" : "#EFEFEF" };
+    color: ${ ({isDataBeingEvaluated}) => isDataBeingEvaluated ? "#777" : "#000" };
     font-family: 'Lato', sans-serif;
     font-size: 15px;
     border: none;

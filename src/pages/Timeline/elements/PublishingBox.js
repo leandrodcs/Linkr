@@ -27,18 +27,22 @@ export default function PublishingBox() {
                 </p>
                 <Input 
                     placeholder = "http://..."
+                    disabled = { isDataBeingEvaluated }
+                    isDataBeingEvaluated = { isDataBeingEvaluated }
                     value = {newPost.link}
                     onChange = { e => adjustStateObjectData(newPost, setNewPost, "link", e.target.value)}
                 />
                 <TextArea
                     placeholder = "Muito irado esse link falando de #javascript"
+                    disabled = { isDataBeingEvaluated }
+                    isDataBeingEvaluated = { isDataBeingEvaluated }
                     value = {newPost.text}
                     onChange = { e => adjustStateObjectData(newPost, setNewPost, "text", e.target.value)}
                 />
                 <Button 
                     disabled = { isDataBeingEvaluated }
                     isDataBeingEvaluated = { isDataBeingEvaluated }
-                    onClick = { () => CheckPublishingBoxAndSendPost(newPost, login.token, setIsDataBeingEvaluated) }
+                    onClick = { () => CheckPublishingBoxAndSendPost(newPost, login.token, setIsDataBeingEvaluated, setNewPost) }
                 >
                     { isDataBeingEvaluated ? "Publicando..." : "Publicar"}
                 </Button>
