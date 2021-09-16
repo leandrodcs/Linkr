@@ -76,10 +76,22 @@ function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
     })
 }
 
+function getTrendingTopics( userToken, setTrendingTopics ) {
+    axios.get(`${URL}/hashtags/trending`,createConfig(userToken))
+    .then( resp => {
+        setTrendingTopics(resp.data.hashtags);
+    })
+    .catch( error => {
+        alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
+
+    })
+}
+
 export {
     createNewUser,
     login,
     getTimelinePosts,
     getUserPosts,
-    publishNewPost
+    publishNewPost,
+    getTrendingTopics
 };
