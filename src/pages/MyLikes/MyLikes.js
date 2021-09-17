@@ -36,7 +36,7 @@ export default function MyLikes() {
                 <PageTitle text = "my likes" />
                 {userLikes.length ?
                 userLikes.map(post => <Post key ={post.id} post={post}/>) :
-                <EmptyMsg>Você ainda não curtiu post!</EmptyMsg>}
+                <p>Você ainda não curtiu post!</p>}
             </Wrapper>
             <Trending />
         </Container>
@@ -45,14 +45,11 @@ export default function MyLikes() {
 
 const Wrapper = styled.section`
     width: 611px;
+    color: #FFF;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
 
     @media(max-width: 937px) {
         width: 100%;
     }
-`;
-
-const EmptyMsg = styled.p`
-    font-family: 'Lato', sans-serif;
-    font-size: 20px;
-    color: #151515;
 `;
