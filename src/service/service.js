@@ -1,4 +1,3 @@
-
 import { saveToLocalStorage } from "../utils/localStorageUtils";
 
 import axios from "axios";
@@ -56,23 +55,28 @@ function getTimelinePosts(userToken , setPosts) {
 
 function getUserPosts(userToken, userId, setUserPosts, setLoading) {
     axios.get(`${URL}/users/${userId}/posts`, createConfig(userToken))
-        .then(res => {
-            setUserPosts(res.data.posts);
-            setLoading(false);
-        })
-        .catch(err => {
-            setLoading(false);
-            alert(err)});
+    .then(res => {
+        setUserPosts(res.data.posts);
+        setLoading(false);
+    })
+    .catch(err => {
+        setLoading(false);
+        alert(err);
+    });
 }
 
-function deletePost(userToken, postId) {
-    console.log(login);
+function deletePostFromServer(userToken, postId, setDeleting, setOpenModal) {
     axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))
     .then(res => {
         console.log(res);
+        window.location.reload();
     })
     .catch(err => {
-        alert(err)});
+        alert("Houve um erro e seu post não pôde ser excluído!");
+        setOpenModal(false);
+        setDeleting(false);
+    });
+
 }
 
 function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
@@ -105,5 +109,5 @@ export {
     getUserPosts,
     publishNewPost,
     getTrendingTopics,
-    deletePost,
+    deletePostFromServer,
 };

@@ -1,33 +1,33 @@
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
-
-import {deletePost} from "../../../service/service";
+import Modal from "../../Modal";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { TiPencil, TiTrash } from "react-icons/ti";
-import { useContext } from "react";
-import axios from "axios";
+import { BsPencil, BsTrash } from "react-icons/bs";
+import { useContext, useState } from "react";
 
 export default function PostHeader() {
     const { id, user } = useContext(PostContext);
     const {login} = useContext(UserContext);
+    const [openModal, setOpenModal] = useState(false);
 
     return (
         <Wrapper>
             <Link to={`/user/${id}`}>
                 {user.username}
             </Link>
-            {(login.user.id == user.id) ? 
+            {(Number(login.user.id) === Number(user.id)) ? 
                 <>
                     <IconButton right = {"25px"}>
-                        <TiPencil />
+                        <BsPencil />
                     </IconButton>
-                    <IconButton right = {"0px"} onClick={() => deletePost(login.token, id)}>
-                        <TiTrash />
+                    <IconButton right = {"0px"} onClick={() => setOpenModal(true)}>
+                        <BsTrash />
                     </IconButton>
                 </>
             : ""}
+            {openModal&&<Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token}/>}
         </Wrapper>
     );
 }
@@ -49,10 +49,11 @@ const Wrapper = styled.div`
 `;
 
 const IconButton = styled.button`
-    font-size: 14px;
+    font-size: 18px;
     color: #FFFFFF;
     position: absolute;
     right: ${ ({right}) => right };
     top: 0;
     cursor: pointer;
 `;
+

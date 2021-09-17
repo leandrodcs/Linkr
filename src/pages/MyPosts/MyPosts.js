@@ -35,8 +35,7 @@ export default function MyPosts() {
                 <PageTitle text = "my posts" />
                 {userPosts.length ?
                 userPosts.map(post => <Post key ={post.id} post={post}/>) :
-                <EmptyMsg>Você ainda não criou nenhum post!</EmptyMsg>
-                }
+                <EmptyMsg>Você ainda não criou nenhum post!</EmptyMsg>}
             </Wrapper>
             <Trending />
         </Container>
