@@ -14,8 +14,6 @@ export default function Likes() {
     const [postLikes, setPostLikes] = useState(likes);
     const [isLiked, setIsLiked] = useState(() => isLikedByUser(likes, login.user.id));
 
-    console.log(postLikes)
-
     return (
         <>
             {isLiked ?
