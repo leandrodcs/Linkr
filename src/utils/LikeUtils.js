@@ -9,24 +9,16 @@ function isLikedByUser(likes, loginID) {
     return !!likes.filter(like => like.userId === Number(loginID)).length;
 }
 
-function getTooltipText(likes, isLiked, loginID) {
-    likes = likes.filter(like => like.userId !== Number(loginID));
+function getTooltipText(postLikes, isLiked, loginID) {
+    postLikes = postLikes.filter(like => like.userId !== Number(loginID));
+    const likes = postLikes.map(like => (like["user.username"] ? like["user.username"] : like.username));
+    if(isLiked) likes.unshift("Você");
 
-    if(isLiked) {
-        switch (likes.length) {
-            case 0: return `Você`;
-            case 1: return `Você e ${likes[0]["user.username"]}`;
-            case 2: return `Você, ${likes[0]["user.username"]} e outra 1 pessoa`;
-            default: return `Você, ${likes[0]["user.username"]} e outras ${likes.length - 1} pessoas`;
-        }
-    }
-    switch (likes.length) {
-        case 0: return ``;
-        case 1: return `${likes[0]["user.username"]}`;
-        case 2: return `${likes[0]["user.username"]} e ${likes[1]["user.username"]}`;
-        case 3: return `${likes[0]["user.username"]}, ${likes[1]["user.username"]} e outra 1 pessoa`;
-        default: return `${likes[0]["user.username"]}, ${likes[1]["user.username"]} e outras ${likes.length - 2} pessoas`;
-    }
+    const otherPeopleLikes = (likes.length === 3 ? "outra 1 pessoa" :  `outras ${likes.length - 2} pessoas`);
+    const arrayOfMessage = likes.slice(0, 2);
+    
+    if(likes.length > 2) return `${arrayOfMessage.join(", ")} e ${otherPeopleLikes}`;
+    return arrayOfMessage.join(" e ");
 }
 
 export {
