@@ -56,7 +56,6 @@ const LinkBoxContent = styled.div`
 const LinkTitle = styled.p`
     font-size: 16px;
     line-height: 20px;
-    word-wrap: break-word;
     @media(max-width: 937px) {
         font-size: 11px;
         line-height: 14px;
@@ -67,7 +66,6 @@ const LinkDescription = styled.p`
     font-size: 11px;
     line-height: 14px;
     color: #9B9595;
-    word-wrap: break-word;
     @media(max-width: 937px) {
         font-size: 9px;
         line-height: 11px;

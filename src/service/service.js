@@ -1,4 +1,3 @@
-
 import { saveToLocalStorage } from "../utils/localStorageUtils";
 
 import axios from "axios";
@@ -56,13 +55,28 @@ function getTimelinePosts(userToken , setPosts) {
 
 function getUserPosts(userToken, userId, setUserPosts, setLoading) {
     axios.get(`${URL}/users/${userId}/posts`, createConfig(userToken))
-        .then(res => {
-            setUserPosts(res.data.posts);
-            setLoading(false);
-        })
-        .catch(err => {
-            setLoading(false);
-            alert(err)});
+    .then(res => {
+        setUserPosts(res.data.posts);
+        setLoading(false);
+    })
+    .catch(err => {
+        setLoading(false);
+        alert(err);
+    });
+}
+
+function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
+    axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))
+    .then(res => {
+        console.log(res);
+        setIsDataBeingEvaluated(false);
+        setOpenModal(false);
+    })
+    .catch(err => {
+        alert("Houve um erro e seu post não pôde ser excluído!");
+        setIsDataBeingEvaluated(false);
+        setOpenModal(false);
+    });
 }
 
 function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
@@ -84,7 +98,16 @@ function getTrendingTopics( userToken, setTrendingTopics ) {
     })
     .catch( error => {
         alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
+    })
+}
 
+function getUserData( userToken, userId, setUsername ) {
+    axios.get(`${URL}/users/${userId}`,createConfig(userToken))
+    .then( resp => {
+        setUsername(resp.data.user.username);
+    })
+    .catch( error => {
+        alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
     })
 }
 
@@ -106,5 +129,7 @@ export {
     getUserPosts,
     publishNewPost,
     getTrendingTopics,
-    likePost
+    likePost,
+    getUserData,
+    deletePostFromServer
 };

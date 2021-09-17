@@ -25,6 +25,8 @@ const Wrapper = styled.div`
     margin-bottom: 20px;
     display: flex;
     font-family: 'Lato', sans-serif;
+    word-break: break-word;
+
     &:last-child {
         margin-bottom: 0px;
     }

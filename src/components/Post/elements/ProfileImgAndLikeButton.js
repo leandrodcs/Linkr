@@ -1,17 +1,20 @@
 import Likes from "./Likes";
 
 import PostContext from "../../../contexts/PostContext";
+import UserContext from "../../../contexts/UserContext";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 
-export default function ProfileImgAndLikeButton() {
-    const { user } = useContext(PostContext);
 
+export default function ProfileImgAndLikeButton() {
+    const { user, likes} = useContext(PostContext);
+    const { login } = useContext(UserContext);
+    const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
     return (
         <Wrapper>
-            <Link to={`/user/${user.id}`}>
+            <Link to={ imageRoute }>
                 <img src = { user.avatar } alt = {user.username} />
             </Link>
             <Likes />

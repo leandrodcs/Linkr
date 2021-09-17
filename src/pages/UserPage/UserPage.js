@@ -4,24 +4,29 @@ import PageTitle from "../../components/PageTitle";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post/Post";
 
-import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
-import {getUserPosts} from "../../service/service";
+import DataEvaluationContext from "../../contexts/DataEvaluationContext";
+import {getUserPosts, getUserData} from "../../service/service";
 
 import { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router";
 import styled from "styled-components";
 
-export default function MyPosts() {
+export default function UserPage() {
     const {login} = useContext(UserContext);
+    const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [username, setUsername] = useState("")
     const [userPosts, setUserPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
+    const [loading, setLoading] = useState(false);
+    const params = useParams()
 
     useEffect(() => {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading)
-    }, [login.token, login.user.id, isDataBeingEvaluated]);
+        setLoading(true);
+        getUserData( login.token, params.id, setUsername );
+        getUserPosts(login.token, params.id, setUserPosts, setLoading)
+    }, [login.token, params, isDataBeingEvaluated]);
 
-    if(!userPosts.length && loading) {
+    if(loading) {
         return (
             <Container>
                 <Loading />
@@ -33,10 +38,11 @@ export default function MyPosts() {
     return (
         <Container>
             <Wrapper>
-                <PageTitle text = "my posts" />
+                <PageTitle text = {`${username}'s Posts`} />
                 {userPosts.length ?
                 userPosts.map(post => <Post key ={post.id} post={post}/>) :
-                <EmptyMsg>Você ainda não criou nenhum post!</EmptyMsg>}
+                <EmptyMsg>Você ainda não criou nenhum post!</EmptyMsg>
+                }
             </Wrapper>
             <Trending />
         </Container>
