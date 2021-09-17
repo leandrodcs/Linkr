@@ -10,7 +10,7 @@ function createConfig(userToken) {
             Authorization: `Bearer ${userToken}`
         }
     }
-    return config
+    return config;
 }
 
 function createNewUser(body, history, setIsButtonEnabled) {
@@ -57,6 +57,18 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading) {
     axios.get(`${URL}/users/${userId}/posts`, createConfig(userToken))
     .then(res => {
         setUserPosts(res.data.posts);
+        setLoading(false);
+    })
+    .catch(err => {
+        setLoading(false);
+        alert(err);
+    });
+}
+
+function getUserLikes(userToken, setUserLikes, setLoading) {
+    axios.get(`${URL}/posts/liked`, createConfig(userToken))
+    .then(res => {
+        setUserLikes(res.data.posts);
         setLoading(false);
     })
     .catch(err => {
@@ -125,13 +137,26 @@ function getUserData( userToken, userId, setUsername ) {
     })
 }
 
+function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
+    axios.post(`${URL}/posts/${postID}/${isLiked ? "dislike" : "like" }`, "", createConfig(userToken))
+        .then(resp => {
+            setLikes(resp.data.post.likes);
+        })
+        .catch(err => {
+            alert(`Erro no servidor\nTente novamente...`);
+            setIsLiked(isLiked);
+        });
+}
+
 export {
     createNewUser,
     login,
     getTimelinePosts,
     getUserPosts,
+    getUserLikes,
     publishNewPost,
     getTrendingTopics,
+    likePost,
     getUserData,
     deletePostFromServer,
     publishEditedPost,
