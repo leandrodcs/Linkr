@@ -1,5 +1,5 @@
 import { formattedNumberOfLikes } from "../../../utils/PostsUtils";
-import { Like } from "../../../utils/LikeUtils";
+import { isLikedByUser, Like } from "../../../utils/LikeUtils";
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
 
@@ -8,18 +8,21 @@ import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 import { useContext, useState } from "react/cjs/react.development";
 
 export default function Likes() {
-    const { likes, id } = useContext(PostContext);
     const { login } = useContext(UserContext);
-    const [isLiked, setIsLiked] = useState(false);
+    const { likes, id } = useContext(PostContext);
+    const [postLikes, setPostLikes] = useState(likes);
+    const [isLiked, setIsLiked] = useState(() => isLikedByUser(likes, login.user.id));
+
+    console.log(postLikes)
 
     return (
         <>
             {isLiked ?
-                <LikedHeart onClick={() => Like(isLiked, setIsLiked, login.token, id, likes)} />
+                <LikedHeart onClick={() => Like(isLiked, setIsLiked, login.token, id, postLikes, setPostLikes)} />
                 :
-                <NotLikedHeart onClick={() => Like(isLiked, setIsLiked, login.token, id, likes)} />
+                <NotLikedHeart onClick={() => Like(isLiked, setIsLiked, login.token, id, postLikes, setPostLikes)} />
             }
-            <p>{ formattedNumberOfLikes(likes.length) }</p>
+            <p>{ formattedNumberOfLikes(postLikes.length) }</p>
         </>
     );
 }

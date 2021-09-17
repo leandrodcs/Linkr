@@ -88,12 +88,10 @@ function getTrendingTopics( userToken, setTrendingTopics ) {
     })
 }
 
-function likePost( postID, userToken, likes ) {
-    axios.post(`${URL}/posts/${postID}/like`, "", createConfig(userToken))
+function likePost( postID, userToken, likes, setLikes, isLiked ) {
+    axios.post(`${URL}/posts/${postID}/${isLiked ? "dislike" : "like" }`, "", createConfig(userToken))
     .then(resp => {
-        console.log(likes)
-        likes = resp.data.post.likes;
-        console.log(likes)
+        setLikes(resp.data.post.likes);
     })
 }
 
