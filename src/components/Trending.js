@@ -28,9 +28,10 @@ export default function Trending() {
 
 const Wrapper = styled.section`
     width: 301px;
-    height: 406px;
+    height: clamp(0%,406px,100%);
     border-radius: 16px;
     margin-top: 160px;
+    padding: 0px 16px 10px;
     background-color: #171717;
     color: #ffffff;
     font-family: 'Oswald', sans-serif;
@@ -49,7 +50,6 @@ const Title = styled.div`
     height: 61px;
     display: flex;
     align-items: center;
-    padding-left: 16px;
     margin-bottom: 24px;
     border-bottom: 1px solid #484848;
     font-size: 27px;
@@ -61,8 +61,8 @@ const Hashtags = styled.p`
     font-size: 19px;
     font-weight: 700;
     color: #FFF;
-    padding-left: 16px;
     margin-bottom: 7px;
+    word-wrap: break-word;
 `
 
 function PostHashtags(hashtags){

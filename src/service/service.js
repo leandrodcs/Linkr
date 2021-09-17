@@ -2,7 +2,7 @@ import { saveToLocalStorage } from "../utils/localStorageUtils";
 
 import axios from "axios";
 
-const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr";
+const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr";
 
 function createConfig(userToken) {
     const config = {
@@ -98,7 +98,16 @@ function getTrendingTopics( userToken, setTrendingTopics ) {
     })
     .catch( error => {
         alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
+    })
+}
 
+function getUserData( userToken, userId, setUsername ) {
+    axios.get(`${URL}/users/${userId}`,createConfig(userToken))
+    .then( resp => {
+        setUsername(resp.data.user.username);
+    })
+    .catch( error => {
+        alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
     })
 }
 
@@ -109,5 +118,6 @@ export {
     getUserPosts,
     publishNewPost,
     getTrendingTopics,
+    getUserData,
     deletePostFromServer,
 };
