@@ -14,10 +14,11 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing}) {
     const { id, user } = useContext(PostContext);
     const {login} = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
+    const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
 
     return (
         <Wrapper>
-            <Link to={`/user/${id}`}>
+            <Link to={imageRoute}>
                 {user.username}
             </Link>
             {(Number(login.user.id) === Number(user.id)) ? 
