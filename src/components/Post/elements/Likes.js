@@ -1,8 +1,9 @@
 import { formattedNumberOfLikes } from "../../../utils/PostsUtils";
-import { isLikedByUser, Like } from "../../../utils/LikeUtils";
+import { isLikedByUser, likePostHelper, getTooltipText } from "../../../utils/LikeUtils";
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
 
+import ReactTooltip from 'react-tooltip';
 import styled from "styled-components";
 import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 import { useContext, useState } from "react/cjs/react.development";
@@ -13,18 +14,28 @@ export default function Likes() {
     const [postLikes, setPostLikes] = useState(likes);
     const [isLiked, setIsLiked] = useState(() => isLikedByUser(likes, login.user.id));
 
+    console.log(postLikes)
+
     return (
         <>
             {isLiked ?
                 <LikedHeart 
-                    onClick={() => Like(isLiked, setIsLiked, login.token, id, setPostLikes)}
-                />
-                :
+                    onClick={() => likePostHelper(isLiked, setIsLiked, login.token, id, setPostLikes)}
+                /> :
                 <NotLikedHeart
-                    onClick={() => Like(isLiked, setIsLiked, login.token, id, setPostLikes)}
+                    onClick={() => likePostHelper(isLiked, setIsLiked, login.token, id, setPostLikes)}
                 />
             }
-            <p>{ formattedNumberOfLikes(postLikes.length) }</p>
+            <p data-tip={getTooltipText(postLikes, isLiked, login.user.id)}>
+                { formattedNumberOfLikes(postLikes.length) }
+            </p>
+            <ReactTooltip 
+                place="bottom"
+                effect="solid"
+                textColor="#505050"
+                backgroundColor="#FFFFFFE5"
+                wrapper="span"
+            />
         </>
     );
 }

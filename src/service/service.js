@@ -96,7 +96,7 @@ function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
         .catch(err => {
             alert(`Erro no servidor\nTente novamente...`);
             setIsLiked(isLiked);
-        })
+        });
 }
 
 export {

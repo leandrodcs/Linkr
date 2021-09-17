@@ -36,6 +36,10 @@ const Wrapper = styled.div`
         font-weight: 400;
         color: #FFFFFF;
     }
+    & span {
+        font-weight: 700;
+        font-size: 11px;
+    }
     @media(max-width: 937px) {
         margin-right: 14px;
         & img {
