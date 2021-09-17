@@ -65,6 +65,18 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading) {
     });
 }
 
+function getUserLikes(userToken, setUserLikes, setLoading) {
+    axios.get(`${URL}/posts/liked`, createConfig(userToken))
+    .then(res => {
+        setUserLikes(res.data.posts);
+        setLoading(false);
+    })
+    .catch(err => {
+        setLoading(false);
+        alert(err);
+    });
+}
+
 function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
     axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))
     .then(res => {
@@ -127,6 +139,7 @@ export {
     login,
     getTimelinePosts,
     getUserPosts,
+    getUserLikes,
     publishNewPost,
     getTrendingTopics,
     likePost,
