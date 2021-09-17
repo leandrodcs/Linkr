@@ -4,7 +4,8 @@ import Modal from "../../Modal";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { BsPencil, BsTrash } from "react-icons/bs";
+import { FaTrash } from "react-icons/fa";
+import { RiPencilFill } from "react-icons/ri";
 import { useContext, useState } from "react";
 
 export default function PostHeader() {
@@ -20,10 +21,10 @@ export default function PostHeader() {
             {(Number(login.user.id) === Number(user.id)) ? 
                 <>
                     <IconButton right = {"25px"}>
-                        <BsPencil />
+                        <RiPencilFill />
                     </IconButton>
                     <IconButton right = {"0px"} onClick={() => setOpenModal(true)}>
-                        <BsTrash />
+                        <FaTrash />
                     </IconButton>
                 </>
             : ""}
@@ -55,5 +56,8 @@ const IconButton = styled.button`
     right: ${ ({right}) => right };
     top: 0;
     cursor: pointer;
+    @media(max-width: 937px) {
+        font-size: 15px;
+    }
 `;
 

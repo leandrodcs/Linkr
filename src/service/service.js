@@ -65,18 +65,18 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading) {
     });
 }
 
-function deletePostFromServer(userToken, postId, setDeleting, setOpenModal) {
+function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
     axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))
     .then(res => {
         console.log(res);
-        window.location.reload();
+        setIsDataBeingEvaluated(false);
+        setOpenModal(false);
     })
     .catch(err => {
         alert("Houve um erro e seu post não pôde ser excluído!");
+        setIsDataBeingEvaluated(false);
         setOpenModal(false);
-        setDeleting(false);
     });
-
 }
 
 function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){

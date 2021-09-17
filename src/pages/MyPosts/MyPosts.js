@@ -4,6 +4,7 @@ import PageTitle from "../../components/PageTitle";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post/Post";
 
+import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
 import {getUserPosts} from "../../service/service";
 
@@ -13,14 +14,14 @@ import styled from "styled-components";
 export default function MyPosts() {
     const {login} = useContext(UserContext);
     const [userPosts, setUserPosts] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
 
     useEffect(() => {
-        setLoading(true);
         getUserPosts(login.token, login.user.id, setUserPosts, setLoading)
-    }, [login.token, login.user.id]);
+    }, [login.token, login.user.id, isDataBeingEvaluated]);
 
-    if(loading) {
+    if(!userPosts.length && loading) {
         return (
             <Container>
                 <Loading />

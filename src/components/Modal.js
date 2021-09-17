@@ -1,20 +1,21 @@
-import { useState } from "react";
 import styled from "styled-components";
 import {deletePostFromServer} from "../service/service";
+import { useContext } from "react";
+import DataEvaluationContext from "../contexts/DataEvaluationContext";
 
 export default function Modal({token, setOpenModal, id}) {
 
-    const [deleting, setDeleting] = useState(false);
+    const {isDataBeingEvaluated, setIsDataBeingEvaluated} = useContext(DataEvaluationContext);
 
     function deletePost() {
-        setDeleting(true);
-        deletePostFromServer(token, id, setDeleting, setOpenModal);
+        setIsDataBeingEvaluated(true);
+        deletePostFromServer(token, id, setOpenModal, setIsDataBeingEvaluated);
     }
 
     return(
         <Background>
-            <DialogBox deleting={deleting}>
-                {deleting ? <h1>Excluindo...</h1> : 
+            <DialogBox deleting={isDataBeingEvaluated}>
+                {isDataBeingEvaluated ? <h1>Excluindo...</h1> : 
                 <>
                     <h1>Tem certeza que deseja<br/>excluir essa publicação?</h1>
                     <Buttons>
@@ -40,7 +41,7 @@ const Background = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,6 +69,7 @@ const DialogBox = styled.div`
         height: 37px;
         border-radius: 5px;
         cursor: pointer;
+        font-size: 18px;
     }
     button:nth-child(1) {
         background: #FFFFFF;
@@ -76,5 +78,21 @@ const DialogBox = styled.div`
     button:nth-child(2) {
         background: #1877F2;
         color: #FFFFFF;
+    }
+
+    @media(max-width: 937px) {
+        width: 418px;
+        height: 183.4px;
+        font-size: 20px;
+        h1 {
+        margin-bottom: 30px;
+        font-size: 24px;
+        line-height: 30px;
+        }
+        button {
+        width: 94px;
+        height: 26px;
+        font-size: 14px;
+        }
     }
 `;
