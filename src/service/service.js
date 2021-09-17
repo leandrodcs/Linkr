@@ -78,11 +78,11 @@ function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEva
     });
 }
 
-function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated, setIsEditing, cancelDeletion) {
+function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated, setIsEditing, cancelEditing) {
     const body = {
         text: editedMsg
     }
-    axios.put(`${URL}/posts/${postId}`, body, createConfig(userToken))
+    axios.put(`${URL}/postes/${postId}`, body, createConfig(userToken))
     .then(res => {
         setIsDataBeingEvaluated(false);
         setIsEditing(false);
@@ -90,8 +90,6 @@ function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated
     .catch(err => {
         alert("Houve um erro e seu post não pôde ser editado!");
         setIsDataBeingEvaluated(false);
-        setIsEditing(false);
-        cancelDeletion();
     });
 }
 

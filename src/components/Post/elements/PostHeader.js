@@ -9,7 +9,7 @@ import { FaTrash } from "react-icons/fa";
 import { RiPencilFill } from "react-icons/ri";
 import { useContext, useState } from "react";
 
-export default function PostHeader({setIsEditing, isEditing, cancelDeletion}) {
+export default function PostHeader({setIsEditing, isEditing, cancelEditing}) {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
     const { id, user } = useContext(PostContext);
     const {login} = useContext(UserContext);
@@ -22,7 +22,7 @@ export default function PostHeader({setIsEditing, isEditing, cancelDeletion}) {
             </Link>
             {(Number(login.user.id) === Number(user.id)) ? 
                 <>
-                    <IconButton right = {"25px"} onClick={() => isEditing ? cancelDeletion() : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
+                    <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing() : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
                         <RiPencilFill />
                     </IconButton>
                     <IconButton right = {"0px"} onClick={() => setOpenModal(true)} disabled={isDataBeingEvaluated}>

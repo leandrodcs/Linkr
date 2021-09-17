@@ -19,20 +19,19 @@ export default function PostBox() {
     const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef(null);
 
-    function cancelDeletion() {
+    function cancelEditing() {
         setIsEditing(!isEditing);
-        setEditedMsg(text, id, login.token);
+        setEditedMsg(text);
     }
 
     function editPost() {
         setIsDataBeingEvaluated(true);
-        inputRef.current.blur();
-        publishEditedPost(editedMsg, id, login.token, setIsDataBeingEvaluated, setIsEditing, cancelDeletion);
+        publishEditedPost(editedMsg, id, login.token, setIsDataBeingEvaluated, setIsEditing, cancelEditing);
     }
 
     function analyzeRequest(e) {
         if(e.keyCode === 27) {
-            cancelDeletion()
+            cancelEditing()
         }
         if(e.keyCode === 13) {
             editPost()
@@ -43,11 +42,11 @@ export default function PostBox() {
         if(isEditing) {
             inputRef.current.focus();
         }
-    }, [isEditing]);
+    }, [isEditing, isDataBeingEvaluated]);
     
     return (
         <Wrapper>
-            <PostHeader setIsEditing={setIsEditing} isEditing={isEditing} cancelDeletion={cancelDeletion}/>
+            <PostHeader setIsEditing={setIsEditing} isEditing={isEditing} cancelEditing={cancelEditing}/>
             {isEditing ?
             <EditInput 
             disabled={isDataBeingEvaluated} 
