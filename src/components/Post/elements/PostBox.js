@@ -1,4 +1,4 @@
-import Header from "./PostHeader";
+import PostHeader from "./PostHeader";
 import LinkBox from "./LinkBox";
 
 import PostContext from "../../../contexts/PostContext";
@@ -8,10 +8,12 @@ import styled from "styled-components";
 import { useContext } from "react";
 
 export default function PostBox() {
+
     const { text } = useContext(PostContext);
+    
     return (
         <Wrapper>
-            <Header />
+            <PostHeader />
             <TextWithHighlightedHashtags 
                 text = {text}
                 MainStyledComponent = {Description}
