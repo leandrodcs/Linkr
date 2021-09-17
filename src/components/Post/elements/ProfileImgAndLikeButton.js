@@ -9,7 +9,7 @@ import { useContext } from "react";
 
 
 export default function ProfileImgAndLikeButton() {
-    const { user, likes} = useContext(PostContext);
+    const { user } = useContext(PostContext);
     const { login } = useContext(UserContext);
     const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
     return (
