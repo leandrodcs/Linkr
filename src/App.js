@@ -2,6 +2,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
 import Timeline from "./pages/Timeline/Timeline";
 import UserPage from "./pages/UserPage/UserPage";
+import HashtagPage from "./pages/HashTagPage.js/HashtagPage";
 import MyPosts from "./pages/MyPosts/MyPosts";
 import Header from "./components/Header/Header";
 
@@ -31,6 +32,7 @@ export default function App() {
               <Route exact path="/timeline" render={() => <Timeline />} />
               <Route exact path="/my-posts" render={() => <MyPosts />} />
               <Route exact path="/user/:id" render={() => <UserPage />} />
+              <Route exact path="/hashtag/:hashtag" render={() => <HashtagPage />} />
             </>
           </Switch>
         </DataEvaluationContext.Provider>

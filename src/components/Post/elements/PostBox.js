@@ -10,7 +10,6 @@ import { useContext } from "react";
 export default function PostBox() {
 
     const { text } = useContext(PostContext);
-    
     return (
         <Wrapper>
             <PostHeader />

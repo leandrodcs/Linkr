@@ -41,7 +41,7 @@ export default function UserPage() {
                 <PageTitle text = {`${username}'s Posts`} />
                 {userPosts.length ?
                 userPosts.map(post => <Post key ={post.id} post={post}/>) :
-                <EmptyMsg>Você ainda não criou nenhum post!</EmptyMsg>
+                <p>Este usuário ainda não criou nenhum post!</p>
                 }
             </Wrapper>
             <Trending />
@@ -51,14 +51,11 @@ export default function UserPage() {
 
 const Wrapper = styled.section`
     width: 611px;
+    color: #FFF;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
 
     @media(max-width: 937px) {
         width: 100%;
     }
-`;
-
-const EmptyMsg = styled.p`
-    font-family: 'Lato', sans-serif;
-    font-size: 20px;
-    color: #151515;
 `;

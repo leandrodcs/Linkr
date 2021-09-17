@@ -111,6 +111,18 @@ function getUserData( userToken, userId, setUsername ) {
     })
 }
 
+function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
+    axios.get(`${URL}/hashtags/${hashtag}/posts`, createConfig(userToken))
+    .then(res => {
+        setHashtagPosts(res.data.posts);
+        setLoading(false);
+    })
+    .catch(err => {
+        setLoading(false);
+        alert(err);
+    });
+}
+
 export {
     createNewUser,
     login,
@@ -120,4 +132,5 @@ export {
     getTrendingTopics,
     getUserData,
     deletePostFromServer,
+    getHashtagPosts
 };
