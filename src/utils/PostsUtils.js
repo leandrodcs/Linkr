@@ -1,3 +1,5 @@
+import Post from "../components/Post/Post";
+
 import { publishNewPost } from "../service/service";
 import { isInputValid } from "./ValidationUtils";
 
@@ -19,9 +21,21 @@ function CheckPublishingBoxAndSendPost(objectToPublish, userToken, setIsDataBein
     publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost);
 }
 
+function PrintedPosts(posts) {
+    return (
+        posts.length ? posts.map( (post) => 
+            <Post 
+                key = { post.id }
+                post = { post }
+            />)
+            : <p> Nenhum post encontrado </p>
+    );
+}
+
 export {
     hasUserLikedThisPost,
     OpenLinkInNewPage,
     formattedNumberOfLikes,
-    CheckPublishingBoxAndSendPost
+    CheckPublishingBoxAndSendPost,
+    PrintedPosts
 }

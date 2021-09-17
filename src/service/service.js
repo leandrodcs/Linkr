@@ -84,7 +84,16 @@ function getTrendingTopics( userToken, setTrendingTopics ) {
     })
     .catch( error => {
         alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
+    })
+}
 
+function getUserData( userToken, userId, setUsername ) {
+    axios.get(`${URL}/users/${userId}`,createConfig(userToken))
+    .then( resp => {
+        setUsername(resp.data.user.username);
+    })
+    .catch( error => {
+        alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
     })
 }
 
@@ -94,5 +103,6 @@ export {
     getTimelinePosts,
     getUserPosts,
     publishNewPost,
-    getTrendingTopics
+    getTrendingTopics,
+    getUserData
 };

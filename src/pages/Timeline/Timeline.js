@@ -1,11 +1,11 @@
 import Container from "../../components/Container";
 import PageTitle from "../../components/PageTitle";
 import Trending from "../../components/Trending";
-import Post from "../../components/Post/Post";
 import Loading from "../../components/Loading";
 import PublishingBox from "./elements/PublishingBox";
 
 import { getTimelinePosts } from "../../service/service";
+import { PrintedPosts } from "../../utils/PostsUtils";
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 
@@ -54,13 +54,3 @@ const Wrapper = styled.section`
     }
 `
 
-function PrintedPosts(posts) {
-    return (
-        posts.length ? posts.map( (post) => 
-            <Post 
-                key = { post.id }
-                post = { post }
-            />)
-            : <p> Nenhum post encontrado </p>
-    );
-}
