@@ -5,24 +5,32 @@ import PostContext from "../../../contexts/PostContext";
 import { TextWithHighlightedHashtags } from "../../../utils/TextAdjustmentsUtils";
 
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 export default function PostBox() {
 
     const { text } = useContext(PostContext);
+    const [isEditing, setIsEditing] = useState(false);
     
     return (
         <Wrapper>
-            <PostHeader />
+            <PostHeader setIsEditing={setIsEditing}/>
+            {isEditing ?<EditInput value={text}/> :
             <TextWithHighlightedHashtags 
                 text = {text}
                 MainStyledComponent = {Description}
                 HashtagStyledComponent = {Hashtag}
-            />
+            />}
             <LinkBox />
         </Wrapper>
     );
 }
+
+const EditInput = styled.input`
+    font-size: 18px;
+    line-height: 25px;
+    margin: 8px 0px;
+`;
 
 const Wrapper = styled.div`
     width: 100%;
