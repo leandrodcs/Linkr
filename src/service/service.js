@@ -82,7 +82,7 @@ function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated
     const body = {
         text: editedMsg
     }
-    axios.put(`${URL}/postes/${postId}`, body, createConfig(userToken))
+    axios.put(`${URL}/posts/${postId}`, body, createConfig(userToken))
     .then(res => {
         setIsDataBeingEvaluated(false);
         setIsEditing(false);

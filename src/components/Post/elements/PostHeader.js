@@ -44,7 +44,7 @@ const Wrapper = styled.div`
     position: relative;
     & a {
             display: inline-block;
-            width: 85%;
+            max-width: 85%;
         }
     @media(max-width: 937px) {
         font-size: 17px;
