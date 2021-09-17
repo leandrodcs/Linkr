@@ -2,6 +2,8 @@ import Post from "../components/Post/Post";
 
 import { publishNewPost } from "../service/service";
 import { isInputValid } from "./ValidationUtils";
+import { publishEditedPost } from "../service/service";
+
 
 function hasUserLikedThisPost(postLikes, userWhoIsLikingId) {
     return postLikes.find( ({userId}) => userId === userWhoIsLikingId )
@@ -32,10 +34,33 @@ function PrintedPosts(posts) {
     );
 }
 
+function cancelEditing(isEditing, text, setIsEditing, setEditedMsg) {
+    setIsEditing(!isEditing);
+    setEditedMsg(text);
+}
+
+function editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing) {
+    setIsDataBeingEvaluated(true);
+    publishEditedPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing);
+}
+
+function analyzeRequest(e, editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg) {
+    if(e.keyCode === 27) {
+        cancelEditing(isEditing, text, setIsEditing, setEditedMsg)
+    }
+    if(e.keyCode === 13) {
+        editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing)
+    }
+}
+
+
 export {
     hasUserLikedThisPost,
     OpenLinkInNewPage,
     formattedNumberOfLikes,
     CheckPublishingBoxAndSendPost,
-    PrintedPosts
+    PrintedPosts,
+    cancelEditing,
+    editPost,
+    analyzeRequest,
 }

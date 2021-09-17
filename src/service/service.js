@@ -80,7 +80,6 @@ function getUserLikes(userToken, setUserLikes, setLoading) {
 function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
     axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))
     .then(res => {
-        console.log(res);
         setIsDataBeingEvaluated(false);
         setOpenModal(false);
     })
@@ -88,6 +87,21 @@ function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEva
         alert("Houve um erro e seu post não pôde ser excluído!");
         setIsDataBeingEvaluated(false);
         setOpenModal(false);
+    });
+}
+
+function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated, setIsEditing, cancelEditing) {
+    const body = {
+        text: editedMsg
+    }
+    axios.put(`${URL}/posts/${postId}`, body, createConfig(userToken))
+    .then(res => {
+        setIsDataBeingEvaluated(false);
+        setIsEditing(false);
+    })
+    .catch(err => {
+        alert("Houve um erro e seu post não pôde ser editado!");
+        setIsDataBeingEvaluated(false);
     });
 }
 
@@ -144,5 +158,6 @@ export {
     getTrendingTopics,
     likePost,
     getUserData,
-    deletePostFromServer
+    deletePostFromServer,
+    publishEditedPost,
 };
