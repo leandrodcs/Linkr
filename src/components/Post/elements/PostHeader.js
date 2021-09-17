@@ -9,9 +9,9 @@ import { FaTrash } from "react-icons/fa";
 import { RiPencilFill } from "react-icons/ri";
 import { useContext, useState } from "react";
 
-export default function PostHeader({setIsEditing, isEditing, cancelEditing}) {
+export default function PostHeader({setIsEditing, isEditing, cancelEditing, setEditedMsg}) {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
-    const { id, user } = useContext(PostContext);
+    const { id, user, text } = useContext(PostContext);
     const {login} = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
     const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
@@ -23,7 +23,7 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing}) {
             </Link>
             {(Number(login.user.id) === Number(user.id)) ? 
                 <>
-                    <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing() : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
+                    <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing(isEditing, text, setIsEditing, setEditedMsg) : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
                         <RiPencilFill />
                     </IconButton>
                     <IconButton right = {"0px"} onClick={() => setOpenModal(true)} disabled={isDataBeingEvaluated}>

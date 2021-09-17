@@ -5,10 +5,10 @@ import PostContext from "../../../contexts/PostContext";
 import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
 import UserContext from "../../../contexts/UserContext";
 import { TextWithHighlightedHashtags } from "../../../utils/TextAdjustmentsUtils";
+import { cancelEditing, analyzeRequest } from "../../../utils/PostsUtils";
 
 import styled from "styled-components";
 import { useContext, useState, useRef, useEffect } from "react";
-import { publishEditedPost } from "../../../service/service";
 
 export default function PostBox() {
 
@@ -19,25 +19,6 @@ export default function PostBox() {
     const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef(null);
 
-    function cancelEditing() {
-        setIsEditing(!isEditing);
-        setEditedMsg(text);
-    }
-
-    function editPost() {
-        setIsDataBeingEvaluated(true);
-        publishEditedPost(editedMsg, id, login.token, setIsDataBeingEvaluated, setIsEditing, cancelEditing);
-    }
-
-    function analyzeRequest(e) {
-        if(e.keyCode === 27) {
-            cancelEditing()
-        }
-        if(e.keyCode === 13) {
-            editPost()
-        }
-    }
-
     useEffect(() => {
         if(isEditing) {
             inputRef.current.focus();
@@ -46,11 +27,11 @@ export default function PostBox() {
     
     return (
         <Wrapper>
-            <PostHeader setIsEditing={setIsEditing} isEditing={isEditing} cancelEditing={cancelEditing}/>
+            <PostHeader setIsEditing={setIsEditing} isEditing={isEditing} cancelEditing={cancelEditing} setEditedMsg={setEditedMsg}/>
             {isEditing ?
             <EditInput 
             disabled={isDataBeingEvaluated} 
-            onKeyUp={analyzeRequest} 
+            onKeyUp={(e) => analyzeRequest(e, editedMsg, id, login.token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg)} 
             ref={inputRef} 
             value={editedMsg} 
             onChange={e => setEditedMsg(e.target.value)}
