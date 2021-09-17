@@ -88,11 +88,15 @@ function getTrendingTopics( userToken, setTrendingTopics ) {
     })
 }
 
-function likePost( postID, userToken, likes, setLikes, isLiked ) {
+function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
     axios.post(`${URL}/posts/${postID}/${isLiked ? "dislike" : "like" }`, "", createConfig(userToken))
-    .then(resp => {
-        setLikes(resp.data.post.likes);
-    })
+        .then(resp => {
+            setLikes(resp.data.post.likes);
+        })
+        .catch(err => {
+            alert(`Erro no servidor\nTente novamente...`);
+            setIsLiked(isLiked);
+        })
 }
 
 export {

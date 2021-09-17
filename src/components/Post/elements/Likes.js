@@ -13,14 +13,16 @@ export default function Likes() {
     const [postLikes, setPostLikes] = useState(likes);
     const [isLiked, setIsLiked] = useState(() => isLikedByUser(likes, login.user.id));
 
-    console.log(postLikes)
-
     return (
         <>
             {isLiked ?
-                <LikedHeart onClick={() => Like(isLiked, setIsLiked, login.token, id, postLikes, setPostLikes)} />
+                <LikedHeart 
+                    onClick={() => Like(isLiked, setIsLiked, login.token, id, setPostLikes)}
+                />
                 :
-                <NotLikedHeart onClick={() => Like(isLiked, setIsLiked, login.token, id, postLikes, setPostLikes)} />
+                <NotLikedHeart
+                    onClick={() => Like(isLiked, setIsLiked, login.token, id, setPostLikes)}
+                />
             }
             <p>{ formattedNumberOfLikes(postLikes.length) }</p>
         </>
@@ -28,21 +30,23 @@ export default function Likes() {
 }
 
 const LikedHeart = styled(AiTwotoneHeart)`
-font-size: 20px;
-color: #AC0000;
-margin-bottom: 6px;
-@media(max-width: 937px) {
-    font-size: 17px;
-    margin-bottom: 12px;
-}
+    font-size: 20px;
+    color: #AC0000;
+    margin-bottom: 6px;
+
+    @media(max-width: 937px) {
+        font-size: 17px;
+        margin-bottom: 12px;
+    }
 `;
 
 const NotLikedHeart = styled(AiOutlineHeart)`
-font-size: 20px;
-color: #FFFFFF;
-margin-bottom: 6px;
-@media(max-width: 937px) {
-    font-size: 17px;
-    margin-bottom: 12px;
-}
+    font-size: 20px;
+    color: #FFFFFF;
+    margin-bottom: 6px;
+
+    @media(max-width: 937px) {
+        font-size: 17px;
+        margin-bottom: 12px;
+    }
 `;
