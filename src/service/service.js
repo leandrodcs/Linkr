@@ -10,7 +10,7 @@ function createConfig(userToken) {
             Authorization: `Bearer ${userToken}`
         }
     }
-    return config
+    return config;
 }
 
 function createNewUser(body, history, setIsButtonEnabled) {
@@ -111,6 +111,17 @@ function getUserData( userToken, userId, setUsername ) {
     })
 }
 
+function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
+    axios.post(`${URL}/posts/${postID}/${isLiked ? "dislike" : "like" }`, "", createConfig(userToken))
+        .then(resp => {
+            setLikes(resp.data.post.likes);
+        })
+        .catch(err => {
+            alert(`Erro no servidor\nTente novamente...`);
+            setIsLiked(isLiked);
+        });
+}
+
 export {
     createNewUser,
     login,
@@ -118,6 +129,7 @@ export {
     getUserPosts,
     publishNewPost,
     getTrendingTopics,
+    likePost,
     getUserData,
-    deletePostFromServer,
+    deletePostFromServer
 };
