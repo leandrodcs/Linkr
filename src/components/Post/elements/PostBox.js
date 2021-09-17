@@ -49,7 +49,13 @@ export default function PostBox() {
         <Wrapper>
             <PostHeader setIsEditing={setIsEditing} isEditing={isEditing} cancelDeletion={cancelDeletion}/>
             {isEditing ?
-            <EditInput wrap="soft" isDataBeingEvaluated={isDataBeingEvaluated} onKeyUp={analyzeRequest} ref={inputRef} value={editedMsg} onChange={e => setEditedMsg(e.target.value)}/> 
+            <EditInput 
+            disabled={isDataBeingEvaluated} 
+            onKeyUp={analyzeRequest} 
+            ref={inputRef} 
+            value={editedMsg} 
+            onChange={e => setEditedMsg(e.target.value)}
+            /> 
             :
             <TextWithHighlightedHashtags 
                 text = {editedMsg}
@@ -70,7 +76,7 @@ const EditInput = styled.input`
     border: none;
     padding: 0 5px;
     background: ${({isDataBeingEvaluated}) => isDataBeingEvaluated ? `#c2c2c2` : `#FFFFFF`};
-    pointer-events: ${({isDataBeingEvaluated}) => isDataBeingEvaluated ? `none` : `initial`};
+    outline: none;
 `;
 
 const Wrapper = styled.div`

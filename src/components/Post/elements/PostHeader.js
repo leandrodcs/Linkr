@@ -1,5 +1,6 @@
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
+import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
 import Modal from "../../Modal";
 
 import styled from "styled-components";
@@ -9,6 +10,7 @@ import { RiPencilFill } from "react-icons/ri";
 import { useContext, useState } from "react";
 
 export default function PostHeader({setIsEditing, isEditing, cancelDeletion}) {
+    const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
     const { id, user } = useContext(PostContext);
     const {login} = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
@@ -20,15 +22,15 @@ export default function PostHeader({setIsEditing, isEditing, cancelDeletion}) {
             </Link>
             {(Number(login.user.id) === Number(user.id)) ? 
                 <>
-                    <IconButton right = {"25px"} onClick={() => isEditing ? cancelDeletion() : setIsEditing(!isEditing)}>
+                    <IconButton right = {"25px"} onClick={() => isEditing ? cancelDeletion() : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
                         <RiPencilFill />
                     </IconButton>
-                    <IconButton right = {"0px"} onClick={() => setOpenModal(true)}>
+                    <IconButton right = {"0px"} onClick={() => setOpenModal(true)} disabled={isDataBeingEvaluated}>
                         <FaTrash />
                     </IconButton>
                 </>
             : ""}
-            {openModal&&<Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token}/>}
+            {openModal&&<Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token} />}
         </Wrapper>
     );
 }
