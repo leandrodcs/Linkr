@@ -1,4 +1,5 @@
 import { saveToLocalStorage } from "../utils/localStorageUtils";
+import { textWithLowercaseHashtags } from "../utils/TextAdjustmentsUtils";
 
 import axios from "axios";
 
@@ -90,9 +91,9 @@ function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEva
     });
 }
 
-function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated, setIsEditing, cancelEditing) {
+function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated, setIsEditing) {
     const body = {
-        text: editedMsg
+        text: textWithLowercaseHashtags(editedMsg)
     }
     axios.put(`${URL}/posts/${postId}`, body, createConfig(userToken))
     .then(res => {
@@ -106,7 +107,8 @@ function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated
 }
 
 function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
-    axios.post(`${URL}/posts`, body, createConfig(userToken))
+    const adjustedBody = {...body, text: textWithLowercaseHashtags(body.text)}
+    axios.post(`${URL}/posts`, adjustedBody, createConfig(userToken))
     .then( resp => {
         setIsDataBeingEvaluated(false);
         setNewPost({ text:"",link:"" })
@@ -137,6 +139,18 @@ function getUserData( userToken, userId, setUsername ) {
     })
 }
 
+function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
+    axios.get(`${URL}/hashtags/${hashtag}/posts`, createConfig(userToken))
+    .then(res => {
+        setHashtagPosts(res.data.posts);
+        setLoading(false);
+    })
+    .catch(err => {
+        setLoading(false);
+        alert(err);
+    });
+}
+
 function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
     axios.post(`${URL}/posts/${postID}/${isLiked ? "dislike" : "like" }`, "", createConfig(userToken))
         .then(resp => {
@@ -159,5 +173,6 @@ export {
     likePost,
     getUserData,
     deletePostFromServer,
+    getHashtagPosts,
     publishEditedPost,
 };

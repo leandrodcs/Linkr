@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function TextWithHighlightedHashtags({text, MainStyledComponent, HashtagStyledComponent}) {
+function arrayOfPiecesWithAndWithoutHashtags(text) {
     const characters = Array.from(text);
     const brokenText = [];
     let nextChar;
@@ -22,12 +22,17 @@ function TextWithHighlightedHashtags({text, MainStyledComponent, HashtagStyledCo
             activeText = "";
         }
     });
+    return brokenText;
+}
+
+function TextWithHighlightedHashtags({text, MainStyledComponent, HashtagStyledComponent}) {
+    const brokenText = arrayOfPiecesWithAndWithoutHashtags(text);
     const TextWithStyledHashtags = brokenText.map((fragment, index) => {
         if (fragment[0] === "#" && fragment.length !== 1) {
             return (
-                <Link key = { index } to= { `/hashtag/${fragment.slice(1)}` }>
+                <Link key = { index } to= { `/hashtag/${fragment.slice(1).toLowerCase()}` }>
                     <HashtagStyledComponent>
-                        {fragment}
+                        {fragment.toLowerCase()}
                     </HashtagStyledComponent>
                 </Link>
                 );
@@ -51,6 +56,19 @@ function TextWithHighlightedHashtags({text, MainStyledComponent, HashtagStyledCo
     );
 }
 
+function textWithLowercaseHashtags(text) {
+    const brokenText = arrayOfPiecesWithAndWithoutHashtags(text);
+    let textWithLowercaseHashtags = "";
+    brokenText.forEach( (pieceOfText) => {
+        if (pieceOfText[0] === "#") {
+            textWithLowercaseHashtags += pieceOfText.toLowerCase();
+        } else {
+            textWithLowercaseHashtags += pieceOfText
+        }
+    })
+    return textWithLowercaseHashtags;
+}
+
 function CheckTextLengthAndReduceItIfNeeded(text, MaxCharactersLength) {
     if (!!text && text.length > MaxCharactersLength) {
         return text.slice(0,MaxCharactersLength) + "..."
@@ -60,5 +78,6 @@ function CheckTextLengthAndReduceItIfNeeded(text, MaxCharactersLength) {
 
 export {
     TextWithHighlightedHashtags,
+    textWithLowercaseHashtags,
     CheckTextLengthAndReduceItIfNeeded
 }

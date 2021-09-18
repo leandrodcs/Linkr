@@ -4,24 +4,27 @@ import PageTitle from "../../components/PageTitle";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post/Post";
 
-import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
-import {getUserPosts} from "../../service/service";
+import DataEvaluationContext from "../../contexts/DataEvaluationContext";
+import {getHashtagPosts} from "../../service/service";
 
 import { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router";
 import styled from "styled-components";
 
-export default function MyPosts() {
+export default function HashtagPage() {
     const {login} = useContext(UserContext);
-    const [userPosts, setUserPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
+    const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [hashtagPosts, setHashtagPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const params = useParams()
 
     useEffect(() => {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading)
-    }, [login.token, login.user.id, isDataBeingEvaluated]);
+        setLoading(true);
+        getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading)
+    }, [login.token, params, isDataBeingEvaluated]);
 
-    if(!userPosts.length && loading) {
+    if(loading) {
         return (
             <Container>
                 <Loading />
@@ -33,10 +36,11 @@ export default function MyPosts() {
     return (
         <Container>
             <Wrapper>
-                <PageTitle text = "my posts" />
-                {userPosts.length ?
-                userPosts.map(post => <Post key ={post.id} post={post}/>) :
-                <p>Você ainda não criou nenhum post!</p>}
+                <PageTitle text = {`# ${params.hashtag}`} />
+                {hashtagPosts.length ?
+                hashtagPosts.map(post => <Post key ={post.id} post={post}/>) :
+                <p>Esta hashtag ainda não foi citada em nenhum post!</p>
+                }
             </Wrapper>
             <Trending />
         </Container>
