@@ -1,4 +1,5 @@
 import { saveToLocalStorage } from "../utils/localStorageUtils";
+import { textWithLowercaseHashtags } from "../utils/TextAdjustmentsUtils";
 
 import axios from "axios";
 
@@ -10,7 +11,7 @@ function createConfig(userToken) {
             Authorization: `Bearer ${userToken}`
         }
     }
-    return config
+    return config;
 }
 
 function createNewUser(body, history, setIsButtonEnabled) {
@@ -65,10 +66,21 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading) {
     });
 }
 
+function getUserLikes(userToken, setUserLikes, setLoading) {
+    axios.get(`${URL}/posts/liked`, createConfig(userToken))
+    .then(res => {
+        setUserLikes(res.data.posts);
+        setLoading(false);
+    })
+    .catch(err => {
+        setLoading(false);
+        alert(err);
+    });
+}
+
 function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
     axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))
     .then(res => {
-        console.log(res);
         setIsDataBeingEvaluated(false);
         setOpenModal(false);
     })
@@ -79,8 +91,24 @@ function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEva
     });
 }
 
+function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated, setIsEditing) {
+    const body = {
+        text: textWithLowercaseHashtags(editedMsg)
+    }
+    axios.put(`${URL}/posts/${postId}`, body, createConfig(userToken))
+    .then(res => {
+        setIsDataBeingEvaluated(false);
+        setIsEditing(false);
+    })
+    .catch(err => {
+        alert("Houve um erro e seu post não pôde ser editado!");
+        setIsDataBeingEvaluated(false);
+    });
+}
+
 function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
-    axios.post(`${URL}/posts`, body, createConfig(userToken))
+    const adjustedBody = {...body, text: textWithLowercaseHashtags(body.text)}
+    axios.post(`${URL}/posts`, adjustedBody, createConfig(userToken))
     .then( resp => {
         setIsDataBeingEvaluated(false);
         setNewPost({ text:"",link:"" })
@@ -123,14 +151,28 @@ function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
     });
 }
 
+function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
+    axios.post(`${URL}/posts/${postID}/${isLiked ? "dislike" : "like" }`, "", createConfig(userToken))
+        .then(resp => {
+            setLikes(resp.data.post.likes);
+        })
+        .catch(err => {
+            alert(`Erro no servidor\nTente novamente...`);
+            setIsLiked(isLiked);
+        });
+}
+
 export {
     createNewUser,
     login,
     getTimelinePosts,
     getUserPosts,
+    getUserLikes,
     publishNewPost,
     getTrendingTopics,
+    likePost,
     getUserData,
     deletePostFromServer,
-    getHashtagPosts
+    getHashtagPosts,
+    publishEditedPost,
 };

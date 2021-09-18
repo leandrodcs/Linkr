@@ -4,6 +4,7 @@ import Timeline from "./pages/Timeline/Timeline";
 import UserPage from "./pages/UserPage/UserPage";
 import HashtagPage from "./pages/HashTagPage.js/HashtagPage";
 import MyPosts from "./pages/MyPosts/MyPosts";
+import MyLikes from "./pages/MyLikes/MyLikes";
 import Header from "./components/Header/Header";
 
 import UserContext from "./contexts/UserContext";
@@ -31,6 +32,7 @@ export default function App() {
               <Header />
               <Route exact path="/timeline" render={() => <Timeline />} />
               <Route exact path="/my-posts" render={() => <MyPosts />} />
+              <Route exact path="/my-likes" render={() => <MyLikes />} />
               <Route exact path="/user/:id" render={() => <UserPage />} />
               <Route exact path="/hashtag/:hashtag" render={() => <HashtagPage />} />
             </>

@@ -1,5 +1,6 @@
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
+import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
 import Modal from "../../Modal";
 
 import styled from "styled-components";
@@ -8,27 +9,29 @@ import { FaTrash } from "react-icons/fa";
 import { RiPencilFill } from "react-icons/ri";
 import { useContext, useState } from "react";
 
-export default function PostHeader() {
-    const { id, user } = useContext(PostContext);
+export default function PostHeader({setIsEditing, isEditing, cancelEditing, setEditedMsg}) {
+    const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
+    const { id, user, text } = useContext(PostContext);
     const {login} = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
+    const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
 
     return (
         <Wrapper>
-            <Link to={`/user/${id}`}>
+            <Link to={imageRoute}>
                 {user.username}
             </Link>
             {(Number(login.user.id) === Number(user.id)) ? 
                 <>
-                    <IconButton right = {"25px"}>
+                    <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing(isEditing, text, setIsEditing, setEditedMsg) : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
                         <RiPencilFill />
                     </IconButton>
-                    <IconButton right = {"0px"} onClick={() => setOpenModal(true)}>
+                    <IconButton right = {"0px"} onClick={() => setOpenModal(true)} disabled={isDataBeingEvaluated}>
                         <FaTrash />
                     </IconButton>
                 </>
             : ""}
-            {openModal&&<Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token}/>}
+            {openModal&&<Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token} />}
         </Wrapper>
     );
 }
@@ -41,7 +44,7 @@ const Wrapper = styled.div`
     position: relative;
     & a {
             display: inline-block;
-            width: 85%;
+            max-width: 85%;
         }
     @media(max-width: 937px) {
         font-size: 17px;
