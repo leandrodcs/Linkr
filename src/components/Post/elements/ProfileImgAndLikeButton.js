@@ -31,7 +31,6 @@ const Wrapper = styled.div`
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        margin-bottom: 20px;
         object-fit: cover;
     }
     & p {

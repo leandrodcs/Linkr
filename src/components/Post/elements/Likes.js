@@ -41,21 +41,23 @@ export default function Likes() {
 const LikedHeart = styled(AiTwotoneHeart)`
     font-size: 20px;
     color: #AC0000;
-    margin-bottom: 6px;
+    margin: 20px 0px 6px;
+    cursor: pointer;
 
     @media(max-width: 937px) {
         font-size: 17px;
-        margin-bottom: 12px;
+        margin: 20px 0px 12px;
     }
 `;
 
 const NotLikedHeart = styled(AiOutlineHeart)`
     font-size: 20px;
     color: #FFFFFF;
-    margin-bottom: 6px;
+    margin: 20px 0px 6px;
+    cursor: pointer;
 
     @media(max-width: 937px) {
         font-size: 17px;
-        margin-bottom: 12px;
+        margin: 20px 0px 12px;
     }
 `;
