@@ -29,6 +29,8 @@ export default function MyPosts() {
             </Container>
         );
     }
+    
+    window.scrollTo(0,0);
 
     return (
         <Container>
@@ -50,7 +52,6 @@ const Wrapper = styled.section`
     font-weight: 700;
 
     @media(max-width: 937px) {
-        
     }
     @media(max-width: 637px) {
         width: 100%;

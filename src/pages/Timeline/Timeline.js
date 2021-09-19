@@ -31,6 +31,7 @@ export default function Timeline() {
             </Container>
         );
     }
+    window.scrollTo(0,0);
 
     return (
         <Container>

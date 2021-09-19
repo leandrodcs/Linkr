@@ -30,6 +30,8 @@ export default function MyLikes() {
         );
     }
 
+    window.scrollTo(0,0);
+
     return (
         <Container>
             <Wrapper>

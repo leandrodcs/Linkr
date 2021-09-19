@@ -35,6 +35,8 @@ export default function UserPage() {
         );
     }
 
+    window.scrollTo(0,0);
+    
     return (
         <Container>
             <Wrapper>

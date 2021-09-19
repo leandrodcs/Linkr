@@ -18,6 +18,7 @@ import { createGlobalStyle } from "styled-components";
 export default function App() {
   const [login, setLogin] = useState(() => getFromLocalStorage());
   const [ isDataBeingEvaluated, setIsDataBeingEvaluated ] = useState(false);
+  window.scrollTo(0,0);
   return (
     <Router>
       <UserContext.Provider value={{login, setLogin}}>
