@@ -26,8 +26,14 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    
     @media(max-width: 637px) {
         width: 100%;
+
+        svg {
+            width: 170px;
+            height: 170px;
+        }
     }
 `
 
