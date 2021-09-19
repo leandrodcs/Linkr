@@ -43,7 +43,7 @@ const Wrapper = styled.div`
         font-weight: 700;
         font-size: 11px;
     }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         margin-right: 14px;
         & img {
             width: 40px;

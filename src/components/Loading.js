@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         width: 100%;
     }
 `

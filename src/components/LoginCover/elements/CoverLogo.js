@@ -6,7 +6,7 @@ const CoverLogo = styled.h1`
     font-weight: 700;
     letter-spacing: 4px;
 
-    @media (max-width: 937px) {
+    @media (max-width: 637px) {
         font-size: 76px;
         margin-bottom: -8px;
     }

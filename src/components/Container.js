@@ -11,6 +11,11 @@ const Container = styled.main`
     justify-content: space-between;
 
     @media(max-width: 937px) {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @media(max-width: 637px) {
         padding: 72px 0px 40px;
     }
 

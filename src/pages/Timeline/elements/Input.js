@@ -16,7 +16,7 @@ const Input = styled.input`
         color: #949494;
         font-weight: 300;
     }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 13px;
     }
 `

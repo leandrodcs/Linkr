@@ -21,7 +21,7 @@ const Wrapper = styled.div`
     background-color: #333333;
     display: flex;
 
-    @media (max-width: 937px) {
+    @media (max-width: 637px) {
         background-color: #333333;
         display: inherit;
     }

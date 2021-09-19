@@ -43,7 +43,7 @@ const HeaderWrapper= styled.header`
         object-fit: cover;
         transition: 0.3s;
     }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         a {
         margin-left: 17px;
         font-size: 45px;

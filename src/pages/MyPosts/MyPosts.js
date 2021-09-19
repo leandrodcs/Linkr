@@ -50,6 +50,9 @@ const Wrapper = styled.section`
     font-weight: 700;
 
     @media(max-width: 937px) {
+        
+    }
+    @media(max-width: 637px) {
         width: 100%;
     }
 `;

@@ -27,7 +27,7 @@ const DropDownWindow = styled.nav`
         -webkit-tap-highlight-color: rgba(0,0,0,0);
         cursor: pointer;
     }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         width: 150px;
         height: 97px;
         padding-top: 8px;

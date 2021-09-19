@@ -19,7 +19,7 @@ const Form = styled.form`
         border-bottom: 1px solid #FFF;
     }
 
-    @media (max-width: 937px) {
+    @media (max-width: 637px) {
         width: 100vw;
         padding: 0px 22px;
         justify-content: initial;

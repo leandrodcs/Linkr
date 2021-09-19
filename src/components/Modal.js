@@ -80,7 +80,7 @@ const DialogBox = styled.div`
         color: #FFFFFF;
     }
 
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         width: 418px;
         height: 183.4px;
         font-size: 20px;

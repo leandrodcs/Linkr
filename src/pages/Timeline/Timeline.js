@@ -49,8 +49,8 @@ const Wrapper = styled.section`
     color: #FFF;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         width: 100%;
     }
-`
+`;
 

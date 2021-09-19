@@ -12,7 +12,7 @@ const Button = styled.button`
     color: #FFF;
     opacity: ${props => props.isButtonEnabled ? 1 : 0.5};
 
-    @media (max-width: 937px) {
+    @media (max-width: 637px) {
         height: 55px;
         font-size: 22px;
     }
