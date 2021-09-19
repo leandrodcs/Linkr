@@ -17,7 +17,7 @@ const Input = styled.input`
         color: #9F9F9F;
     }
 
-    @media (max-width: 637px) {
+    @media (max-width: 937px) {
         height: 55px;
         font-size: 22px;
         

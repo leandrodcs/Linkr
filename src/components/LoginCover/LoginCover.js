@@ -21,7 +21,7 @@ const Wrapper = styled.div`
     box-shadow: 4px 0px 4px 0px #00000040;
     color: #FFF;
 
-    @media (max-width: 637px) {
+    @media (max-width: 937px) {
         width: 100%;
         height: 175px;
         padding: 10px 0px 28px;
