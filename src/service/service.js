@@ -1,5 +1,6 @@
 import { saveToLocalStorage } from "../utils/localStorageUtils";
 import { textWithLowercaseHashtags } from "../utils/TextAdjustmentsUtils";
+import { sendAlert } from "../utils/helpers/Alerts";
 
 import axios from "axios";
 
@@ -17,13 +18,13 @@ function createConfig(userToken) {
 function createNewUser(body, history, setIsButtonEnabled) {
     axios.post(`${URL}/sign-up`, body)
         .then(resp => {
-            alert("Cadastro realizado com sucesso!");
+            sendAlert("success", "Beleza!", "Cadastro realizado com sucesso!");
             history.push("/");
         })
         .catch(err => {
-            if(err.response.status === 403) alert("E-mail já cadastrado!");
-            if(err.response.status === 400) alert("Preencha os campos corretamente!");
-            else alert("Erro no servidor\nTente novamente...");
+            if(err.response.status === 403) sendAlert("error", "E-mail já cadastrado!","Por favor, tente novamente com outro email...");
+            if(err.response.status === 400) sendAlert("error", "Oops!","Por favor, Preencha os campos corretamente...");
+            else sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
             setIsButtonEnabled(true);
         });
 }
@@ -36,8 +37,8 @@ function login(body, setLogin, setIsButtonEnabled, history) {
             setLogin(resp.data);
         })
         .catch(err => {
-            if(err.response.status === 403) alert("E-mail e/ou senha incorretos!");
-            else alert("Erro no servidor\nTente novamente...");
+            if(err.response.status === 403) sendAlert("error", "E-mail e/ou senha incorretos!","Por favor, Preencha os campos corretamente...");
+            else sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
             setIsButtonEnabled(true);
         });
 }
@@ -48,7 +49,7 @@ function getTimelinePosts(userToken , setPosts) {
         setPosts(resp.data.posts);
     })
     .catch(error => {
-        alert("Houve uma falha ao obter os posts! A página será atualizada");
+        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
         localStorage.clear();
         window.open("/","_self");
     })
@@ -62,7 +63,9 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading) {
     })
     .catch(err => {
         setLoading(false);
-        alert(err);
+        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
     });
 }
 
@@ -74,7 +77,9 @@ function getUserLikes(userToken, setUserLikes, setLoading) {
     })
     .catch(err => {
         setLoading(false);
-        alert(err);
+        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
     });
 }
 
@@ -85,7 +90,7 @@ function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEva
         setOpenModal(false);
     })
     .catch(err => {
-        alert("Houve um erro e seu post não pôde ser excluído!");
+        sendAlert("error", "Oops!","Seu post não pôde ser excluído! Tente novamente...");
         setIsDataBeingEvaluated(false);
         setOpenModal(false);
     });
@@ -101,7 +106,7 @@ function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated
         setIsEditing(false);
     })
     .catch(err => {
-        alert("Houve um erro e seu post não pôde ser editado!");
+        sendAlert("error", "Oops!","Seu post não pôde ser editado! Tente novamente...");
         setIsDataBeingEvaluated(false);
     });
 }
@@ -114,7 +119,7 @@ function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
         setNewPost({ text:"",link:"" })
     })
     .catch( error => {
-        alert("Parece que houve um erro! Tente novamente mais tarde")
+        sendAlert("error", "Oops!","Seu post não pôde ser publicado! Tente novamente...");
         setIsDataBeingEvaluated(false);
     })
 }
@@ -125,7 +130,7 @@ function getTrendingTopics( userToken, setTrendingTopics ) {
         setTrendingTopics(resp.data.hashtags);
     })
     .catch( error => {
-        alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
+        sendAlert("error", "Oops!","Não conseguimos carregar os Trendings! Por favor, tente atualizar a página...");
     })
 }
 
@@ -135,7 +140,9 @@ function getUserData( userToken, userId, setUsername ) {
         setUsername(resp.data.user.username);
     })
     .catch( error => {
-        alert("Parece que houve um erro com os Trending Topics! Tente novamente mais tarde")
+        sendAlert("error", "Houve uma falha ao obter os dados do usuário!","Nos desculpe! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
     })
 }
 
@@ -147,7 +154,9 @@ function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
     })
     .catch(err => {
         setLoading(false);
-        alert(err);
+        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
     });
 }
 
@@ -157,7 +166,7 @@ function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
             setLikes(resp.data.post.likes);
         })
         .catch(err => {
-            alert(`Erro no servidor\nTente novamente...`);
+            sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
             setIsLiked(isLiked);
         });
 }
