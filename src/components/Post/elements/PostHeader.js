@@ -46,7 +46,7 @@ const Wrapper = styled.div`
             display: inline-block;
             max-width: 85%;
         }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 17px;
         line-height: 20px;
     }
@@ -59,7 +59,8 @@ const IconButton = styled.button`
     right: ${ ({right}) => right };
     top: 0;
     cursor: pointer;
-    @media(max-width: 937px) {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    @media(max-width: 637px) {
         font-size: 15px;
     }
 `;

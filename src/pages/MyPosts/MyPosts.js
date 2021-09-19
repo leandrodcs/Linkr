@@ -21,7 +21,7 @@ export default function MyPosts() {
         getUserPosts(login.token, login.user.id, setUserPosts, setLoading)
     }, [login.token, login.user.id, isDataBeingEvaluated]);
 
-    if(true) {
+    if(!userPosts.length && loading) {
         return (
             <Container>
                 <Loading />
@@ -50,7 +50,7 @@ const Wrapper = styled.section`
     color: #FFF;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
-
+    
     @media(max-width: 637px) {
         width: 100%;
     }
