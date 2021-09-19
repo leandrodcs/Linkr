@@ -6,7 +6,7 @@ import UserContext from "../../../contexts/UserContext";
 import ReactTooltip from 'react-tooltip';
 import styled from "styled-components";
 import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
-import { useContext, useState } from "react/cjs/react.development";
+import { useContext, useState } from "react";
 
 export default function Likes() {
     const { login } = useContext(UserContext);
