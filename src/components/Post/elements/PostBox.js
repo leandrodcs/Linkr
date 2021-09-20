@@ -56,7 +56,6 @@ const EditInput = styled.input`
     border: none;
     padding: 0 5px;
     background: ${({isDataBeingEvaluated}) => isDataBeingEvaluated ? `#c2c2c2` : `#FFFFFF`};
-    outline: none;
 `;
 
 const Wrapper = styled.div`
