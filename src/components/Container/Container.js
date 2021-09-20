@@ -1,4 +1,4 @@
-import { containerPadding } from "../utils/MarginAndPaddingUtils"
+import { containerPadding } from "../../utils/MarginAndPaddingUtils"
 
 import styled from "styled-components";
 

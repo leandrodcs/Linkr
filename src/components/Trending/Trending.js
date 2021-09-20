@@ -1,7 +1,7 @@
-import DataEvaluationContext from "../contexts/DataEvaluationContext";
-import UserContext from "../contexts/UserContext";
-import { TextWithHighlightedHashtags } from "../utils/TextAdjustmentsUtils";
-import { getTrendingTopics } from "../service/service";
+import DataEvaluationContext from "../../contexts/DataEvaluationContext";
+import UserContext from "../../contexts/UserContext";
+import { TextWithHighlightedHashtags } from "../../utils/TextAdjustmentsUtils";
+import { getTrendingTopics } from "../../service/service";
 
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";

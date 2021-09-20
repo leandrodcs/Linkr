@@ -1,7 +1,7 @@
-import Container from "../../components/Container";
-import PageTitle from "../../components/PageTitle";
-import Trending from "../../components/Trending";
-import Loading from "../../components/Loading";
+import Container from "../../components/Container/Container";
+import PageTitle from "../../components/PageTitle/PageTitle";
+import Trending from "../../components/Trending/Trending";
+import Loading from "../../components/Loading/Loading";
 import PublishingBox from "./elements/PublishingBox";
 
 import { getTimelinePosts } from "../../service/service";

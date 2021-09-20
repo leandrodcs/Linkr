@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import {deletePostFromServer} from "../service/service";
+import {deletePostFromServer} from "../../service/service";
 import { useContext } from "react";
-import DataEvaluationContext from "../contexts/DataEvaluationContext";
+import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 
 export default function Modal({token, setOpenModal, id, openModal}) {
 

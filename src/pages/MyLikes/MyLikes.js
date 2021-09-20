@@ -1,7 +1,7 @@
-import Loading from "../../components/Loading";
-import Container from "../../components/Container";
-import PageTitle from "../../components/PageTitle";
-import Trending from "../../components/Trending";
+import Loading from "../../components/Loading/Loading";
+import Container from "../../components/Container/Container";
+import PageTitle from "../../components/PageTitle/PageTitle";
+import Trending from "../../components/Trending/Trending";
 import Post from "../../components/Post/Post";
 
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";

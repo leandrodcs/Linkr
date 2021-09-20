@@ -17,8 +17,9 @@ function formattedNumberOfLikes(numberOfLikes) {
     return `${numberOfLikes} ${numberOfLikes > 1 ? "likes" : "like"}`
 }
 
-function CheckPublishingBoxAndSendPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost){
-    if (!isInputValid("link",objectToPublish.link)) {return}
+function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost){
+    event.preventDefault();
+    if (!isInputValid("link",objectToPublish.link)) {return};
     setIsDataBeingEvaluated(true);
     publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost);
 }
@@ -27,7 +28,7 @@ function PrintedPosts(posts) {
     return (
         posts.length ? posts.map( (post) => 
             <Post 
-                key = { post.id }
+                key = { post.repostId || post.id }
                 post = { post }
             />)
             : <p> Nenhum post encontrado </p>
