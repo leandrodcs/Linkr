@@ -27,6 +27,9 @@ export default function Trending() {
         if(searchedHashtag.includes(" ")) {
             return sendAlert("error", "Uma hashtag não pode ter espaços em branco!");
         }
+        if(!searchedHashtag) {
+            return sendAlert("error", "Digite alguma hashtag para fazer sua busca!");
+        }
         history.push(`/hashtag/${searchedHashtag}`);
     }
     
