@@ -2,15 +2,18 @@ import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
 import { TextWithHighlightedHashtags } from "../../utils/TextAdjustmentsUtils";
 import { getTrendingTopics } from "../../service/service";
+import { sendAlert } from "../../utils/helpers/Alerts";
 
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router";
 
 export default function Trending() {
     const [trendingTopics, setTrendingTopics ] = useState([]);
     const { login } = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [searchedHashtag, setSearchedHashtag] = useState("");
+    const history = useHistory();
     
     useEffect(() => {
         if(login.token) {
@@ -21,7 +24,10 @@ export default function Trending() {
     function searchHashtag(e) {
         if(e.keyCode !== 13) return;
 
-        console.log("oi");
+        if(searchedHashtag.includes(" ")) {
+            return sendAlert("error", "Uma hashtag não pode ter espaços em branco!");
+        }
+        history.push(`/hashtag/${searchedHashtag}`);
     }
     
     return (
