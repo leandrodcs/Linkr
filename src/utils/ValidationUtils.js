@@ -1,3 +1,5 @@
+import { sendAlert } from "./helpers/Alerts";
+
 function isValidHttpUrl(string) {
     let url;
     try {
@@ -23,7 +25,7 @@ function isInputValid(inputType,inputValue) {
     const isValid = inputsValidationConditions.find( ({ type }) => type === inputType ).condition;
     const errorMessage = inputsValidationConditions.find( ({ type }) => type === inputType ).errortext;
     if(!isValid) {
-        alert(errorMessage);
+        sendAlert("error", "Oops!",errorMessage);
     }
     return isValid;
 }
