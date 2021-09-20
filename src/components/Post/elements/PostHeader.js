@@ -60,6 +60,13 @@ const IconButton = styled.button`
     top: 0;
     cursor: pointer;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
+    :nth-child(2):hover {
+        color: #1877F2;
+    }
+    :nth-child(3):hover {
+        color: red;
+    }
+
     @media(max-width: 637px) {
         font-size: 15px;
     }
