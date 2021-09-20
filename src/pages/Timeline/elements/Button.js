@@ -19,7 +19,7 @@ const Button = styled.button`
     &:hover{
         opacity: 0.8;
     }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         height: 22px;
         font-size: 13px;
     }

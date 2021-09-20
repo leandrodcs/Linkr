@@ -30,6 +30,8 @@ export default function MyLikes() {
         );
     }
 
+    window.scrollTo(0,0);
+
     return (
         <Container>
             <Wrapper>
@@ -49,7 +51,7 @@ const Wrapper = styled.section`
     font-family: 'Lato', sans-serif;
     font-weight: 700;
 
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         width: 100%;
     }
 `;

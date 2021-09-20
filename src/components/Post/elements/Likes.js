@@ -44,7 +44,7 @@ const LikedHeart = styled(AiTwotoneHeart)`
     margin: 20px 0px 6px;
     cursor: pointer;
 
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 17px;
         margin: 20px 0px 12px;
     }
@@ -56,7 +56,7 @@ const NotLikedHeart = styled(AiOutlineHeart)`
     margin: 20px 0px 6px;
     cursor: pointer;
 
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 17px;
         margin: 20px 0px 12px;
     }

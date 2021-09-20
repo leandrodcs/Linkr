@@ -32,7 +32,7 @@ const Wrapper = styled.div`
         object-fit: cover;
         border-radius: 0px 11px 11px 0px;
     }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         & img {
         width: 100px;
         height: 100px;
@@ -48,7 +48,7 @@ const LinkBoxContent = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         padding: 11px;
     }
 `
@@ -56,7 +56,7 @@ const LinkBoxContent = styled.div`
 const LinkTitle = styled.p`
     font-size: 16px;
     line-height: 20px;
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 11px;
         line-height: 14px;
     }
@@ -66,7 +66,7 @@ const LinkDescription = styled.p`
     font-size: 11px;
     line-height: 14px;
     color: #9B9595;
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 9px;
         line-height: 11px;
         display: inline-block;
@@ -78,7 +78,7 @@ const LinkUrl = styled.p`
     font-size: 11px;
     line-height: 14px;
     word-break: break-all;
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 9px;
         line-height: 11px;
     }

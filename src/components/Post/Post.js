@@ -30,7 +30,8 @@ const Wrapper = styled.div`
     &:last-child {
         margin-bottom: 0px;
     }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
+        width: 100%;
         border-radius: 0px;
         padding: 15px;
     }

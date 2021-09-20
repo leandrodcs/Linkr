@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     margin: 53px 0px 43px;
     color: #FFFFFF;
     word-break: break-all;
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 33px;
         line-height: 48px;
         margin: 19px 0px 19px 18px;
