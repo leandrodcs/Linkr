@@ -10,21 +10,66 @@ export default function Trending() {
     const [trendingTopics, setTrendingTopics ] = useState([]);
     const { login } = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [searchedHashtag, setSearchedHashtag] = useState("");
     
     useEffect(() => {
         if(login.token) {
             getTrendingTopics(login.token, setTrendingTopics)
         }
     },[login,isDataBeingEvaluated]);
+
+    function searchHashtag(e) {
+        if(e.keyCode !== 13) return;
+
+        console.log("oi");
+    }
     
     return (
         <Wrapper>
             <Title> trending </Title>
             {PostHashtags(trendingTopics)}
+            <SearchHashtag>
+            <input 
+            placeholder="type a hashtag" 
+            value={searchedHashtag} 
+            onKeyUp={e => searchHashtag(e)}
+            onChange={e => setSearchedHashtag(e.target.value)}
+            ></input>
+            <p>#</p>
+            </SearchHashtag>
         </Wrapper>
     );
 
 }
+
+const SearchHashtag = styled.div`
+    margin-top: 8px;
+    position: relative;
+    font-family: 'Lato', sans-serif;
+
+    input {
+    width: 269px;
+    height: 35px;
+    background: #252525;
+    border-radius: 8px;
+    border: none;
+    padding: 0 10px 0 36px;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    font-family: 'Lato', sans-serif;
+    font-style: italic;
+    color: #575757;
+    outline: none;
+    }
+
+    p {
+        position: absolute;
+        top: 50%;
+        left: 13px;
+        transform: translateY(-50%);
+        font-weight: 700;
+    }
+`;
 
 const Wrapper = styled.section`
     width: 301px;
@@ -43,7 +88,7 @@ const Wrapper = styled.section`
     @media(max-width: 937px) {
         display: none;
     }
-`
+`;
 
 const Title = styled.div`
     width: 100%;
@@ -55,15 +100,16 @@ const Title = styled.div`
     font-size: 27px;
     font-weight: 700;
     color: #FFF;
-`
+`;
 
 const Hashtags = styled.p`
     font-size: 19px;
     font-weight: 700;
     color: #FFF;
     margin-bottom: 7px;
+    letter-spacing: 0.05em;
     word-wrap: break-word;
-`
+`;
 
 function PostHashtags(hashtags){
     return hashtags.map( ({name},index) => 
