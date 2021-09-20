@@ -1,7 +1,7 @@
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
 import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
-import Modal from "../../Modal";
+import Modal from "../../Modal/Modal";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
