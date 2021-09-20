@@ -31,7 +31,7 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
                     </IconButton>
                 </>
             : ""}
-            {openModal&&<Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token} />}
+            <Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token} />
         </Wrapper>
     );
 }
@@ -46,7 +46,7 @@ const Wrapper = styled.div`
             display: inline-block;
             max-width: 85%;
         }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 17px;
         line-height: 20px;
     }
@@ -59,7 +59,15 @@ const IconButton = styled.button`
     right: ${ ({right}) => right };
     top: 0;
     cursor: pointer;
-    @media(max-width: 937px) {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    :nth-child(2):hover {
+        color: #1877F2;
+    }
+    :nth-child(3):hover {
+        color: red;
+    }
+
+    @media(max-width: 637px) {
         font-size: 15px;
     }
 `;

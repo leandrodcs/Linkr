@@ -56,7 +56,6 @@ const EditInput = styled.input`
     border: none;
     padding: 0 5px;
     background: ${({isDataBeingEvaluated}) => isDataBeingEvaluated ? `#c2c2c2` : `#FFFFFF`};
-    outline: none;
 `;
 
 const Wrapper = styled.div`
@@ -69,7 +68,7 @@ const Description = styled.span`
     color: #B7B7B7;
     display: inline-block;
     margin: 8px 0px;
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 15px;
         line-height: 20px;
     }
@@ -81,7 +80,7 @@ const Hashtag = styled.p`
     font-weight: 700;
     color: #FAFAFA;
     display: inline-block;
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         font-size: 15px;
         line-height: 20px;
     }

@@ -16,8 +16,10 @@ import { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 
 export default function App() {
+
   const [login, setLogin] = useState(() => getFromLocalStorage());
   const [ isDataBeingEvaluated, setIsDataBeingEvaluated ] = useState(false);
+  
   return (
     <Router>
       <UserContext.Provider value={{login, setLogin}}>

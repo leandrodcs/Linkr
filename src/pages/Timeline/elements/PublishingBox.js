@@ -70,7 +70,7 @@ const Wrapper = styled.div`
         margin-right: 18px;
         object-fit: cover;
     }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         border-radius: 0px;
         & img {
             display: none;
@@ -87,7 +87,7 @@ const PublishingBoxContent = styled.div`
         font-size: 20px;
         line-height: 30px;
     }
-    @media(max-width: 937px) {
+    @media(max-width: 637px) {
         text-align: center;
         & p {
         font-size: 17px;
