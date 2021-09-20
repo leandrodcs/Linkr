@@ -37,7 +37,7 @@ export default function Trending() {
         <Wrapper>
             <Title> trending </Title>
             {PostHashtags(trendingTopics)}
-            <SearchHashtag>
+            <SearchHashtag searchedHashtag={searchedHashtag}>
             <input 
             placeholder="type a hashtag" 
             value={searchedHashtag} 
@@ -52,7 +52,7 @@ export default function Trending() {
 }
 
 const SearchHashtag = styled.div`
-    margin-top: 8px;
+    margin-top: 15px;
     position: relative;
     font-family: 'Lato', sans-serif;
 
@@ -77,6 +77,8 @@ const SearchHashtag = styled.div`
         left: 13px;
         transform: translateY(-50%);
         font-weight: 700;
+        color: ${({searchedHashtag}) => searchedHashtag ? `#1877F2` : `#FFF`};
+        transition: 0.1s;
     }
 `;
 
@@ -118,6 +120,10 @@ const Hashtags = styled.p`
     margin-bottom: 7px;
     letter-spacing: 0.05em;
     word-wrap: break-word;
+    transition: 0.1s;
+    :hover {
+        color: #1877F2;
+    }
 `;
 
 function PostHashtags(hashtags){
