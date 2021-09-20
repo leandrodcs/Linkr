@@ -14,7 +14,7 @@ const DropDownWindow = styled.nav`
     align-items: center;
     justify-content: space-between;
     padding: 10px 0px 17px;
-    transition: 0.3s;
+    transition: 0.1s;
     color: #FFFFFF;
     
     p {
@@ -26,6 +26,9 @@ const DropDownWindow = styled.nav`
         font-weight: 700;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
         cursor: pointer;
+    }
+    p:hover {
+        color: #1877F2;
     }
     @media(max-width: 637px) {
         width: 150px;
