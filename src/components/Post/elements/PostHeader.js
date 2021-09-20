@@ -31,7 +31,7 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
                     </IconButton>
                 </>
             : ""}
-            {openModal&&<Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token} />}
+            <Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token} />
         </Wrapper>
     );
 }

@@ -3,7 +3,7 @@ import {deletePostFromServer} from "../service/service";
 import { useContext } from "react";
 import DataEvaluationContext from "../contexts/DataEvaluationContext";
 
-export default function Modal({token, setOpenModal, id}) {
+export default function Modal({token, setOpenModal, id, openModal}) {
 
     const {isDataBeingEvaluated, setIsDataBeingEvaluated} = useContext(DataEvaluationContext);
 
@@ -13,8 +13,8 @@ export default function Modal({token, setOpenModal, id}) {
     }
 
     return(
-        <Background>
-            <DialogBox deleting={isDataBeingEvaluated}>
+        <Background openModal={openModal}>
+            <DialogBox deleting={isDataBeingEvaluated} openModal={openModal} >
                 {isDataBeingEvaluated ? <h1>Excluindo...</h1> : 
                 <>
                     <h1>Tem certeza que deseja<br/>excluir essa publicação?</h1>
@@ -40,7 +40,8 @@ const Background = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: ${({openModal}) => openModal ? `100%` : `0px`};
+    overflow: hidden;
     background: rgba(255, 255, 255, 0.75);
     display: flex;
     align-items: center;
@@ -59,6 +60,9 @@ const DialogBox = styled.div`
     justify-content: ${({deleting}) => deleting ? `center` : `initial`};
     padding-top: 38px;
     font-weight: 700;
+    transition: 0.1s;
+    overflow: hidden;
+    margin-bottom: ${({openModal}) => openModal ? `0px` : `100px`};
     h1 {
         margin-bottom: 40px;
         font-size: 34px;
