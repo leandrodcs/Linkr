@@ -9,9 +9,12 @@ const SearchBar = styled.div`
     align-items: center;
     justify-content: space-between;
     color: #C6C6C6;
-    position: relative;
+    position: fixed;
     font-family: 'Lato', sans-serif;
     z-index: 10;
+    left: 50%;
+    top: 36px;
+    transform: translate(-50%, -50%);
 
     input {
         position: absolute;
@@ -39,10 +42,16 @@ const SearchBar = styled.div`
         right: 15px;
         transform: translateY(-50%);
         z-index: 1;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+
+    @media(max-width: 937px) {
+        width: 350px;
     }
 
     @media(max-width: 637px) {
-        position: fixed;
+        z-index: 0;
+        position: relative;
         left: 50%;
         transform: translateX(-50%);
         top: 82px;
