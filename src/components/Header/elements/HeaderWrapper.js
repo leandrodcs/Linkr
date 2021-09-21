@@ -22,7 +22,7 @@ const HeaderWrapper= styled.header`
         transition: 0.1s;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
-    div {
+    div:last-child {
         display: flex;
         align-items: center;
         gap: 16px;
@@ -32,10 +32,10 @@ const HeaderWrapper= styled.header`
         cursor: pointer;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
-    div:hover {
+    div:last-child:hover {
         color: #1877F2;
     }
-    svg {
+    svg:first-child {
         transform: rotate(${({showNavBar}) => showNavBar ? `180deg` : `0deg`});
         transition: 0.1s;
     }
