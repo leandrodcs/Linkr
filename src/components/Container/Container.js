@@ -16,8 +16,8 @@ const Container = styled.main`
     }
 
     @media(max-width: 637px) {
-        padding: 100px 0px 40px;
+        padding: 20px 0px 40px;
     }
 
-`
+`;
 export default Container

@@ -52,11 +52,9 @@ const SearchBar = styled.div`
     @media(max-width: 637px) {
         z-index: 0;
         position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 82px;
-        width: 350px;
+        width: 90vw;
         height: 45px;
+        margin-top: 82px;
 
         input {
             font-size: 17px;

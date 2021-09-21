@@ -12,11 +12,13 @@ import { useHistory } from 'react-router';
 import {IoIosArrowDown} from 'react-icons/io';
 import {GiMagnifyingGlass} from 'react-icons/gi';
 import SuggestionWindow from "./elements/SuggestionWindow";
+import { DebounceInput } from "react-debounce-input";
 
 export default function Header() {
     const [showNavBar, setShowNavBar] = useState(false);
     const history = useHistory();
     const {login, setLogin} = useContext(UserContext);
+    const [search, setSearch] = useState("");
 
     function relocate(whereTo) {
         setShowNavBar(false);
@@ -27,6 +29,10 @@ export default function Header() {
             return;
         }
         history.push(`/${whereTo}`);
+    }
+
+    function searchUsers(e) {
+        console.log("oi");
     }
 
     return (
@@ -45,7 +51,13 @@ export default function Header() {
             </DropDownWindow>
             {showNavBar ? <Blank onClick={() => setShowNavBar(false)}/> : ""}
             <SearchBar>
-                <input placeholder="Search for people and friends"/>
+                <DebounceInput 
+                placeholder="Search for people and friends"
+                debounceTimeout={300}
+                minLength={3}
+                // value={search}
+                onChange={e => searchUsers(e)}
+                />
                 <GiMagnifyingGlass />
                 <SuggestionWindow>
                     <ul>
