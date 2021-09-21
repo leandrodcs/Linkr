@@ -2,11 +2,11 @@ import Loading from "../../components/Loading/Loading";
 import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
-import Post from "../../components/Post/Post";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import {getUserPosts, getUserData} from "../../service/service";
+import { PrintedPosts } from "../../utils/PostsUtils";
 
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router";
@@ -41,10 +41,7 @@ export default function UserPage() {
         <Container>
             <Wrapper>
                 <PageTitle text = {`${username}'s Posts`} />
-                {userPosts.length ?
-                userPosts.map(post => <Post key ={post.id} post={post}/>) :
-                <p>Este usuário ainda não criou nenhum post!</p>
-                }
+                { PrintedPosts(userPosts, "Este usuário ainda não criou nenhum post!") }
             </Wrapper>
             <Trending />
         </Container>

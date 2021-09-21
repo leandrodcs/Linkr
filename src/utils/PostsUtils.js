@@ -24,14 +24,14 @@ function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsD
     publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost);
 }
 
-function PrintedPosts(posts) {
+function PrintedPosts(posts, zeroPostsMessage) {
     return (
         posts.length ? posts.map( (post) => 
             <Post 
                 key = { post.repostId || post.id }
                 post = { post }
             />)
-            : <p> Nenhum post encontrado </p>
+            : <p> {zeroPostsMessage} </p>
     );
 }
 

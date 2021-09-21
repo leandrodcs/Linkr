@@ -2,11 +2,11 @@ import Loading from "../../components/Loading/Loading";
 import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
-import Post from "../../components/Post/Post";
 
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
 import {getUserLikes} from "../../service/service";
+import { PrintedPosts } from "../../utils/PostsUtils";
 
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
@@ -36,9 +36,7 @@ export default function MyLikes() {
         <Container>
             <Wrapper>
                 <PageTitle text = "my likes" />
-                {userLikes.length ?
-                userLikes.map(post => <Post key ={post.id} post={post}/>) :
-                <p>Você ainda não curtiu post!</p>}
+                { PrintedPosts(userLikes, "Você ainda não curtiu post!") }
             </Wrapper>
             <Trending />
         </Container>

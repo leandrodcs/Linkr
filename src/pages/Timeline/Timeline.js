@@ -38,7 +38,7 @@ export default function Timeline() {
             <Wrapper>
                 <PageTitle text = "timeline" />
                 <PublishingBox />
-                { PrintedPosts(posts) }
+                { PrintedPosts(posts, "Nenhum post encontrado") }
             </Wrapper>
             <Trending />
         </Container>
