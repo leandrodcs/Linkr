@@ -44,7 +44,7 @@ function login(body, setLogin, setIsButtonEnabled, history) {
 }
 
 function getTimelinePosts(userToken , setPosts) {
-    axios.get(`${URL}/posts`,createConfig(userToken))
+    axios.get(`${URL}/following/posts`,createConfig(userToken))
     .then(resp => {
         setPosts(resp.data.posts);
     })
