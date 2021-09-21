@@ -3,6 +3,7 @@ import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
 import Post from "../../components/Post/Post";
+import Button from "./elements/Button";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
@@ -40,7 +41,10 @@ export default function UserPage() {
     return (
         <Container>
             <Wrapper>
-                <PageTitle text = {`${username}'s Posts`} />
+                <StyledTop>
+                    <PageTitle text = {`${username}'s Posts`} />
+                    <Button />
+                </StyledTop>
                 {userPosts.length ?
                 userPosts.map(post => <Post key ={post.id} post={post}/>) :
                 <p>Este usuário ainda não criou nenhum post!</p>
@@ -59,5 +63,16 @@ const Wrapper = styled.section`
 
     @media(max-width: 637px) {
         width: 100%;
+    }
+`;
+
+const StyledTop = styled.div`
+    position: relative;
+
+    @media(max-width: 937px) {
+        position: initial;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 `;
