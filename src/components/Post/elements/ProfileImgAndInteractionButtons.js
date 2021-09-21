@@ -1,5 +1,6 @@
 import Likes from "./Likes";
 import Reposts from "./Reposts";
+import CommentsButton from "./CommentsButton";
 
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
@@ -19,7 +20,7 @@ export default function ProfileImgAndInteractionButtons() {
                 <img src = { user.avatar } alt = {user.username} />
             </Link>
             <Likes />
-            <Reposts /> 
+            <CommentsButton /> 
             <Reposts />
         </Wrapper>
     );
