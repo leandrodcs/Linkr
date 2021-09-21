@@ -27,7 +27,7 @@ export default function UserPage() {
         getUserPosts(login.token, params.id, setUserPosts, setLoading)
     }, [login.token, params, isDataBeingEvaluated]);
 
-    if(loading) {
+    if(loading && !userPosts.length) {
         return (
             <Container>
                 <Loading />

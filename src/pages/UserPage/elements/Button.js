@@ -1,15 +1,27 @@
-import { useEffect } from "react";
-import { useState } from "react/cjs/react.development";
+import { followUser } from "../../../service/service";
+import UserContext from "../../../contexts/UserContext";
+import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
+
+import { useContext } from "react";
+import { useParams } from "react-router";
 import styled from "styled-components";
 
 export default function Button() {
-    const [isFollowed, setIsFollowed] = useState(true);
+    const params = useParams();
+    const { login, followingList } = useContext(UserContext);
+    const { isDataBeingEvaluated, setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const isFollowing = followingList.find(({id}) => id === Number(params.id));
 
     return (
         <Wrapper 
-            isFollowed={isFollowed}
+            isFollowing={isFollowing}
+            isButtonEnabled={!isDataBeingEvaluated}
+            onClick={() => !isDataBeingEvaluated ? 
+                followUser( login.token, params.id, isFollowing, setIsDataBeingEvaluated )
+                : ""
+            }
         >
-            {isFollowed ? "Unfollow" : "Follow"}
+            {isFollowing ? "Unfollow" : "Follow"}
         </Wrapper>
     );
 }
@@ -20,7 +32,8 @@ const Wrapper = styled.div`
     height: 32px;
     margin: 16px 0px;
     border-radius: 5px;
-    background-color: ${props => props.isFollowed ? "#FFF" : "#1877F2"};
+    background-color: ${props => props.isFollowing ? "#FFF" : "#1877F2"};
+    opacity: ${props => props.isButtonEnabled ? 1 : 0.5};
     position: absolute;
     top: 0;
     left: 825px;
@@ -29,7 +42,8 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${props => props.isFollowed ? "#1877F2" : "#FFF"};
+    color: ${props => props.isFollowing ? "#1877F2" : "#FFF"};
+    cursor: ${props => props.isButtonEnabled ? "pointer" : "progress"};
 
     @media(max-width: 937px) {
         position: initial;

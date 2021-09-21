@@ -171,6 +171,28 @@ function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
         });
 }
 
+function getFollowingList( userToken, setFollowingList ) {
+    axios.get(`${URL}/users/follows`, createConfig(userToken))
+        .then(resp => {
+            setFollowingList(resp.data.users);
+        })
+        .catch(err => {
+            sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+        });
+}
+
+function followUser( userToken, followingID, isFollowing, setIsDataBeingEvaluated ) {
+    setIsDataBeingEvaluated(true);
+    axios.post(`${URL}/users/${followingID}/${isFollowing ? "unfollow" : "follow"}`, "", createConfig(userToken))
+        .then(resp => {
+            setIsDataBeingEvaluated(false);
+        })
+        .catch(err => {
+            sendAlert("error", "Não foi possível executar a ação!","Por favor, tente novamente...");
+            setIsDataBeingEvaluated(false);
+        });
+}
+
 export {
     createNewUser,
     login,
@@ -184,4 +206,6 @@ export {
     deletePostFromServer,
     getHashtagPosts,
     publishEditedPost,
+    getFollowingList,
+    followUser
 };
