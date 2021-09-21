@@ -111,15 +111,17 @@ function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated
     });
 }
 
-function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
+function publishNewPost(body, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost){
     const adjustedBody = {...body, text: textWithLowercaseHashtags(body.text)}
     axios.post(`${URL}/posts`, adjustedBody, createConfig(userToken))
     .then( resp => {
         setIsDataBeingEvaluated(false);
+        setIsPublishing(false);
         setNewPost({ text:"",link:"" })
     })
     .catch( error => {
         sendAlert("error", "Oops!","Seu post não pôde ser publicado! Tente novamente...");
+        setIsPublishing(false);
         setIsDataBeingEvaluated(false);
     })
 }
@@ -160,14 +162,16 @@ function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
     });
 }
 
-function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
-    axios.post(`${URL}/posts/${postID}/${isLiked ? "dislike" : "like" }`, "", createConfig(userToken))
+function likePost( postID, userToken, hasUserLiked, setIsLiked, setIsDataBeingEvaluated ) {
+    axios.post(`${URL}/posts/${postID}/${hasUserLiked ? "dislike" : "like" }`, "", createConfig(userToken))
         .then(resp => {
-            setLikes(resp.data.post.likes);
+            setIsDataBeingEvaluated(false);
+            setIsLiked(!hasUserLiked);
         })
         .catch(err => {
             sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
-            setIsLiked(isLiked);
+            setIsLiked(hasUserLiked);
+            setIsDataBeingEvaluated(false);
         });
 }
 

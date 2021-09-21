@@ -41,7 +41,7 @@ export default function UserPage() {
         <Container>
             <Wrapper>
                 <PageTitle text = {`${username}'s Posts`} />
-                { PrintedPosts(userPosts, "Este usuário ainda não criou nenhum post!") }
+                { PrintedPosts(userPosts, "Este usuário ainda não criou nenhum post!", login.user.id) }
             </Wrapper>
             <Trending />
         </Container>

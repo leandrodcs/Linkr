@@ -12,9 +12,7 @@ export default function RepostHeader() {
     return (
         <Wrapper>
             <Reposted />
-            <Link to={`/user/${ repostedBy.id }`}>
-                <span>{`Re-posted by ${repostedBy.username}`}</span>
-            </Link>
+            <span>Re-posted by <Link to={`/user/${ repostedBy.id }`}> {repostedBy.username} </Link> </span>
         </Wrapper>
     );
 }
@@ -27,9 +25,12 @@ const Wrapper = styled.div`
     align-items: center;
     background-color: #1E1E1E;
     border-radius: 16px 16px 0px 0px;
-    & span {
+    & span, a {
         font-size: 13px;
         font-weight: 400;
+    }
+    & a:hover {
+        text-decoration: underline;
     }
 `
 

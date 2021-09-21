@@ -39,7 +39,7 @@ export default function HashtagPage() {
         <Container>
             <Wrapper>
                 <PageTitle text = {`# ${params.hashtag}`} />
-                { PrintedPosts(hashtagPosts, "Esta hashtag ainda não foi citada em nenhum post!") }
+                { PrintedPosts(hashtagPosts, "Esta hashtag ainda não foi citada em nenhum post!", login.user.id) }
             </Wrapper>
             <Trending />
         </Container>

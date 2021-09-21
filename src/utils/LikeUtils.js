@@ -1,12 +1,10 @@
 import { likePost } from "../service/service";
 
-function likePostHelper(isLiked, setIsLiked, userToken, postID, setLikes) {
-    setIsLiked(!isLiked);
-    likePost(postID, userToken, setLikes, isLiked, setIsLiked)
-}
-
-function isLikedByUser(likes, loginID) {
-    return !!likes.filter(like => like.userId === Number(loginID)).length;
+function likePostHelper(setWasThisPostClicked, hasUserLiked, setIsLiked, userToken, postID, setIsDataBeingEvaluated) {
+    setIsLiked(!hasUserLiked);
+    setWasThisPostClicked(true);
+    setIsDataBeingEvaluated(true);
+    likePost(postID, userToken, hasUserLiked, setIsLiked, setIsDataBeingEvaluated)
 }
 
 function getTooltipText(postLikes, isLiked, loginID) {
@@ -23,6 +21,5 @@ function getTooltipText(postLikes, isLiked, loginID) {
 
 export {
     likePostHelper,
-    isLikedByUser,
     getTooltipText
 };

@@ -23,7 +23,7 @@ export default function PostBox() {
         if(isEditing) {
             inputRef.current.focus();
         }
-    }, [isEditing, isDataBeingEvaluated]);
+    }, [isEditing]);
     
     return (
         <Wrapper>

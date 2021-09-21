@@ -17,19 +17,20 @@ function formattedNumberOfInteractions(numberOfLikes, typeOfInteraction) {
     return `${numberOfLikes} ${numberOfLikes > 1 ? typeOfInteraction + "s" : typeOfInteraction }`
 }
 
-function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost){
+function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost){
     event.preventDefault();
     if (!isInputValid("link",objectToPublish.link)) {return};
     setIsDataBeingEvaluated(true);
-    publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost);
+    setIsPublishing(true);
+    publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost);
 }
 
-function PrintedPosts(posts, zeroPostsMessage) {
+function PrintedPosts(posts, zeroPostsMessage, loginId) {
     return (
         posts.length ? posts.map( (post) => 
             <Post 
                 key = { post.repostId || post.id }
-                post = { post }
+                post = { {...post, hasUserLiked:!!post.likes.find(({userId}) => userId === Number(loginId))} }
             />)
             : <p> {zeroPostsMessage} </p>
     );
@@ -42,6 +43,7 @@ function cancelEditing(isEditing, text, setIsEditing, setEditedMsg) {
 
 function editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing) {
     setIsDataBeingEvaluated(true);
+    setIsEditing(true);
     publishEditedPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing);
 }
 

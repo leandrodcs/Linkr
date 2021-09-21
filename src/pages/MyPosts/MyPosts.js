@@ -18,7 +18,7 @@ export default function MyPosts() {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
 
     useEffect(() => {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading)
+        getUserPosts(login.token, login.user.id, setUserPosts, setLoading);
     }, [login.token, login.user.id, isDataBeingEvaluated]);
 
     if(!userPosts.length && loading) {
@@ -30,12 +30,11 @@ export default function MyPosts() {
         );
     }
 
-    window.scrollTo(0,0);
     return (
         <Container>
             <Wrapper>
                 <PageTitle text = "my posts" />
-                { PrintedPosts(userPosts, "Você ainda não criou nenhum post!") }
+                { PrintedPosts(userPosts, "Você ainda não criou nenhum post!", login.user.id) }
             </Wrapper>
             <Trending />
         </Container>

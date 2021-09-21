@@ -1,31 +1,37 @@
 import { formattedNumberOfInteractions } from "../../../utils/PostsUtils";
-import { isLikedByUser, likePostHelper, getTooltipText } from "../../../utils/LikeUtils";
+import { likePostHelper, getTooltipText } from "../../../utils/LikeUtils";
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
+import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
 
 import ReactTooltip from 'react-tooltip';
 import styled from "styled-components";
 import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function Likes() {
     const { login } = useContext(UserContext);
-    const { likes, id } = useContext(PostContext);
-    const [postLikes, setPostLikes] = useState(likes);
-    const [isLiked, setIsLiked] = useState(() => isLikedByUser(likes, login.user.id));
+    const { likes, id, hasUserLiked } = useContext(PostContext);
+    const { setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [ wasThisPostClicked, setWasThisPostClicked ] = useState(false);
+    const [ isLiked, setIsLiked ] = useState(hasUserLiked);
 
+    useEffect( () => {
+        setWasThisPostClicked(false)
+    },[likes] )
+    
     return (
         <Wrapper>
-            {isLiked ?
+            { (wasThisPostClicked ? isLiked : hasUserLiked) ?
                 <LikedHeart 
-                    onClick={() => likePostHelper(isLiked, setIsLiked, login.token, id, setPostLikes)}
+                    onClick={() => likePostHelper(setWasThisPostClicked, hasUserLiked, setIsLiked, login.token, id, setIsDataBeingEvaluated)}
                 /> :
                 <NotLikedHeart
-                    onClick={() => likePostHelper(isLiked, setIsLiked, login.token, id, setPostLikes)}
+                    onClick={() => likePostHelper(setWasThisPostClicked, hasUserLiked, setIsLiked, login.token, id, setIsDataBeingEvaluated)}
                 />
             }
-            <p data-tip={getTooltipText(postLikes, isLiked, login.user.id)}>
-                { formattedNumberOfInteractions(postLikes.length, "like") }
+            <p data-tip={getTooltipText(likes, hasUserLiked, login.user.id)}>
+                { formattedNumberOfInteractions(likes.length, "like") }
             </p>
             <ReactTooltip 
                 place="bottom"
