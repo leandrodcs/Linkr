@@ -1,6 +1,8 @@
 import Blank from "./elements/Blank";
 import DropDownWindow from "./elements/DropDownWindow";
 import HeaderWrapper from "./elements/HeaderWrapper";
+import DropDownMenu from "./elements/DropDownMenu";
+import SearchBar from "./elements/SearchBar";
 
 import UserContext from "../../contexts/UserContext";
 
@@ -9,7 +11,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from 'react-router';
 import {IoIosArrowDown} from 'react-icons/io';
 import {GiMagnifyingGlass} from 'react-icons/gi';
-import styled from "styled-components";
+import SuggestionWindow from "./elements/SuggestionWindow";
 
 export default function Header() {
     const [showNavBar, setShowNavBar] = useState(false);
@@ -29,16 +31,12 @@ export default function Header() {
 
     return (
         <>
-            <HeaderWrapper showNavBar={showNavBar}>
+            <HeaderWrapper >
                 <Link to="/timeline">linkr</Link>
-                <SearchBar>
-                    <input placeholder="Search for people and friends"/>
-                    <GiMagnifyingGlass />
-                </SearchBar>
-                <div onClick={() => showNavBar ? setShowNavBar(false) : setShowNavBar(true)}>
+                <DropDownMenu onClick={() => showNavBar ? setShowNavBar(false) : setShowNavBar(true)} showNavBar={showNavBar}>
                     <IoIosArrowDown />
                     <img src={!!login.token ? login.user.avatar : ""} alt="avatar" />
-                </div>
+                </DropDownMenu>
             </HeaderWrapper>
             <DropDownWindow showNavBar={showNavBar}>
                 <p onClick={() => relocate("my-posts")}>My posts</p>
@@ -46,33 +44,25 @@ export default function Header() {
                 <p onClick={() => relocate("")}>Logout</p>
             </DropDownWindow>
             {showNavBar ? <Blank onClick={() => setShowNavBar(false)}/> : ""}
+            <SearchBar>
+                <input placeholder="Search for people and friends"/>
+                <GiMagnifyingGlass />
+                <SuggestionWindow>
+                    <ul>
+                        <li>
+                            <img src="http://pm1.narvii.com/7314/fd5edae777c0f61823422e8ec0449cf4beec144br1-255-315v2_uhq.jpg" alt="avatar"/>
+                            <p>João<span> • following</span></p>
+                        </li>
+                        <li>
+                            <img src="http://pm1.narvii.com/7314/fd5edae777c0f61823422e8ec0449cf4beec144br1-255-315v2_uhq.jpg" alt="avatar"/>
+                            <p>João<span> • following</span></p>
+                        </li>
+                    </ul>
+                </SuggestionWindow>
+            </SearchBar>
         </>
     );
 }
 
-const SearchBar = styled.div`
-    width: 563px;
-    height: 45px;
-    background: #FFFFFF;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 15px 0 17px;
-    color: #C6C6C6;
-
-    input {
-        font-size: 19px;
-        line-height: 23px;
-        width: 100%;
-        margin-right: 10px;
-        outline: none;
-        border: none;
-    }
-    input::placeholder {
-        color: #C6C6C6;
-    }
-
-`;
 
 
