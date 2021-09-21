@@ -1,6 +1,52 @@
 import styled from "styled-components";
+import { DebounceInput } from "react-debounce-input";
+import SuggestionWindow from "./SuggestionWindow";
+import {GiMagnifyingGlass} from 'react-icons/gi';
+import { useContext, useState } from "react";
+import { getUserList } from "../../../service/service";
+import UserContext from "../../../contexts/UserContext";
 
-const SearchBar = styled.div`
+
+
+
+export default function SearchBar() {
+    const [showUserList, setShowUserList] = useState(false);
+    const [userList, setUserList] = useState([]);
+    const {login} = useContext(UserContext);
+
+    function searchForUser(e) {
+        if(e.target.value.length < 3) {
+            setUserList([]);
+            return setShowUserList(false);
+        }
+        setShowUserList(true);
+        getUserList(e.target.value, login.token, setUserList);
+    }
+
+    return (
+        <Wrapper>
+            <DebounceInput 
+            placeholder="Search for people and friends"
+            debounceTimeout={300}
+            minLength={3}
+            onChange={e => searchForUser(e)}
+            />
+            <GiMagnifyingGlass />
+            {showUserList && userList.length ? 
+            <SuggestionWindow>
+                {userList.map(user => (
+                    <li>
+                        <img src={user.avatar} alt="avatar"/>
+                        <p>{user.username}<span>{!user.isFollowingLoggedUser||"• following"}</span></p>
+                    </li>
+                ))}
+            </SuggestionWindow> 
+            : "" }
+        </Wrapper>
+    );
+}
+
+const Wrapper = styled.div`
     width: 563px;
     min-height: 45px;
     background: #FFFFFF;
@@ -27,8 +73,8 @@ const SearchBar = styled.div`
         border-radius: 8px;
         padding: 0 50px 0 17px;
         z-index: 1;
-}
 
+    }
     input::placeholder {
         color: #C6C6C6;
     }
@@ -60,7 +106,4 @@ const SearchBar = styled.div`
             font-size: 17px;
         }
     }
-
 `;
-
-export default SearchBar;

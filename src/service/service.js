@@ -171,6 +171,17 @@ function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
         });
 }
 
+function getUserList(search, userToken, setUserList) {
+    axios.get(`${URL}/users/search/?username=${search}`, createConfig(userToken))
+    .then(res => {
+        console.log(res);
+        setUserList(res.data.users);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
 export {
     createNewUser,
     login,
@@ -184,4 +195,5 @@ export {
     deletePostFromServer,
     getHashtagPosts,
     publishEditedPost,
+    getUserList,
 };

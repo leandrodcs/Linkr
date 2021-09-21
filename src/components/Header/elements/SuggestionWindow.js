@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const SuggestionWindow = styled.div `
+const SuggestionWindow = styled.ul `
 
     border-radius: 8px;
     position: absolute;
@@ -9,13 +9,9 @@ const SuggestionWindow = styled.div `
     background: #E7E7E7;
     padding: 60px 17px 23px 17px;
     width: 100%;
-    display: none;
-
-    ul {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 
     li {
         display: flex;
@@ -23,6 +19,7 @@ const SuggestionWindow = styled.div `
         font-size: 19px;
         line-height: 23px;
         color: #515151;
+        text-overflow: hidden;
     }
 
     p {
@@ -35,6 +32,7 @@ const SuggestionWindow = styled.div `
         border-radius: 304px;
         margin-right: 12px;
         cursor: pointer;
+        object-fit: cover;
     }
 
     span {
