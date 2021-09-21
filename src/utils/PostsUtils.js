@@ -13,8 +13,8 @@ function OpenLinkInNewPage(link){
     window.open(link, '_blank');
 }
 
-function formattedNumberOfLikes(numberOfLikes) {
-    return `${numberOfLikes} ${numberOfLikes > 1 ? "likes" : "like"}`
+function formattedNumberOfInteractions(numberOfLikes, typeOfInteraction) {
+    return `${numberOfLikes} ${numberOfLikes > 1 ? typeOfInteraction + "s" : typeOfInteraction }`
 }
 
 function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost){
@@ -58,7 +58,7 @@ function analyzeRequest(e, editedMsg, id, token, setIsDataBeingEvaluated, setIsE
 export {
     hasUserLikedThisPost,
     OpenLinkInNewPage,
-    formattedNumberOfLikes,
+    formattedNumberOfInteractions,
     CheckPublishingBoxAndSendPost,
     PrintedPosts,
     cancelEditing,

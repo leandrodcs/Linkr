@@ -1,4 +1,5 @@
 import Likes from "./Likes";
+import Reposts from "./Reposts";
 
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
@@ -8,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 
 
-export default function ProfileImgAndLikeButton() {
+export default function ProfileImgAndInteractionButtons() {
     const { user } = useContext(PostContext);
     const { login } = useContext(UserContext);
     const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
@@ -18,12 +19,15 @@ export default function ProfileImgAndLikeButton() {
                 <img src = { user.avatar } alt = {user.username} />
             </Link>
             <Likes />
+            <Reposts /> 
+            <Reposts />
         </Wrapper>
     );
 }
 
 const Wrapper = styled.div`
-    margin-right: 18px;
+    width: 75px;
+    margin-right: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,24 +37,13 @@ const Wrapper = styled.div`
         border-radius: 50%;
         object-fit: cover;
     }
-    & p {
-        font-size: 14px;
-        font-weight: 400;
-        color: #FFFFFF;
-    }
-    & span {
-        font-weight: 700;
-        font-size: 11px;
-    }
+
     @media(max-width: 637px) {
         margin-right: 14px;
         & img {
             width: 40px;
             height: 40px;
             margin-bottom: 17px;
-        }
-        & p {
-            font-size: 11px;
         }
     }
 `;

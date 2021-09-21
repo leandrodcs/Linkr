@@ -1,4 +1,4 @@
-import { formattedNumberOfLikes } from "../../../utils/PostsUtils";
+import { formattedNumberOfInteractions } from "../../../utils/PostsUtils";
 import { isLikedByUser, likePostHelper, getTooltipText } from "../../../utils/LikeUtils";
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
@@ -15,7 +15,7 @@ export default function Likes() {
     const [isLiked, setIsLiked] = useState(() => isLikedByUser(likes, login.user.id));
 
     return (
-        <>
+        <Wrapper>
             {isLiked ?
                 <LikedHeart 
                     onClick={() => likePostHelper(isLiked, setIsLiked, login.token, id, setPostLikes)}
@@ -25,7 +25,7 @@ export default function Likes() {
                 />
             }
             <p data-tip={getTooltipText(postLikes, isLiked, login.user.id)}>
-                { formattedNumberOfLikes(postLikes.length) }
+                { formattedNumberOfInteractions(postLikes.length, "like") }
             </p>
             <ReactTooltip 
                 place="bottom"
@@ -34,30 +34,53 @@ export default function Likes() {
                 backgroundColor="#FFFFFFE5"
                 wrapper="span"
             />
-        </>
+        </Wrapper>
     );
 }
 
+const Wrapper = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    & p {
+        font-size: 11px;
+        font-weight: 400;
+        color: #FFFFFF;
+        text-align: center;
+    }
+    & span {
+        font-weight: 700;
+        font-size: 11px;
+    }
+
+    @media(max-width: 637px) {
+        & p {
+            font-size: 11px;
+        }
+    }
+`
+
 const LikedHeart = styled(AiTwotoneHeart)`
-    font-size: 20px;
+    font-size: 16px;
     color: #AC0000;
     margin: 20px 0px 6px;
     cursor: pointer;
 
     @media(max-width: 637px) {
-        font-size: 17px;
+        font-size: 14px;
         margin: 20px 0px 12px;
     }
 `;
 
 const NotLikedHeart = styled(AiOutlineHeart)`
-    font-size: 20px;
+    font-size: 16px;
     color: #FFFFFF;
     margin: 20px 0px 6px;
     cursor: pointer;
 
     @media(max-width: 637px) {
-        font-size: 17px;
+        font-size: 14px;
         margin: 20px 0px 12px;
     }
 `;

@@ -47,6 +47,13 @@ export default function PostBox() {
     );
 }
 
+const Wrapper = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+`
+
 const EditInput = styled.input`
     width: 100%;
     font-size: 18px;
@@ -57,10 +64,6 @@ const EditInput = styled.input`
     padding: 0 5px;
     background: ${({isDataBeingEvaluated}) => isDataBeingEvaluated ? `#c2c2c2` : `#FFFFFF`};
 `;
-
-const Wrapper = styled.div`
-    width: 100%;
-`
 
 const Description = styled.span`
     font-size: 18px;
