@@ -30,7 +30,7 @@ export default function Trending() {
         if(!searchedHashtag) {
             return sendAlert("error", "Digite alguma hashtag para fazer sua busca!");
         }
-        history.push(`/hashtag/${searchedHashtag}`);
+        history.push(`/hashtag/${searchedHashtag.toLowerCase()}`);
     }
     
     return (
@@ -67,8 +67,11 @@ const SearchHashtag = styled.div`
     letter-spacing: 0.05em;
     font-family: 'Lato', sans-serif;
     font-style: italic;
-    color: #575757;
+    color: #FFF;
     outline: none;
+    }
+    input::placeholder {
+        color: #575757;
     }
 
     p {
@@ -121,9 +124,6 @@ const Hashtags = styled.p`
     letter-spacing: 0.05em;
     word-wrap: break-word;
     transition: 0.1s;
-    :hover {
-        color: #1877F2;
-    }
 `;
 
 function PostHashtags(hashtags){
