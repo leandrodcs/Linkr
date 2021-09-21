@@ -171,6 +171,20 @@ function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
         });
 }
 
+function sendRepostToServer(userToken, postID, setIsDataBeingEvaluated, setOpenModal) {
+    axios.post(`${URL}/posts/${postID}/share`, "", createConfig(userToken))
+    .then(resp => {
+        setOpenModal(false);
+        sendAlert("success", "Você repostou essa publicação!","Vá até sua timeline para conferir!");
+        setIsDataBeingEvaluated(false);
+    })
+    .catch(error => {
+        setOpenModal(false);
+        sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+        setIsDataBeingEvaluated(false);
+    })
+}
+
 export {
     createNewUser,
     login,
@@ -184,4 +198,5 @@ export {
     deletePostFromServer,
     getHashtagPosts,
     publishEditedPost,
+    sendRepostToServer
 };

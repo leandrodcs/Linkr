@@ -1,31 +1,24 @@
+import Modal from "../../Modals/RepostModal";
+
 import { formattedNumberOfInteractions } from "../../../utils/PostsUtils";
 import PostContext from "../../../contexts/PostContext";
 
-import ReactTooltip from 'react-tooltip';
 import styled from "styled-components";
 import { FaRetweet } from "react-icons/fa";
 import { useContext, useState } from "react";
 
+
 export default function Reposts() {
     const { repostCount } = useContext(PostContext);
-    const [isReposted] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
 
     return (
         <Wrapper>
-            {isReposted ?
-                <Reposted /> :
-                <NotReposted />
-            }
+            <RepostButton onClick = { () => setOpenModal(true) } />
             <p>
                 { formattedNumberOfInteractions(repostCount, "re-post") }
             </p>
-            <ReactTooltip 
-                place="bottom"
-                effect="solid"
-                textColor="#505050"
-                backgroundColor="#FFFFFFE5"
-                wrapper="span"
-            />
+            <Modal openModal={openModal} setOpenModal={setOpenModal} />
         </Wrapper>
     );
 }
@@ -53,23 +46,10 @@ const Wrapper = styled.div`
     }
 `
 
-const NotReposted = styled(FaRetweet)`
+const RepostButton = styled(FaRetweet)`
     font-size: 20px;
     font-weight: 700;
     color: #FFF;
-    margin: 16px 0px 3px;
-    cursor: pointer;
-
-    @media(max-width: 637px) {
-        font-size: 17px;
-        margin: 20px 0px 12px;
-    }
-`;
-
-const Reposted = styled(FaRetweet)`
-    font-size: 20px;
-    font-weight: 700;
-    color: #008800;
     margin: 16px 0px 3px;
     cursor: pointer;
 

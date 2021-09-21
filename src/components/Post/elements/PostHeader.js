@@ -1,7 +1,7 @@
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
 import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
-import Modal from "../../Modal/Modal";
+import Modal from "../../Modals/DeleteModal";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ import { useContext, useState } from "react";
 
 export default function PostHeader({setIsEditing, isEditing, cancelEditing, setEditedMsg}) {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
-    const { id, user, text } = useContext(PostContext);
+    const { user, text } = useContext(PostContext);
     const {login} = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
     const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
@@ -31,7 +31,7 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
                     </IconButton>
                 </>
             : ""}
-            <Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token} />
+            <Modal openModal={openModal} setOpenModal={setOpenModal} />
         </Wrapper>
     );
 }

@@ -2,7 +2,7 @@ import Post from "../components/Post/Post";
 
 import { publishNewPost } from "../service/service";
 import { isInputValid } from "./ValidationUtils";
-import { publishEditedPost } from "../service/service";
+import { publishEditedPost, deletePostFromServer, sendRepostToServer } from "../service/service";
 
 
 function hasUserLikedThisPost(postLikes, userWhoIsLikingId) {
@@ -54,6 +54,15 @@ function analyzeRequest(e, editedMsg, id, token, setIsDataBeingEvaluated, setIsE
     }
 }
 
+function deletePost( setIsDataBeingEvaluated, token, id, setOpenModal ) {
+    setIsDataBeingEvaluated(true);
+    deletePostFromServer(token, id, setOpenModal, setIsDataBeingEvaluated);
+}
+
+function repostPost(userToken, postID, setIsDataBeingEvaluated, setOpenModal) {
+    setIsDataBeingEvaluated(true);
+    sendRepostToServer(userToken, postID, setIsDataBeingEvaluated, setOpenModal)
+}
 
 export {
     hasUserLikedThisPost,
@@ -64,4 +73,6 @@ export {
     cancelEditing,
     editPost,
     analyzeRequest,
+    deletePost,
+    repostPost
 }
