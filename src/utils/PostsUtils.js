@@ -24,15 +24,23 @@ function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsD
     publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost);
 }
 
-function PrintedPosts(posts) {
-    return (
-        posts.length ? posts.map( (post) => 
-            <Post 
-                key = { post.repostId || post.id }
-                post = { post }
-            />)
-            : <p> Nenhum post encontrado </p>
-    );
+function PrintedPosts(posts, followingList) {
+    if(posts.length) {
+        return (
+            posts.map( (post) => 
+                <Post 
+                    key = { post.repostId || post.id }
+                    post = { post }
+                />
+            )
+        );
+    }
+
+    if(followingList.length) {
+        return <p> Nenhuma publicação encontrada </p>
+    }
+
+    return <p> Você não segue ninguém ainda, procure por perfis na busca </p>
 }
 
 function cancelEditing(isEditing, text, setIsEditing, setEditedMsg) {
