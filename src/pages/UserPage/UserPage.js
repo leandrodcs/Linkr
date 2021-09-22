@@ -2,6 +2,7 @@ import Loading from "../../components/Loading/Loading";
 import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
+import Button from "./elements/Button";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
@@ -26,7 +27,7 @@ export default function UserPage() {
         getUserPosts(login.token, params.id, setUserPosts, setLoading)
     }, [login.token, params, isDataBeingEvaluated]);
 
-    if(loading) {
+    if(loading && !userPosts.length) {
         return (
             <Container>
                 <Loading />
@@ -40,7 +41,10 @@ export default function UserPage() {
     return (
         <Container>
             <Wrapper>
-                <PageTitle text = {`${username}'s Posts`} />
+                <StyledTop>
+                    <PageTitle text = {`${username}'s Posts`} />
+                    <Button />
+                </StyledTop>
                 { PrintedPosts(userPosts, "Este usuário ainda não criou nenhum post!", login.user.id) }
             </Wrapper>
             <Trending />
@@ -56,5 +60,16 @@ const Wrapper = styled.section`
 
     @media(max-width: 637px) {
         width: 100%;
+    }
+`;
+
+const StyledTop = styled.div`
+    position: relative;
+
+    @media(max-width: 937px) {
+        position: initial;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 `;

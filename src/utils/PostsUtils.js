@@ -25,15 +25,21 @@ function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsD
     publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost);
 }
 
-function PrintedPosts(posts, zeroPostsMessage, loginId) {
-    return (
-        posts.length ? posts.map( (post) => 
-            <Post 
-                key = { post.repostId || post.id }
-                post = { {...post, hasUserLiked:!!post.likes.find(({userId}) => userId === Number(loginId))} }
-            />)
-            : <p> {zeroPostsMessage} </p>
-    );
+function PrintedPosts(posts, zeroPostsMessage, loginId, followingList) {
+    if (posts.length) {
+        return (
+            posts.map( (post) => 
+                <Post 
+                    key = { post.repostId || post.id }
+                    post = { {...post, hasUserLiked:!!post.likes.find(({userId}) => userId === Number(loginId))} }
+                />)
+        );
+    }
+    if(followingList && !followingList.length) {
+        return <p> Você não segue ninguém ainda, procure por perfis na busca </p>
+    }
+
+    return <p> {zeroPostsMessage} </p>
 }
 
 function cancelEditing(isEditing, text, setIsEditing, setEditedMsg) {

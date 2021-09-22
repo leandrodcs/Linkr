@@ -14,7 +14,7 @@ import styled from "styled-components";
 
 export default function Timeline() {
     const [posts, setPosts] = useState("");
-    const { login } = useContext(UserContext);
+    const { login, followingList } = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
 
     useEffect(() => {
@@ -37,7 +37,7 @@ export default function Timeline() {
             <Wrapper>
                 <PageTitle text = "timeline" />
                 <PublishingBox />
-                { PrintedPosts(posts, "Nenhum post encontrado", login.user.id) }
+                { PrintedPosts(posts, "Nenhuma publicação encontrada", login.user.id, followingList) }
             </Wrapper>
             <Trending />
         </Container>

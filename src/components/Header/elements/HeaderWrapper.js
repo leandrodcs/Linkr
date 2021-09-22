@@ -21,6 +21,9 @@ const HeaderWrapper= styled.header`
         font-family: 'Passion One', cursive;
         transition: 0.1s;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
+        :hover {
+            color: #1877F2;;
+        }
     }
     div {
         display: flex;

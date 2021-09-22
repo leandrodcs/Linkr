@@ -10,19 +10,25 @@ import Header from "./components/Header/Header";
 import UserContext from "./contexts/UserContext";
 import DataEvaluationContext from "./contexts/DataEvaluationContext";
 import { getFromLocalStorage } from "./utils/localStorageUtils";
+import { getFollowingList } from "./service/service";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 
 export default function App() {
 
   const [login, setLogin] = useState(() => getFromLocalStorage());
+  const [followingList, setFollowingList] = useState([]);
   const [ isDataBeingEvaluated, setIsDataBeingEvaluated ] = useState(false);
+
+  useEffect((() => {
+    if(!!login.token) getFollowingList(login.token, setFollowingList);
+  }), [login, isDataBeingEvaluated]);
   
   return (
     <Router>
-      <UserContext.Provider value={{login, setLogin}}>
+      <UserContext.Provider value={{login, setLogin, followingList, setFollowingList}}>
         <DataEvaluationContext.Provider value = {{isDataBeingEvaluated, setIsDataBeingEvaluated }} >
           <GlobalReset />
           <Switch>
