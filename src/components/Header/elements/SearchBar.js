@@ -16,7 +16,6 @@ export default function SearchBar() {
     const history = useHistory();
     const inputRef = useRef(null);
 
-
     function searchForUser(e) {
         if (e.keyCode === 8) {
             console.log("epa");
@@ -29,7 +28,7 @@ export default function SearchBar() {
     }
 
     function analyzeKey(e, whereTo) {
-        if (e.key !== "Enter") {
+        if (e.key !== "Enter" || !userList.length) {
             return;
         }
         e.target.blur();
@@ -47,6 +46,7 @@ export default function SearchBar() {
         }
         history.push(`/user/${whereTo}`);
     }
+
     return (
         <Wrapper>
             <DebounceInput 

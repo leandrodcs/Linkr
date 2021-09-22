@@ -179,7 +179,7 @@ function getUserList(search, userToken, setUserList) {
         setUserList([...following, ...notFollowing]);
     })
     .catch(err => {
-        console.log(err);
+        sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
     });
 }
 
