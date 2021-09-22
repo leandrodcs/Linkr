@@ -8,13 +8,13 @@ import getYouTubeID from "get-youtube-id";
 
 export default function LinkBox() {
     const { link, linkTitle, linkDescription, linkImage } = useContext(PostContext);
-
-    const youtubeId = getYouTubeID(link)
+    const youtubeId = getYouTubeID(link);
 
     if(youtubeId) {
         return (
             <Wrapper video={true}>
                 <iframe
+                    title={linkTitle}
                     src={"https://www.youtube.com/embed/" + youtubeId}
                 />
                 <p onClick = {() => OpenLinkInNewPage(link)}>{link}</p>
