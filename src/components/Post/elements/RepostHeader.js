@@ -1,18 +1,24 @@
 import PostContext from "../../../contexts/PostContext";
+import UserContext from "../../../contexts/UserContext";
 
 import styled from "styled-components";
 import { FaRetweet } from "react-icons/fa";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
+
 export default function RepostHeader() {
     const { repostedBy } = useContext(PostContext);
+    const { login } = useContext(UserContext);
+
     if (!repostedBy) { return (""); };
+
+    const repostRoute = (repostedBy.id === Number(login.user.id) ? "/my-posts" : `/user/${repostedBy.id}`);
 
     return (
         <Wrapper>
             <Reposted />
-            <span>Re-posted by <Link to={`/user/${ repostedBy.id }`}> {repostedBy.username} </Link> </span>
+            <span>Re-posted by <Link to={ repostRoute }> {repostedBy.username} </Link> </span>
         </Wrapper>
     );
 }

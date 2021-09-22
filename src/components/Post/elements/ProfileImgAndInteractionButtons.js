@@ -12,7 +12,7 @@ import { useContext } from "react";
 export default function ProfileImgAndInteractionButtons() {
     const { user } = useContext(PostContext);
     const { login } = useContext(UserContext);
-    const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
+    const imageRoute = user.id === Number(login.user.id) ? "/my-posts" : `/user/${user.id}`;
     return (
         <Wrapper>
             <Link to={ imageRoute }>
