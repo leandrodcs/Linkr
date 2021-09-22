@@ -13,7 +13,9 @@ export default function LocationModal({setOpenModal, openModal, geolocation}) {
                             <AiOutlineClose />
                         </Button>
                     </Header>
-                    <Map></Map>
+                    <Map>
+
+                    </Map>
                 </>
             </DialogBox>
         </Background>

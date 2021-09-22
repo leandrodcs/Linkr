@@ -2,6 +2,7 @@ import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
 import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
 import Modal from "../../Modals/DeleteModal";
+import LocationModal from "../../Modals/LocationModal";
 
 import { isUsersOriginalPost, isUsersRepost } from "../../../utils/PostsUtils";
 
@@ -11,7 +12,7 @@ import { FaTrash } from "react-icons/fa";
 import { RiPencilFill } from "react-icons/ri";
 import { IoMdPin } from "react-icons/io";
 import { useContext, useState } from "react";
-import LocationModal from "../../Modals/LocationModal";
+
 
 
 export default function PostHeader({setIsEditing, isEditing, cancelEditing, setEditedMsg}) {
@@ -49,6 +50,7 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
         </Wrapper>
     );
 }
+
 const GeoButton = styled.button`
     color: #FFF;
     margin-left: 8px;
