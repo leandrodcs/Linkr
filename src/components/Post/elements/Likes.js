@@ -30,8 +30,8 @@ export default function Likes() {
                     onClick={() => likePostHelper(setWasThisPostClicked, hasUserLiked, setIsLiked, login.token, id, setIsDataBeingEvaluated)}
                 />
             }
-            <p data-tip={getTooltipText(likes, hasUserLiked, login.user.id)}>
-                { formattedNumberOfInteractions(likes.length, "like") }
+            <p data-tip={getTooltipText(likes, hasUserLiked, login.user.id, wasThisPostClicked)}>
+                { formattedNumberOfInteractions(likes.length, "like", wasThisPostClicked, hasUserLiked) }
             </p>
             <ReactTooltip 
                 place="bottom"

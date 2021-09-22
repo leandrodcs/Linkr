@@ -13,8 +13,14 @@ function OpenLinkInNewPage(link){
     window.open(link, '_blank');
 }
 
-function formattedNumberOfInteractions(numberOfLikes, typeOfInteraction) {
-    return `${numberOfLikes} ${numberOfLikes > 1 ? typeOfInteraction + "s" : typeOfInteraction }`
+function formattedNumberOfInteractions(numberOfLikes, typeOfInteraction, wasThisPostClicked, hasUserLiked) {
+    let likesToBeAdded = () => {
+        if (wasThisPostClicked) {
+            return (hasUserLiked ? -1 : 1);
+        }
+        return 0
+    }
+    return `${numberOfLikes + likesToBeAdded()} ${numberOfLikes > 1 ? typeOfInteraction + "s" : typeOfInteraction }`
 }
 
 function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost){

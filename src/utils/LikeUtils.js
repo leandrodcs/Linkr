@@ -7,10 +7,10 @@ function likePostHelper(setWasThisPostClicked, hasUserLiked, setIsLiked, userTok
     likePost(postID, userToken, hasUserLiked, setIsLiked, setIsDataBeingEvaluated)
 }
 
-function getTooltipText(postLikes, isLiked, loginID) {
+function getTooltipText(postLikes, isLiked, loginID, wasThisPostClicked) {
     postLikes = postLikes.filter(like => like.userId !== Number(loginID));
     const likes = postLikes.map(like => (like["user.username"] ? like["user.username"] : like.username));
-    if(isLiked) likes.unshift("Você");
+    if( (isLiked && !wasThisPostClicked) || (!isLiked && wasThisPostClicked) ) likes.unshift("Você");
 
     const otherPeopleLikes = (likes.length === 3 ? "outra 1 pessoa" :  `outras ${likes.length - 2} pessoas`);
     const arrayOfMessage = likes.slice(0, 2);
