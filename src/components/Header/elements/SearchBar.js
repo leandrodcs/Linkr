@@ -1,26 +1,36 @@
-import styled from "styled-components";
-import { DebounceInput } from "react-debounce-input";
 import SuggestionWindow from "./SuggestionWindow";
-import {GiMagnifyingGlass} from 'react-icons/gi';
-import { useContext, useState } from "react";
-import { getUserList } from "../../../service/service";
+
 import UserContext from "../../../contexts/UserContext";
+import { getUserList } from "../../../service/service";
 
-
-
+import { DebounceInput } from "react-debounce-input";
+import styled from "styled-components";
+import { useContext, useState } from "react";
+import { useHistory } from "react-router";
+import {GiMagnifyingGlass} from 'react-icons/gi';
 
 export default function SearchBar() {
-    const [showUserList, setShowUserList] = useState(false);
     const [userList, setUserList] = useState([]);
+    const [search, setSearch] = useState("");
     const {login} = useContext(UserContext);
+    const history = useHistory();
 
     function searchForUser(e) {
-        if(e.target.value.length < 3) {
-            setUserList([]);
-            return setShowUserList(false);
+        const currentSearch = e.target.value;
+        console.log("oi");
+        if(currentSearch.length < 3) {
+            return setUserList([]);
         }
-        setShowUserList(true);
-        getUserList(e.target.value, login.token, setUserList);
+        getUserList(currentSearch, login.token, setUserList);
+    }
+
+    function relocate(e ,whereTo) {
+        setSearch("");
+        setUserList([]);
+        if(whereTo === Number(login.user.id)) {
+            return history.push(`/my-posts`);
+        }
+        history.push(`/user/${whereTo}`);
     }
 
     return (
@@ -28,16 +38,23 @@ export default function SearchBar() {
             <DebounceInput 
             placeholder="Search for people and friends"
             debounceTimeout={300}
+            value={search}
             minLength={3}
-            onChange={e => searchForUser(e)}
+            onChange={e => {
+                setSearch(e.target.value);
+                searchForUser(e);
+            }}
             />
             <GiMagnifyingGlass />
-            {showUserList && userList.length ? 
+            {userList.length ? 
             <SuggestionWindow>
                 {userList.map(user => (
-                    <li>
+                    <li key={user.id} onClick={(e) => relocate(e, user.id)}>
                         <img src={user.avatar} alt="avatar"/>
-                        <p>{user.username}<span>{!user.isFollowingLoggedUser||"• following"}</span></p>
+                        <p><Username>{user.username}</Username><WhoIsIt>{
+                        Number(login.user.id) === user.id ? " • you :)" : 
+                        user.isFollowingLoggedUser ?"• following":""
+                        }</WhoIsIt></p>
                     </li>
                 ))}
             </SuggestionWindow> 
@@ -46,7 +63,26 @@ export default function SearchBar() {
     );
 }
 
+const Username= styled.span`
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    max-width: 70%;
+
+    @media(max-width: 937px) {
+        max-width: 60%;
+    }
+        @media(max-width: 637px) {
+            max-width: 70%;
+    }
+`;
+
+const WhoIsIt = styled.span`
+    color: #C5C5C5;
+    margin-left: 5px;
+`;
+
 const Wrapper = styled.div`
+
     width: 563px;
     min-height: 45px;
     background: #FFFFFF;
@@ -57,7 +93,7 @@ const Wrapper = styled.div`
     color: #C6C6C6;
     position: fixed;
     font-family: 'Lato', sans-serif;
-    z-index: 10;
+    z-index: 6;
     left: 50%;
     top: 36px;
     transform: translate(-50%, -50%);
@@ -73,8 +109,8 @@ const Wrapper = styled.div`
         border-radius: 8px;
         padding: 0 50px 0 17px;
         z-index: 1;
-
     }
+
     input::placeholder {
         color: #C6C6C6;
     }
@@ -96,7 +132,7 @@ const Wrapper = styled.div`
     }
 
     @media(max-width: 637px) {
-        z-index: 0;
+        z-index: 2;
         position: relative;
         width: 90vw;
         height: 45px;

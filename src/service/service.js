@@ -174,8 +174,9 @@ function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
 function getUserList(search, userToken, setUserList) {
     axios.get(`${URL}/users/search/?username=${search}`, createConfig(userToken))
     .then(res => {
-        console.log(res);
-        setUserList(res.data.users);
+        const following = res.data.users.filter(u => u.isFollowingLoggedUser);
+        const notFollowing = res.data.users.filter(u => !u.isFollowingLoggedUser);
+        setUserList([...following, ...notFollowing]);
     })
     .catch(err => {
         console.log(err);

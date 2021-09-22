@@ -20,9 +20,6 @@ const SuggestionWindow = styled.ul `
         line-height: 23px;
         color: #515151;
         text-overflow: hidden;
-    }
-
-    p {
         cursor: pointer;
     }
 
@@ -31,13 +28,14 @@ const SuggestionWindow = styled.ul `
         height: 39px;
         border-radius: 304px;
         margin-right: 12px;
-        cursor: pointer;
         object-fit: cover;
     }
 
-    span {
-        color: #C5C5C5;
-        cursor: default;
+    p {
+        display: flex;
+        width: 100%;
+        overflow-x: hidden;
+        white-space: nowrap;
     }
 
     @media(max-width: 637px) {
@@ -47,7 +45,7 @@ const SuggestionWindow = styled.ul `
         img {
         width: 35px;
         height: 35px;
-    }
+        }
     }
 `;
 
