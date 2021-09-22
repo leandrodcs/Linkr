@@ -10,11 +10,13 @@ import styled from "styled-components";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { CheckPublishingBoxAndSendPost } from "../../../utils/PostsUtils";
+import { FiMapPin } from "react-icons/fi";
 
 export default function PublishingBox() {
     const { login } = useContext(UserContext);
     const { isDataBeingEvaluated, setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [ newPost, setNewPost ] = useState({ text:"",link:"" });
+    const [isLocationActive, setIsLocationActive] = useState(false);
 
     return (
         <Wrapper>
@@ -42,6 +44,10 @@ export default function PublishingBox() {
                         value = {newPost.text}
                         onChange = { e => adjustStateObjectData(newPost, setNewPost, "text", e.target.value)}
                     />
+                    <Location isLocationActive={isLocationActive} onClick={() => isLocationActive ? setIsLocationActive(false) : setIsLocationActive(true)}>
+                        <FiMapPin />
+                        Localização desativada      
+                    </Location>
                     <Button 
                         disabled = { isDataBeingEvaluated }
                         isDataBeingEvaluated = { isDataBeingEvaluated }
@@ -76,7 +82,7 @@ const Wrapper = styled.div`
             display: none;
         }
     }
-`
+`;
 
 const PublishingBoxContent = styled.div`
     width: 100%;
@@ -94,4 +100,21 @@ const PublishingBoxContent = styled.div`
         line-height: 25px;
     }
     }
-`
+`;
+
+const Location = styled.div`
+    cursor: pointer;
+    position: absolute;
+    color: ${({isLocationActive}) => isLocationActive ? `#238700` : `#949494`};
+    display: flex;
+    gap: 5px;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 16px;
+    left: 0;
+    bottom: 0px;
+    transform: translate(0,-50%);
+    svg {
+        font-size: 15px;
+    }
+`;
