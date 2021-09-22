@@ -66,6 +66,14 @@ function repostPost(userToken, postID, setIsDataBeingEvaluated, setOpenModal) {
     sendRepostToServer(userToken, postID, setIsDataBeingEvaluated, setOpenModal)
 }
 
+function isUsersOriginalPost(repostedBy, userId, postUserId){
+    return !repostedBy && Number(userId) === Number(postUserId);
+}
+
+function isUsersRepost(repostedBy, userId) {
+    return repostedBy && Number(userId) === Number(repostedBy.id);
+}
+
 export {
     hasUserLikedThisPost,
     OpenLinkInNewPage,
@@ -76,5 +84,7 @@ export {
     editPost,
     analyzeRequest,
     deletePost,
-    repostPost
+    repostPost,
+    isUsersOriginalPost,
+    isUsersRepost
 }

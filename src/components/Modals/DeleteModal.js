@@ -9,7 +9,7 @@ import { useContext } from "react";
 export default function Modal({openModal, setOpenModal}) {
 
     const {isDataBeingEvaluated, setIsDataBeingEvaluated} = useContext(DataEvaluationContext);
-    const { id } = useContext(PostContext);
+    const { id, repostId } = useContext(PostContext);
     const { login } = useContext(UserContext);
 
     return(
@@ -20,7 +20,7 @@ export default function Modal({openModal, setOpenModal}) {
                     <h1>Tem certeza que deseja<br/>excluir essa publicação?</h1>
                     <Buttons>
                         <button onClick={() => setOpenModal(false)}>Não, voltar</button>
-                        <button onClick={() => deletePost(setIsDataBeingEvaluated, login.token, id, setOpenModal ) }>Sim, excluir</button>
+                        <button onClick={() => deletePost(setIsDataBeingEvaluated, login.token, (repostId || id), setOpenModal ) }>Sim, excluir</button>
                     </Buttons>
                 </>}
 
