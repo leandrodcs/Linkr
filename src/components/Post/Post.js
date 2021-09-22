@@ -5,10 +5,10 @@ import PostContext from "../../contexts/PostContext";
 
 import styled from "styled-components";
 
-export default function Post({post:{ id, text, link, linkTitle, linkDescription, linkImage, user, likes}}) {
+export default function Post({post:{ id, text, link, linkTitle, linkDescription, linkImage, user, likes, geolocation}}) {
 
     return (
-        <PostContext.Provider value = {{ id, text, link, linkTitle, linkDescription, linkImage, user, likes }}>
+        <PostContext.Provider value = {{ id, text, link, linkTitle, linkDescription, linkImage, user, likes, geolocation }}>
             <Wrapper>
                 <ProfileImgAndLikeButton />
                 <PostBox />

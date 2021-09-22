@@ -13,7 +13,7 @@ import LocationModal from "../../Modal/LocationModal";
 
 export default function PostHeader({setIsEditing, isEditing, cancelEditing, setEditedMsg}) {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
-    const { id, user, text } = useContext(PostContext);
+    const { id, user, text, geolocation } = useContext(PostContext);
     const {login} = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
     const [showLocation, setShowLocation] = useState(false);
@@ -24,9 +24,11 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
             <Link to={imageRoute}>
                 {user.username}
             </Link>
+            {geolocation &&
             <GeoButton onClick={() => setShowLocation(true)}>
                 <IoMdPin />
             </GeoButton>
+            }
             {(Number(login.user.id) === Number(user.id)) ? 
                 <>
                     <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing(isEditing, text, setIsEditing, setEditedMsg) : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
