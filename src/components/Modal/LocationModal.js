@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {AiOutlineClose} from "react-icons/ai";
 
-export default function LocationModal({token, setOpenModal, id, openModal}) {
+export default function LocationModal({setOpenModal, openModal, geolocation}) {
 
     return(
         <Background openModal={openModal}>
