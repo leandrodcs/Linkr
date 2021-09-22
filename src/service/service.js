@@ -44,7 +44,7 @@ function login(body, setLogin, setIsButtonEnabled, history) {
 }
 
 function getTimelinePosts(userToken , setPosts) {
-    axios.get(`${URL}/posts`,createConfig(userToken))
+    axios.get(`${URL}/following/posts`,createConfig(userToken))
     .then(resp => {
         setPosts(resp.data.posts);
     })
@@ -183,6 +183,28 @@ function getUserList(search, userToken, setUserList) {
     });
 }
 
+function getFollowingList( userToken, setFollowingList ) {
+    axios.get(`${URL}/users/follows`, createConfig(userToken))
+        .then(resp => {
+            setFollowingList(resp.data.users);
+        })
+        .catch(err => {
+            sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+        });
+}
+
+function followUser( userToken, followingID, isFollowing, setIsDataBeingEvaluated ) {
+    setIsDataBeingEvaluated(true);
+    axios.post(`${URL}/users/${followingID}/${isFollowing ? "unfollow" : "follow"}`, "", createConfig(userToken))
+        .then(resp => {
+            setIsDataBeingEvaluated(false);
+        })
+        .catch(err => {
+            sendAlert("error", "Não foi possível executar a ação!","Por favor, tente novamente...");
+            setIsDataBeingEvaluated(false);
+        });
+}
+
 export {
     createNewUser,
     login,
@@ -197,4 +219,6 @@ export {
     getHashtagPosts,
     publishEditedPost,
     getUserList,
+    getFollowingList,
+    followUser,
 };

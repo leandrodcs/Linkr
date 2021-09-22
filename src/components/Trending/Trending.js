@@ -2,29 +2,88 @@ import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
 import { TextWithHighlightedHashtags } from "../../utils/TextAdjustmentsUtils";
 import { getTrendingTopics } from "../../service/service";
+import { sendAlert } from "../../utils/helpers/Alerts";
 
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router";
 
 export default function Trending() {
     const [trendingTopics, setTrendingTopics ] = useState([]);
     const { login } = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [searchedHashtag, setSearchedHashtag] = useState("");
+    const history = useHistory();
     
     useEffect(() => {
         if(login.token) {
             getTrendingTopics(login.token, setTrendingTopics)
         }
     },[login,isDataBeingEvaluated]);
+
+    function searchHashtag(e) {
+        if(e.keyCode !== 13) return;
+
+        if(searchedHashtag.includes(" ")) {
+            return sendAlert("error", "Uma hashtag não pode ter espaços em branco!");
+        }
+        if(!searchedHashtag) {
+            return sendAlert("error", "Digite alguma hashtag para fazer sua busca!");
+        }
+        history.push(`/hashtag/${searchedHashtag.toLowerCase()}`);
+    }
     
     return (
         <Wrapper>
             <Title> trending </Title>
             {PostHashtags(trendingTopics)}
+            <SearchHashtag searchedHashtag={searchedHashtag}>
+            <input 
+            placeholder="type a hashtag" 
+            value={searchedHashtag} 
+            onKeyUp={e => searchHashtag(e)}
+            onChange={e => setSearchedHashtag(e.target.value)}
+            ></input>
+            <p>#</p>
+            </SearchHashtag>
         </Wrapper>
     );
 
 }
+
+const SearchHashtag = styled.div`
+    margin-top: 15px;
+    position: relative;
+    font-family: 'Lato', sans-serif;
+
+    input {
+    width: 269px;
+    height: 35px;
+    background: #252525;
+    border-radius: 8px;
+    border: none;
+    padding: 0 10px 0 36px;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    font-family: 'Lato', sans-serif;
+    font-style: italic;
+    color: #FFF;
+    outline: none;
+    }
+    input::placeholder {
+        color: #575757;
+    }
+
+    p {
+        position: absolute;
+        top: 50%;
+        left: 13px;
+        transform: translateY(-50%);
+        font-weight: 700;
+        color: ${({searchedHashtag}) => searchedHashtag ? `#1877F2` : `#FFF`};
+        transition: 0.1s;
+    }
+`;
 
 const Wrapper = styled.section`
     width: 301px;
@@ -43,7 +102,7 @@ const Wrapper = styled.section`
     @media(max-width: 937px) {
         display: none;
     }
-`
+`;
 
 const Title = styled.div`
     width: 100%;
@@ -55,15 +114,17 @@ const Title = styled.div`
     font-size: 27px;
     font-weight: 700;
     color: #FFF;
-`
+`;
 
 const Hashtags = styled.p`
     font-size: 19px;
     font-weight: 700;
     color: #FFF;
     margin-bottom: 7px;
+    letter-spacing: 0.05em;
     word-wrap: break-word;
-`
+    transition: 0.1s;
+`;
 
 function PostHashtags(hashtags){
     return hashtags.map( ({name},index) => 
