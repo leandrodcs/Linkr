@@ -2,11 +2,11 @@ import Loading from "../../components/Loading/Loading";
 import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
-import Post from "../../components/Post/Post";
 
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
 import {getUserPosts} from "../../service/service";
+import { PrintedPosts } from "../../utils/PostsUtils";
 
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
@@ -18,7 +18,7 @@ export default function MyPosts() {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
 
     useEffect(() => {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading)
+        getUserPosts(login.token, login.user.id, setUserPosts, setLoading);
     }, [login.token, login.user.id, isDataBeingEvaluated]);
 
     if(!userPosts.length && loading) {
@@ -30,15 +30,11 @@ export default function MyPosts() {
         );
     }
 
-    window.scrollTo(0,0);
-
     return (
         <Container>
             <Wrapper>
                 <PageTitle text = "my posts" />
-                {userPosts.length ?
-                userPosts.map(post => <Post key ={post.id} post={post}/>) :
-                <p>Você ainda não criou nenhum post!</p>}
+                { PrintedPosts(userPosts, "Você ainda não criou nenhum post!", login.user.id) }
             </Wrapper>
             <Trending />
         </Container>

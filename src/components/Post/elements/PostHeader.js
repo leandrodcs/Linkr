@@ -1,7 +1,9 @@
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
 import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
-import Modal from "../../Modal/Modal";
+import Modal from "../../Modals/DeleteModal";
+
+import { isUsersOriginalPost, isUsersRepost } from "../../../utils/PostsUtils";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -11,7 +13,7 @@ import { useContext, useState } from "react";
 
 export default function PostHeader({setIsEditing, isEditing, cancelEditing, setEditedMsg}) {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
-    const { id, user, text } = useContext(PostContext);
+    const { user, text, repostedBy } = useContext(PostContext);
     const {login} = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
     const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
@@ -21,17 +23,19 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
             <Link to={imageRoute}>
                 {user.username}
             </Link>
-            {(Number(login.user.id) === Number(user.id)) ? 
-                <>
-                    <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing(isEditing, text, setIsEditing, setEditedMsg) : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
-                        <RiPencilFill />
-                    </IconButton>
-                    <IconButton right = {"0px"} onClick={() => setOpenModal(true)} disabled={isDataBeingEvaluated}>
-                        <FaTrash />
-                    </IconButton>
-                </>
-            : ""}
-            <Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token} />
+            {isUsersOriginalPost(repostedBy, login.user.id, user.id) ? 
+                <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing(isEditing, text, setIsEditing, setEditedMsg) : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
+                    <RiPencilFill />
+                </IconButton>
+                : ""
+            }
+            { isUsersOriginalPost(repostedBy, login.user.id, user.id) || isUsersRepost(repostedBy, login.user.id) ?
+                <IconButton right = {"0px"} onClick={() => setOpenModal(true)} disabled={isDataBeingEvaluated}>
+                    <FaTrash />
+                </IconButton>
+            : ""
+            }
+            <Modal openModal={openModal} setOpenModal={setOpenModal} />
         </Wrapper>
     );
 }

@@ -2,11 +2,11 @@ import Loading from "../../components/Loading/Loading";
 import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
-import Post from "../../components/Post/Post";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import {getHashtagPosts} from "../../service/service";
+import { PrintedPosts } from "../../utils/PostsUtils";
 
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router";
@@ -24,7 +24,7 @@ export default function HashtagPage() {
         getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading)
     }, [login.token, params, isDataBeingEvaluated]);
 
-    if(loading) {
+    if(loading && !hashtagPosts.length) {
         return (
             <Container>
                 <Loading />
@@ -39,10 +39,7 @@ export default function HashtagPage() {
         <Container>
             <Wrapper>
                 <PageTitle text = {`# ${params.hashtag}`} />
-                {hashtagPosts.length ?
-                hashtagPosts.map(post => <Post key ={post.id} post={post}/>) :
-                <p>Esta hashtag ainda não foi citada em nenhum post!</p>
-                }
+                { PrintedPosts(hashtagPosts, "Esta hashtag ainda não foi citada em nenhum post!", login.user.id) }
             </Wrapper>
             <Trending />
         </Container>

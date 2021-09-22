@@ -13,7 +13,8 @@ import { CheckPublishingBoxAndSendPost } from "../../../utils/PostsUtils";
 
 export default function PublishingBox() {
     const { login } = useContext(UserContext);
-    const { isDataBeingEvaluated, setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const { setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [ isPublishing, setIsPublishing ] = useState(false);
     const [ newPost, setNewPost ] = useState({ text:"",link:"" });
 
     return (
@@ -27,27 +28,27 @@ export default function PublishingBox() {
                 <p>
                     O que você tem pra favoritar hoje?
                 </p>
-                <form onSubmit = { (event) => CheckPublishingBoxAndSendPost(event, newPost, login.token, setIsDataBeingEvaluated, setNewPost) } >
+                <form onSubmit = { (event) => CheckPublishingBoxAndSendPost(event, newPost, login.token, setIsDataBeingEvaluated, setIsPublishing, setNewPost) } >
                     <Input 
                         placeholder = "http://..."
-                        disabled = { isDataBeingEvaluated }
-                        isDataBeingEvaluated = { isDataBeingEvaluated }
+                        disabled = { isPublishing }
+                        isPublishing = { isPublishing }
                         value = {newPost.link}
                         onChange = { e => adjustStateObjectData(newPost, setNewPost, "link", e.target.value)}
                     />
                     <TextArea
                         placeholder = "Muito irado esse link falando de #javascript"
-                        disabled = { isDataBeingEvaluated }
-                        isDataBeingEvaluated = { isDataBeingEvaluated }
+                        disabled = { isPublishing }
+                        isPublishing = { isPublishing }
                         value = {newPost.text}
                         onChange = { e => adjustStateObjectData(newPost, setNewPost, "text", e.target.value)}
                     />
                     <Button 
-                        disabled = { isDataBeingEvaluated }
-                        isDataBeingEvaluated = { isDataBeingEvaluated }
+                        disabled = { isPublishing }
+                        isPublishing = { isPublishing }
                         type = "submit"
                     >
-                        { isDataBeingEvaluated ? "Publicando..." : "Publicar"}
+                        { isPublishing ? "Publicando..." : "Publicar"}
                     </Button>
                 </form>
             </PublishingBoxContent>
