@@ -29,6 +29,7 @@ export default function MyPosts() {
             </Container>
         );
     }
+    console.log(userPosts);
 
     window.scrollTo(0,0);
 

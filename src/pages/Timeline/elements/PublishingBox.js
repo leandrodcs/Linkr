@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { CheckPublishingBoxAndSendPost } from "../../../utils/PostsUtils";
-import { FiMapPin } from "react-icons/fi";
+import { IoMdPin } from "react-icons/io";
 
 export default function PublishingBox() {
     const { login } = useContext(UserContext);
@@ -61,7 +61,7 @@ export default function PublishingBox() {
                     <Location 
                         isLocationActive={location} 
                         onClick={() => pinOrUnpinLocation()}>
-                        <FiMapPin />
+                        <IoMdPin />
                         {location ? `Localização ativada` : `Localização desativada`}
                     </Location>
                     <Button 

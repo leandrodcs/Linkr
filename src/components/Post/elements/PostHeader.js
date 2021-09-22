@@ -7,13 +7,16 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import { RiPencilFill } from "react-icons/ri";
+import { IoMdPin } from "react-icons/io";
 import { useContext, useState } from "react";
+import LocationModal from "../../Modal/LocationModal";
 
 export default function PostHeader({setIsEditing, isEditing, cancelEditing, setEditedMsg}) {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
     const { id, user, text } = useContext(PostContext);
     const {login} = useContext(UserContext);
     const [openModal, setOpenModal] = useState(false);
+    const [showLocation, setShowLocation] = useState(false);
     const imageRoute = user.id === Number(login.user.id) ? "my-posts" : `/user/${user.id}`;
 
     return (
@@ -21,6 +24,9 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
             <Link to={imageRoute}>
                 {user.username}
             </Link>
+            <GeoButton onClick={() => setShowLocation(true)}>
+                <IoMdPin />
+            </GeoButton>
             {(Number(login.user.id) === Number(user.id)) ? 
                 <>
                     <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing(isEditing, text, setIsEditing, setEditedMsg) : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
@@ -32,9 +38,16 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
                 </>
             : ""}
             <Modal openModal={openModal} setOpenModal={setOpenModal} id={id} token ={login.token} />
+            <LocationModal openModal={showLocation} setOpenModal={setShowLocation}/>
         </Wrapper>
     );
 }
+
+const GeoButton = styled.button`
+    color: #FFF;
+    margin-left: 8px;
+    cursor: pointer;
+`;
 
 const Wrapper = styled.div`
     font-size: 19px;
