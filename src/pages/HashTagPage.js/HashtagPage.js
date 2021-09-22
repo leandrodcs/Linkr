@@ -24,7 +24,7 @@ export default function HashtagPage() {
         getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading)
     }, [login.token, params, isDataBeingEvaluated]);
 
-    if(loading) {
+    if(loading && !hashtagPosts.length) {
         return (
             <Container>
                 <Loading />
