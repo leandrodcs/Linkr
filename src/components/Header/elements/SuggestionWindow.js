@@ -13,6 +13,7 @@ const SuggestionWindow = styled.ul `
     flex-direction: column;
     gap: 16px;
 
+
     li {
         display: flex;
         align-items: center;

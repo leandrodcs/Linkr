@@ -171,12 +171,13 @@ function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
         });
 }
 
-function getUserList(search, userToken, setUserList) {
+function getUserList(search, userToken, setUserList, setShowUsers) {
     axios.get(`${URL}/users/search/?username=${search}`, createConfig(userToken))
     .then(res => {
         const following = res.data.users.filter(u => u.isFollowingLoggedUser);
         const notFollowing = res.data.users.filter(u => !u.isFollowingLoggedUser);
         setUserList([...following, ...notFollowing]);
+        setShowUsers(true);
     })
     .catch(err => {
         sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");

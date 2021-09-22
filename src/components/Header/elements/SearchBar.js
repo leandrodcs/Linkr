@@ -10,6 +10,7 @@ import { useHistory } from "react-router";
 import {GiMagnifyingGlass} from 'react-icons/gi';
 
 export default function SearchBar() {
+    const [showUsers, setShowUsers] = useState(false);
     const [userList, setUserList] = useState([]);
     const [search, setSearch] = useState("");
     const {login} = useContext(UserContext);
@@ -17,14 +18,12 @@ export default function SearchBar() {
     const inputRef = useRef(null);
 
     function searchForUser(e) {
-        if (e.keyCode === 8) {
-            console.log("epa");
-        }
         const currentSearch = e.target.value;
         if(currentSearch.length < 3) {
+            setShowUsers(false);
             return setUserList([]);
         }
-        getUserList(currentSearch, login.token, setUserList);
+        getUserList(currentSearch, login.token, setUserList, setShowUsers);
     }
 
     function analyzeKey(e, whereTo) {
@@ -39,6 +38,7 @@ export default function SearchBar() {
         if (!userList.length) {
             return;
         }
+        setShowUsers(false);
         setSearch("");
         setUserList([]);
         if(whereTo === Number(login.user.id)) {
@@ -64,7 +64,16 @@ export default function SearchBar() {
             <button  onClick={() => relocate( userList.length ? userList[0].id : "")}>
             <GiMagnifyingGlass />
             </button>
-            {userList.length ? 
+            {!showUsers ? 
+            ""
+            :
+            !userList.length ? 
+            <SuggestionWindow>
+                <li>
+                    <p><WhoIsIt>Nenhum usuário encontrado ;(</WhoIsIt></p>
+                </li>
+            </SuggestionWindow> 
+            :
             <SuggestionWindow>
                 {userList.map(user => (
                     <li key={user.id} onClick={() => relocate(user.id)}>
@@ -76,7 +85,7 @@ export default function SearchBar() {
                     </li>
                 ))}
             </SuggestionWindow> 
-            : "" }
+             }
         </Wrapper>
     );
 }
