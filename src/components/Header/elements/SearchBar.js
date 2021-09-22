@@ -5,7 +5,7 @@ import { getUserList } from "../../../service/service";
 
 import { DebounceInput } from "react-debounce-input";
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useHistory } from "react-router";
 import {GiMagnifyingGlass} from 'react-icons/gi';
 
@@ -14,17 +14,32 @@ export default function SearchBar() {
     const [search, setSearch] = useState("");
     const {login} = useContext(UserContext);
     const history = useHistory();
+    const inputRef = useRef(null);
+
 
     function searchForUser(e) {
+        if (e.keyCode === 8) {
+            console.log("epa");
+        }
         const currentSearch = e.target.value;
-        console.log("oi");
         if(currentSearch.length < 3) {
             return setUserList([]);
         }
         getUserList(currentSearch, login.token, setUserList);
     }
 
-    function relocate(e ,whereTo) {
+    function analyzeKey(e, whereTo) {
+        if (e.key !== "Enter") {
+            return;
+        }
+        e.target.blur();
+        relocate(whereTo);
+    }
+
+    function relocate(whereTo) {
+        if (!userList.length) {
+            return;
+        }
         setSearch("");
         setUserList([]);
         if(whereTo === Number(login.user.id)) {
@@ -32,24 +47,27 @@ export default function SearchBar() {
         }
         history.push(`/user/${whereTo}`);
     }
-
     return (
         <Wrapper>
             <DebounceInput 
+            ref={inputRef}
             placeholder="Search for people and friends"
             debounceTimeout={300}
             value={search}
+            onKeyUp={e => analyzeKey(e, userList.length ? userList[0].id : "")}
             minLength={3}
             onChange={e => {
                 setSearch(e.target.value);
                 searchForUser(e);
             }}
             />
+            <button  onClick={() => relocate( userList.length ? userList[0].id : "")}>
             <GiMagnifyingGlass />
+            </button>
             {userList.length ? 
             <SuggestionWindow>
                 {userList.map(user => (
-                    <li key={user.id} onClick={(e) => relocate(e, user.id)}>
+                    <li key={user.id} onClick={() => relocate(user.id)}>
                         <img src={user.avatar} alt="avatar"/>
                         <p><Username>{user.username}</Username><WhoIsIt>{
                         Number(login.user.id) === user.id ? " • you :)" : 
@@ -84,7 +102,7 @@ const WhoIsIt = styled.span`
 const Wrapper = styled.div`
 
     width: 563px;
-    min-height: 45px;
+    height: 45px;
     background: #FFFFFF;
     border-radius: 8px;
     display: flex;
@@ -116,15 +134,21 @@ const Wrapper = styled.div`
     }
 
     svg {
-        transform: rotate(270deg);
-        font-size: 21px;
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        right: 15px;
-        transform: translateY(-50%);
-        z-index: 1;
+        font-size: 24px;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
+        color: #C6C6C6;
+    }
+
+    button {
+        cursor: pointer;
+        transform: translateY(-50%);
+        height: 45px;
+        border-radius: 8px;
+        width: 40px;
+        top: 50%;
+        right: 0;
+        z-index: 10;
+        position: absolute;
     }
 
     @media(max-width: 937px) {
