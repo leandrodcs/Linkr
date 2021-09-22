@@ -31,7 +31,6 @@ export default function PublishingBox() {
             setLocation({latitude: p.coords.latitude, longitude: p.coords.longitude});
         })
     }
-    console.log(location);
 
     return (
         <Wrapper>
@@ -44,7 +43,7 @@ export default function PublishingBox() {
                 <p>
                     O que você tem pra favoritar hoje?
                 </p>
-                <form onSubmit = { (event) => CheckPublishingBoxAndSendPost(event, newPost, login.token, setIsDataBeingEvaluated, setNewPost) } >
+                <form onSubmit = { (event) => CheckPublishingBoxAndSendPost(event, newPost, login.token, setIsDataBeingEvaluated, setNewPost, location) } >
                     <Input 
                         placeholder = "http://..."
                         disabled = { isDataBeingEvaluated }
@@ -63,7 +62,7 @@ export default function PublishingBox() {
                         isLocationActive={location} 
                         onClick={() => pinOrUnpinLocation()}>
                         <FiMapPin />
-                        Localização desativada      
+                        {location ? `Localização ativada` : `Localização desativada`}
                     </Location>
                     <Button 
                         disabled = { isDataBeingEvaluated }

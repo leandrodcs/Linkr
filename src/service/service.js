@@ -111,10 +111,11 @@ function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated
     });
 }
 
-function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
-    const adjustedBody = {...body, text: textWithLowercaseHashtags(body.text)}
+function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost, location){
+    const adjustedBody = {...body, text: textWithLowercaseHashtags(body.text), "geolocation":{"latitude":location.latitude,"longitude":location.longitude}}
     axios.post(`${URL}/posts`, adjustedBody, createConfig(userToken))
     .then( resp => {
+        console.log(resp);
         setIsDataBeingEvaluated(false);
         setNewPost({ text:"",link:"" })
     })

@@ -17,11 +17,11 @@ function formattedNumberOfLikes(numberOfLikes) {
     return `${numberOfLikes} ${numberOfLikes > 1 ? "likes" : "like"}`
 }
 
-function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost){
+function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost, location){
     event.preventDefault();
     if (!isInputValid("link",objectToPublish.link)) {return};
     setIsDataBeingEvaluated(true);
-    publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost);
+    publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setNewPost, location);
 }
 
 function PrintedPosts(posts, followingList) {
