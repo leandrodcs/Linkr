@@ -1,29 +1,28 @@
-import styled from "styled-components";
-import {deletePostFromServer} from "../../service/service";
-import { useContext } from "react";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
+import UserContext from "../../contexts/UserContext";
+import PostContext from "../../contexts/PostContext";
+import { repostPost } from "../../utils/PostsUtils";
 
-export default function Modal({token, setOpenModal, id, openModal}) {
+import styled from "styled-components";
+import { useContext } from "react";
+
+export default function Modal({openModal, setOpenModal}) {
 
     const {isDataBeingEvaluated, setIsDataBeingEvaluated} = useContext(DataEvaluationContext);
-
-    function deletePost() {
-        setIsDataBeingEvaluated(true);
-        deletePostFromServer(token, id, setOpenModal, setIsDataBeingEvaluated);
-    }
+    const { login } = useContext(UserContext);
+    const { id } = useContext(PostContext)
 
     return(
         <Background openModal={openModal}>
-            <DialogBox deleting={isDataBeingEvaluated} openModal={openModal} >
-                {isDataBeingEvaluated ? <h1>Excluindo...</h1> : 
+            <DialogBox reposting={isDataBeingEvaluated} openModal={openModal} >
+                {isDataBeingEvaluated ? <h1>Repostando...</h1> : 
                 <>
-                    <h1>Tem certeza que deseja<br/>excluir essa publicação?</h1>
+                    <h1>Tem certeza que deseja<br/>repostar essa publicação?</h1>
                     <Buttons>
                         <button onClick={() => setOpenModal(false)}>Não, voltar</button>
-                        <button onClick={deletePost}>Sim, excluir</button>
+                        <button onClick = { () => repostPost(login.token, id, setIsDataBeingEvaluated, setOpenModal) }>Sim, repostar</button>
                     </Buttons>
                 </>}
-
             </DialogBox>
         </Background>
     );
@@ -36,7 +35,7 @@ const Buttons = styled.div`
 
 const Background = styled.div`
     position: fixed;
-    z-index: 1;
+    z-index: 5;
     top: 0;
     left: 0;
     width: 100%;
@@ -57,7 +56,7 @@ const DialogBox = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: ${({deleting}) => deleting ? `center` : `initial`};
+    justify-content: ${({reposting}) => reposting ? `center` : `initial`};
     padding-top: 38px;
     font-weight: 700;
     transition: 0.1s;

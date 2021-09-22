@@ -1,6 +1,8 @@
 import Blank from "./elements/Blank";
 import DropDownWindow from "./elements/DropDownWindow";
 import HeaderWrapper from "./elements/HeaderWrapper";
+import DropDownMenu from "./elements/DropDownMenu";
+import SearchBar from "./elements/SearchBar";
 
 import UserContext from "../../contexts/UserContext";
 
@@ -27,12 +29,12 @@ export default function Header() {
 
     return (
         <>
-            <HeaderWrapper showNavBar={showNavBar}>
+            <HeaderWrapper >
                 <Link to="/timeline">linkr</Link>
-                <div onClick={() => showNavBar ? setShowNavBar(false) : setShowNavBar(true)}>
+                <DropDownMenu onClick={() => showNavBar ? setShowNavBar(false) : setShowNavBar(true)} showNavBar={showNavBar}>
                     <IoIosArrowDown />
                     <img src={!!login.token ? login.user.avatar : ""} alt="avatar" />
-                </div>
+                </DropDownMenu>
             </HeaderWrapper>
             <DropDownWindow showNavBar={showNavBar}>
                 <p onClick={() => relocate("my-posts")}>My posts</p>
@@ -40,8 +42,10 @@ export default function Header() {
                 <p onClick={() => relocate("")}>Logout</p>
             </DropDownWindow>
             {showNavBar ? <Blank onClick={() => setShowNavBar(false)}/> : ""}
+            <SearchBar />
         </>
     );
 }
+
 
 

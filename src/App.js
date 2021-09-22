@@ -97,4 +97,7 @@ const GlobalReset = createGlobalStyle`
   color: inherit;
   text-decoration: none;
   }
+  body {
+    background-color: #333333;
+  }
 `;

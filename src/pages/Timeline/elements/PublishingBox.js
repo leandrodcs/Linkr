@@ -14,7 +14,8 @@ import { IoMdPin } from "react-icons/io";
 
 export default function PublishingBox() {
     const { login } = useContext(UserContext);
-    const { isDataBeingEvaluated, setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const { setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [ isPublishing, setIsPublishing ] = useState(false);
     const [ newPost, setNewPost ] = useState({ text:"",link:"" });
     const [location, setLocation] = useState(false);
 
@@ -43,18 +44,18 @@ export default function PublishingBox() {
                 <p>
                     O que você tem pra favoritar hoje?
                 </p>
-                <form onSubmit = { (event) => CheckPublishingBoxAndSendPost(event, newPost, login.token, setIsDataBeingEvaluated, setNewPost, location) } >
+                <form onSubmit = { (event) => CheckPublishingBoxAndSendPost(event, newPost, login.token, setIsDataBeingEvaluated, setIsPublishing, setNewPost, location) } >
                     <Input 
                         placeholder = "http://..."
-                        disabled = { isDataBeingEvaluated }
-                        isDataBeingEvaluated = { isDataBeingEvaluated }
+                        disabled = { isPublishing }
+                        isPublishing = { isPublishing }
                         value = {newPost.link}
                         onChange = { e => adjustStateObjectData(newPost, setNewPost, "link", e.target.value)}
                     />
                     <TextArea
                         placeholder = "Muito irado esse link falando de #javascript"
-                        disabled = { isDataBeingEvaluated }
-                        isDataBeingEvaluated = { isDataBeingEvaluated }
+                        disabled = { isPublishing }
+                        isPublishing = { isPublishing }
                         value = {newPost.text}
                         onChange = { e => adjustStateObjectData(newPost, setNewPost, "text", e.target.value)}
                     />
@@ -65,11 +66,11 @@ export default function PublishingBox() {
                         {location ? `Localização ativada` : `Localização desativada`}
                     </Location>
                     <Button 
-                        disabled = { isDataBeingEvaluated }
-                        isDataBeingEvaluated = { isDataBeingEvaluated }
+                        disabled = { isPublishing }
+                        isPublishing = { isPublishing }
                         type = "submit"
                     >
-                        { isDataBeingEvaluated ? "Publicando..." : "Publicar"}
+                        { isPublishing ? "Publicando..." : "Publicar"}
                     </Button>
                 </form>
             </PublishingBoxContent>
