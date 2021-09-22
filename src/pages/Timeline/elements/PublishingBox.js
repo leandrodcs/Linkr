@@ -16,7 +16,22 @@ export default function PublishingBox() {
     const { login } = useContext(UserContext);
     const { isDataBeingEvaluated, setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [ newPost, setNewPost ] = useState({ text:"",link:"" });
-    const [isLocationActive, setIsLocationActive] = useState(false);
+    const [location, setLocation] = useState(false);
+
+    function pinOrUnpinLocation() {
+        if (!("geolocation" in navigator)) {
+            alert("Seu navegador não possui suporte para localização ;(");
+            return;
+        }
+        if (location) {
+            setLocation(false);
+            return
+        }
+        navigator.geolocation.getCurrentPosition(p => {
+            setLocation({latitude: p.coords.latitude, longitude: p.coords.longitude});
+        })
+    }
+    console.log(location);
 
     return (
         <Wrapper>
@@ -44,7 +59,9 @@ export default function PublishingBox() {
                         value = {newPost.text}
                         onChange = { e => adjustStateObjectData(newPost, setNewPost, "text", e.target.value)}
                     />
-                    <Location isLocationActive={isLocationActive} onClick={() => isLocationActive ? setIsLocationActive(false) : setIsLocationActive(true)}>
+                    <Location 
+                        isLocationActive={location} 
+                        onClick={() => pinOrUnpinLocation()}>
                         <FiMapPin />
                         Localização desativada      
                     </Location>
