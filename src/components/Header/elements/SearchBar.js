@@ -55,7 +55,6 @@ export default function SearchBar() {
             debounceTimeout={300}
             value={search}
             onKeyUp={e => analyzeKey(e, userList.length ? userList[0].id : "")}
-            minLength={3}
             onChange={e => {
                 setSearch(e.target.value);
                 searchForUser(e);
