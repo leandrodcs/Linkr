@@ -165,8 +165,8 @@ function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
 function likePost( postID, userToken, hasUserLiked, setIsLiked, setIsDataBeingEvaluated ) {
     axios.post(`${URL}/posts/${postID}/${hasUserLiked ? "dislike" : "like" }`, "", createConfig(userToken))
         .then(resp => {
-            setIsDataBeingEvaluated(false);
             setIsLiked(!hasUserLiked);
+            setIsDataBeingEvaluated(false);
         })
         .catch(err => {
             sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");

@@ -13,14 +13,14 @@ function OpenLinkInNewPage(link){
     window.open(link, '_blank');
 }
 
-function formattedNumberOfInteractions(numberOfLikes, typeOfInteraction, wasThisPostClicked, hasUserLiked) {
+function formattedNumberOfInteractions(numberOfLikes, typeOfInteraction, wasThisPostClicked, isLiked) {
     let likesToBeAdded = () => {
         if (wasThisPostClicked) {
-            return (hasUserLiked ? -1 : 1);
+            return (isLiked ? 1 : -1);
         }
         return 0
     }
-    return `${numberOfLikes + likesToBeAdded()} ${numberOfLikes > 1 ? typeOfInteraction + "s" : typeOfInteraction }`
+    return `${numberOfLikes + likesToBeAdded()} ${numberOfLikes + likesToBeAdded() > 1 ? typeOfInteraction + "s" : typeOfInteraction }`
 }
 
 function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost){

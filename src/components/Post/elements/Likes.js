@@ -15,31 +15,30 @@ export default function Likes() {
     const { setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [ wasThisPostClicked, setWasThisPostClicked ] = useState(false);
     const [ isLiked, setIsLiked ] = useState(hasUserLiked);
+    const whichButtonIsShown = (wasThisPostClicked ? isLiked : hasUserLiked)
 
     useEffect( () => {
-        setWasThisPostClicked(false)
-    },[likes] )
-    
+        setWasThisPostClicked(false);
+    },[hasUserLiked] )
+
     return (
         <Wrapper>
-            { (wasThisPostClicked ? isLiked : hasUserLiked) ?
-                <LikedHeart 
-                    onClick={() => likePostHelper(setWasThisPostClicked, hasUserLiked, setIsLiked, login.token, id, setIsDataBeingEvaluated)}
-                /> :
-                <NotLikedHeart
-                    onClick={() => likePostHelper(setWasThisPostClicked, hasUserLiked, setIsLiked, login.token, id, setIsDataBeingEvaluated)}
+                <button
+                    disabled = {wasThisPostClicked}
+                    onClick={() => likePostHelper( hasUserLiked, setIsLiked, login.token, id, setIsDataBeingEvaluated, setWasThisPostClicked)}
+                >
+                    {whichButtonIsShown ? <LikedHeart /> : <NotLikedHeart />} 
+                </button>
+            <TextAndTooltip data-tip={getTooltipText(likes, hasUserLiked, login.user.id, wasThisPostClicked)}>
+                { formattedNumberOfInteractions(likes.length, "like", wasThisPostClicked, isLiked) }
+                <ReactTooltip 
+                    place="bottom"
+                    effect="solid"
+                    textColor="#505050"
+                    backgroundColor="#FFFFFFE5"
+                    wrapper="span"
                 />
-            }
-            <p data-tip={getTooltipText(likes, hasUserLiked, login.user.id, wasThisPostClicked)}>
-                { formattedNumberOfInteractions(likes.length, "like", wasThisPostClicked, hasUserLiked) }
-            </p>
-            <ReactTooltip 
-                place="bottom"
-                effect="solid"
-                textColor="#505050"
-                backgroundColor="#FFFFFFE5"
-                wrapper="span"
-            />
+            </TextAndTooltip>
         </Wrapper>
     );
 }
@@ -49,28 +48,22 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    & p {
-        font-size: 11px;
-        font-weight: 400;
-        color: #FFFFFF;
-        text-align: center;
-    }
+`
+
+const TextAndTooltip = styled.p`
+    font-size: 11px;
+    font-weight: 400;
+    color: #FFFFFF;
+    text-align: center;
     & span {
         font-weight: 700;
-        font-size: 11px;
-    }
-
-    @media(max-width: 637px) {
-        & p {
-            font-size: 11px;
-        }
     }
 `
 
 const LikedHeart = styled(AiTwotoneHeart)`
     font-size: 16px;
     color: #AC0000;
-    margin: 20px 0px 6px;
+    margin: 20px 0px 4px;
     cursor: pointer;
 
     @media(max-width: 637px) {
@@ -82,7 +75,7 @@ const LikedHeart = styled(AiTwotoneHeart)`
 const NotLikedHeart = styled(AiOutlineHeart)`
     font-size: 16px;
     color: #FFFFFF;
-    margin: 20px 0px 6px;
+    margin: 20px 0px 4px;
     cursor: pointer;
 
     @media(max-width: 637px) {

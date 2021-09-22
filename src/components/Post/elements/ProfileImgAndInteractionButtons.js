@@ -9,7 +9,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 
-
 export default function ProfileImgAndInteractionButtons() {
     const { user } = useContext(PostContext);
     const { login } = useContext(UserContext);

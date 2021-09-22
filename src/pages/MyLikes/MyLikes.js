@@ -4,6 +4,7 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
 
 import UserContext from "../../contexts/UserContext";
+import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import {getUserLikes} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 
@@ -14,10 +15,11 @@ export default function MyLikes() {
     const {login} = useContext(UserContext);
     const [userLikes, setUserLikes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
 
     useEffect(() => {
         getUserLikes(login.token, setUserLikes, setLoading)
-    }, [login.token]);
+    }, [login.token, isDataBeingEvaluated]);
 
     if(!userLikes.length && loading) {
         return (
@@ -27,13 +29,12 @@ export default function MyLikes() {
             </Container>
         );
     }
-
+    
     return (
         <Container>
             <Wrapper>
                 <PageTitle text = "my likes" />
-                { PrintedPosts(userLikes, "Você ainda não curtiu post!", login.user.id) }
-                
+                { PrintedPosts(userLikes, "Você ainda não curtiu nenhum post!", login.user.id) }
             </Wrapper>
             <Trending />
         </Container>
