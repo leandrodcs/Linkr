@@ -175,6 +175,19 @@ function likePost( postID, userToken, hasUserLiked, setIsLiked, setIsDataBeingEv
         });
 }
 
+function getUserList(search, userToken, setUserList, setShowUsers) {
+    axios.get(`${URL}/users/search/?username=${search}`, createConfig(userToken))
+    .then(res => {
+        const following = res.data.users.filter(u => u.isFollowingLoggedUser);
+        const notFollowing = res.data.users.filter(u => !u.isFollowingLoggedUser);
+        setUserList([...following, ...notFollowing]);
+        setShowUsers(true);
+    })
+    .catch(err => {
+        sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+    });
+}
+
 function sendRepostToServer(userToken, postID, setIsDataBeingEvaluated, setOpenModal) {
     axios.post(`${URL}/posts/${postID}/share`, "", createConfig(userToken))
     .then(resp => {
@@ -224,6 +237,7 @@ export {
     deletePostFromServer,
     getHashtagPosts,
     publishEditedPost,
+    getUserList,
     sendRepostToServer,
     getFollowingList,
     followUser,
