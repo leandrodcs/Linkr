@@ -31,14 +31,13 @@ export default function Timeline() {
             </Container>
         );
     }
-    window.scrollTo(0,0);
 
     return (
         <Container>
             <Wrapper>
                 <PageTitle text = "timeline" />
                 <PublishingBox />
-                { PrintedPosts(posts, followingList) }
+                { PrintedPosts(posts, "Nenhuma publicação encontrada", login.user.id, followingList) }
             </Wrapper>
             <Trending />
         </Container>

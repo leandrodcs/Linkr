@@ -111,15 +111,17 @@ function publishEditedPost(editedMsg, postId, userToken, setIsDataBeingEvaluated
     });
 }
 
-function publishNewPost(body, userToken, setIsDataBeingEvaluated,setNewPost){
+function publishNewPost(body, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost){
     const adjustedBody = {...body, text: textWithLowercaseHashtags(body.text)}
     axios.post(`${URL}/posts`, adjustedBody, createConfig(userToken))
     .then( resp => {
         setIsDataBeingEvaluated(false);
+        setIsPublishing(false);
         setNewPost({ text:"",link:"" })
     })
     .catch( error => {
         sendAlert("error", "Oops!","Seu post não pôde ser publicado! Tente novamente...");
+        setIsPublishing(false);
         setIsDataBeingEvaluated(false);
     })
 }
@@ -160,15 +162,31 @@ function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
     });
 }
 
-function likePost( postID, userToken, setLikes, isLiked, setIsLiked ) {
-    axios.post(`${URL}/posts/${postID}/${isLiked ? "dislike" : "like" }`, "", createConfig(userToken))
+function likePost( postID, userToken, hasUserLiked, setIsLiked, setIsDataBeingEvaluated ) {
+    axios.post(`${URL}/posts/${postID}/${hasUserLiked ? "dislike" : "like" }`, "", createConfig(userToken))
         .then(resp => {
-            setLikes(resp.data.post.likes);
+            setIsLiked(!hasUserLiked);
+            setIsDataBeingEvaluated(false);
         })
         .catch(err => {
             sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
-            setIsLiked(isLiked);
+            setIsLiked(hasUserLiked);
+            setIsDataBeingEvaluated(false);
         });
+}
+
+function sendRepostToServer(userToken, postID, setIsDataBeingEvaluated, setOpenModal) {
+    axios.post(`${URL}/posts/${postID}/share`, "", createConfig(userToken))
+    .then(resp => {
+        setOpenModal(false);
+        sendAlert("success", "Você repostou essa publicação!","Vá até sua timeline para conferir!");
+        setIsDataBeingEvaluated(false);
+    })
+    .catch(error => {
+        setOpenModal(false);
+        sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+        setIsDataBeingEvaluated(false);
+    })
 }
 
 function getFollowingList( userToken, setFollowingList ) {
@@ -206,6 +224,7 @@ export {
     deletePostFromServer,
     getHashtagPosts,
     publishEditedPost,
+    sendRepostToServer,
     getFollowingList,
-    followUser
+    followUser,
 };
