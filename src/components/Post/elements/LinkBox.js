@@ -1,6 +1,7 @@
 import PostContext from "../../../contexts/PostContext";
 import { OpenLinkInNewPage } from "../../../utils/PostsUtils";
 import { CheckTextLengthAndReduceItIfNeeded } from "../../../utils/TextAdjustmentsUtils";
+import defaultLinkImg from "../../../assets/defaultLinkImg.png";
 
 import styled from "styled-components";
 import { useContext, useState } from "react";
@@ -32,7 +33,7 @@ export default function LinkBox() {
                 <LinkDescription>{CheckTextLengthAndReduceItIfNeeded(linkDescription,80)}</LinkDescription>
                 <LinkUrl>{CheckTextLengthAndReduceItIfNeeded(link,55)}</LinkUrl>
             </LinkBoxContent>
-            <img src = {linkImage} onError={"this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png';"} alt = "link" />
+            <img src = {displayedImage} onError={() => setDisplayedImage(defaultLinkImg)} alt = "link" />
         </Wrapper>
     );
 }
