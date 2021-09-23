@@ -44,7 +44,7 @@ export default function LinkBox() {
 
 const Wrapper = styled.div`
     width: 100%;
-    min-height: 155px;
+    min-height: 150px;
     border: ${props => props.video ? "none" : "1px solid #C4C4C4"};
     border-radius: ${props => props.video ? "0px" : "11px"};
     display: ${props => props.video ? "initial" : "flex"};
@@ -52,7 +52,7 @@ const Wrapper = styled.div`
     cursor: pointer;
     & img {
         width: 150px;
-        height: 150px;
+        height: 100%;
         object-fit: cover;
         border-radius: 0px 11px 11px 0px;
     }
