@@ -42,7 +42,7 @@ export default function UserPage() {
         <Container>
             <Wrapper>
                 <StyledTop>
-                    <PageTitle text = {`${username}'s Posts`} />
+                    <PageTitle type = "UserPosts" text = {<><span>{username}</span> <span>'s Posts</span></>} />
                     <Button />
                 </StyledTop>
                 { PrintedPosts(userPosts, "Este usuário ainda não criou nenhum post!", login.user.id) }
@@ -64,12 +64,18 @@ const Wrapper = styled.section`
 `;
 
 const StyledTop = styled.div`
+    width: 100%;
     position: relative;
 
     @media(max-width: 937px) {
+        margin-bottom: 30px;
+    }
+
+    @media(max-width: 637px) {
         position: initial;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        align-items: center;
+        align-items: left;
     }
 `;

@@ -48,10 +48,13 @@ export default function PostBox() {
 }
 
 const Wrapper = styled.div`
-    width: 100%;
+    width: calc(100% - 85px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media(max-width: 637px) {
+        width: calc(100% - 70px);
+    }
 `
 
 const EditInput = styled.input`
@@ -70,6 +73,7 @@ const Description = styled.span`
     line-height: 25px;
     color: #B7B7B7;
     display: inline-block;
+    word-break: break-word;
     margin: 8px 0px;
     @media(max-width: 637px) {
         font-size: 15px;
