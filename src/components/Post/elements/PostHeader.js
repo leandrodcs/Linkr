@@ -35,7 +35,7 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
                 </IconButton>
             : ""
             }
-            <Modal openModal={openModal} setOpenModal={setOpenModal} />
+            {openModal ? <Modal setOpenModal={setOpenModal} /> : ""}
         </Wrapper>
     );
 }

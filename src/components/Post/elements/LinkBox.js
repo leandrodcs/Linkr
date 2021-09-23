@@ -37,7 +37,7 @@ export default function LinkBox() {
                 </LinkBoxContent>
                 <img src = {linkImage} alt = "link" />
             </Wrapper>
-            <Modal openModal = { openModal } setOpenModal = { setOpenModal } />
+            {openModal ? <Modal setOpenModal = { setOpenModal } /> : ""}
         </>
     );
 }

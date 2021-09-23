@@ -5,13 +5,13 @@ import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai"
 import { useContext } from "react";
 
-export default function Modal({openModal, setOpenModal}) {
+export default function Modal({setOpenModal}) {
 
     const { link } = useContext(PostContext)
 
     return(
-        <Background openModal={openModal}>
-            <DialogBox openModal={openModal} >
+        <Background >
+            <DialogBox >
                 <Header>
                     <NewTabButton onClick = { () => OpenLinkInNewPage(link) }  >
                         Open in new tab
@@ -37,7 +37,7 @@ const Background = styled.div`
     height: 100%;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.75);
-    display: ${({openModal}) => openModal ? `flex` : `none`};
+    display: flex;
     align-items: center;
     justify-content: center;
 `;
@@ -55,7 +55,7 @@ const DialogBox = styled.div`
     padding: 16px 24px;
     transition: 0.1s;
     overflow: hidden;
-    margin-bottom: ${({openModal}) => openModal ? `0px` : `100px`};
+    margin-bottom: 0px;
 
     @media(max-width: 637px) {
         width: 95vw;
