@@ -21,6 +21,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
     & p {
         font-size: 11px;
         font-weight: 400;
@@ -33,6 +34,7 @@ const Wrapper = styled.div`
     }
 
     @media(max-width: 637px) {
+        margin-bottom: 17px;
         & p {
             font-size: 11px;
         }
@@ -43,11 +45,10 @@ const RepostButton = styled(AiOutlineComment)`
     font-size: 20px;
     font-weight: 700;
     color: #FFF;
-    margin: 16px 0px 3px;
     cursor: pointer;
+    margin-bottom: 4px;
 
     @media(max-width: 637px) {
         font-size: 17px;
-        margin: 20px 0px 12px;
     }
 `;

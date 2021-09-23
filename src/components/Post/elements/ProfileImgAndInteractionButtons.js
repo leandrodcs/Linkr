@@ -36,12 +36,14 @@ const Wrapper = styled.div`
     & img {
         width: 50px;
         height: 50px;
+        margin-bottom: 20px;
         border-radius: 50%;
         object-fit: cover;
     }
 
     @media(max-width: 637px) {
-        margin-right: 14px;
+        width: 55px;
+        margin-right: 15px;
         & img {
             width: 40px;
             height: 40px;

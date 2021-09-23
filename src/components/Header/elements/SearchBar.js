@@ -7,23 +7,32 @@ import { DebounceInput } from "react-debounce-input";
 import styled from "styled-components";
 import { useContext, useRef, useState } from "react";
 import { useHistory } from "react-router";
-import {GiMagnifyingGlass} from 'react-icons/gi';
 import SearchBarUser from "./SearchBarUser";
+import { SearchOutline } from 'react-ionicons'
+
+
 
 export default function SearchBar() {
     const [showUsers, setShowUsers] = useState(false);
     const [userList, setUserList] = useState([]);
     const [search, setSearch] = useState("");
     const {login} = useContext(UserContext);
-    const [displayedAvatar, setDisplayedAvatar] = useState(login.avatar);
     const history = useHistory();
     const inputRef = useRef(null);
+
+    function closeSuggestionWindow(e) {
+        setTimeout(() => {
+            setShowUsers(false);
+            setUserList([]);
+        }, 100);
+    }
 
     function searchForUser(e) {
         const currentSearch = e.target.value;
         if(currentSearch.length < 3) {
             setShowUsers(false);
-            return setUserList([]);
+            setUserList([]);
+            return;
         }
         getUserList(currentSearch, login.token, setUserList, setShowUsers);
     }
@@ -44,7 +53,8 @@ export default function SearchBar() {
         setSearch("");
         setUserList([]);
         if(whereTo === Number(login.user.id)) {
-            return history.push(`/my-posts`);
+            history.push(`/my-posts`);
+            return;
         }
         history.push(`/user/${whereTo}`);
     }
@@ -57,31 +67,49 @@ export default function SearchBar() {
             debounceTimeout={300}
             value={search}
             onKeyUp={e => analyzeKey(e, userList.length ? userList[0].id : "")}
+            onBlur={closeSuggestionWindow}
+            onFocus={e => searchForUser(e)}
             onChange={e => {
                 setSearch(e.target.value);
                 searchForUser(e);
             }}
             />
             <button  onClick={() => relocate( userList.length ? userList[0].id : "")}>
-            <GiMagnifyingGlass />
+            <SearchOutline />
             </button>
             {!showUsers ? 
             ""
             :
             !userList.length ? 
-            <SuggestionWindow>
-                <li>
-                    <p><EmptyMsg>Nenhum usuário encontrado ;(</EmptyMsg></p>
-                </li>
-            </SuggestionWindow> 
+            <>
+                <Fill />
+                <SuggestionWindow userList={userList}>
+                    <li>
+                        <p><EmptyMsg>Nenhum usuário encontrado ;(</EmptyMsg></p>
+                    </li>
+                </SuggestionWindow> 
+            </>
             :
-            <SuggestionWindow>
-                {userList.map(user => <SearchBarUser user={user} relocate={relocate} login={login}/>)}
-            </SuggestionWindow> 
+            <>
+                <Fill />
+                <SuggestionWindow userList={userList}>
+                    {userList.map(user => <SearchBarUser key={user.id} user={user} relocate={relocate} login={login}/>)}
+                </SuggestionWindow> 
+            </>
              }
         </Wrapper>
     );
 }
+
+const Fill = styled.div`
+    height: 60px;
+    border-radius: 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #E7E7E7;
+`;
 
 const EmptyMsg = styled.span`
     color: #C5C5C5;
