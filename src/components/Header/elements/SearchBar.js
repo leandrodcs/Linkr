@@ -8,12 +8,14 @@ import styled from "styled-components";
 import { useContext, useRef, useState } from "react";
 import { useHistory } from "react-router";
 import {GiMagnifyingGlass} from 'react-icons/gi';
+import SearchBarUser from "./SearchBarUser";
 
 export default function SearchBar() {
     const [showUsers, setShowUsers] = useState(false);
     const [userList, setUserList] = useState([]);
     const [search, setSearch] = useState("");
     const {login} = useContext(UserContext);
+    const [displayedAvatar, setDisplayedAvatar] = useState(login.avatar);
     const history = useHistory();
     const inputRef = useRef(null);
 
@@ -69,40 +71,19 @@ export default function SearchBar() {
             !userList.length ? 
             <SuggestionWindow>
                 <li>
-                    <p><WhoIsIt>Nenhum usuário encontrado ;(</WhoIsIt></p>
+                    <p><EmptyMsg>Nenhum usuário encontrado ;(</EmptyMsg></p>
                 </li>
             </SuggestionWindow> 
             :
             <SuggestionWindow>
-                {userList.map(user => (
-                    <li key={user.id} onClick={() => relocate(user.id)}>
-                        <img src={user.avatar} alt="avatar"/>
-                        <p><Username>{user.username}</Username><WhoIsIt>{
-                        Number(login.user.id) === user.id ? " • you :)" : 
-                        user.isFollowingLoggedUser ?"• following":""
-                        }</WhoIsIt></p>
-                    </li>
-                ))}
+                {userList.map(user => <SearchBarUser user={user} relocate={relocate} login={login}/>)}
             </SuggestionWindow> 
              }
         </Wrapper>
     );
 }
 
-const Username= styled.span`
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    max-width: 70%;
-
-    @media(max-width: 937px) {
-        max-width: 60%;
-    }
-        @media(max-width: 637px) {
-            max-width: 70%;
-    }
-`;
-
-const WhoIsIt = styled.span`
+const EmptyMsg = styled.span`
     color: #C5C5C5;
     margin-left: 5px;
 `;
