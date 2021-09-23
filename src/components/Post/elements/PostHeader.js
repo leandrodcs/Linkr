@@ -21,7 +21,7 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
     return (
         <Wrapper>
             <Link to={imageRoute}>
-                {user.username}
+                <span>{user.username}</span>
             </Link>
             {isUsersOriginalPost(repostedBy, login.user.id, user.id) ? 
                 <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing(isEditing, text, setIsEditing, setEditedMsg) : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
@@ -41,14 +41,19 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
 }
 
 const Wrapper = styled.div`
+    width: 100%;
     font-size: 19px;
     line-height: 25px;
     font-weight: 400;
+    display: flex;
+    align-items: center;
     color: #FFFFFF;
     position: relative;
     & a {
-            display: inline-block;
-            max-width: 85%;
+            max-width: calc( 100% - 50px );;
+            overflow-x: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
     @media(max-width: 637px) {
         font-size: 17px;

@@ -46,6 +46,12 @@ const Wrapper = styled.div`
     cursor: ${props => props.isButtonEnabled ? "pointer" : "progress"};
 
     @media(max-width: 937px) {
+        left: unset;
+        right: 0px;
+    }
+
+    @media(max-width: 637px) {
         position: initial;
+        margin: 16px 16px 0px
     }
 `;

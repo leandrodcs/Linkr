@@ -48,6 +48,10 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
+    @media(max-width: 637px) {
+        margin-bottom: 17px;
+    }
 `
 
 const TextAndTooltip = styled.p`
@@ -61,25 +65,23 @@ const TextAndTooltip = styled.p`
 `
 
 const LikedHeart = styled(AiTwotoneHeart)`
-    font-size: 16px;
+    font-size: 20px;
     color: #AC0000;
-    margin: 20px 0px 4px;
+    margin-bottom: 4px;
     cursor: pointer;
 
     @media(max-width: 637px) {
-        font-size: 14px;
-        margin: 20px 0px 12px;
+        font-size: 17px;
     }
 `;
 
 const NotLikedHeart = styled(AiOutlineHeart)`
-    font-size: 16px;
+    font-size: 20px;
     color: #FFFFFF;
-    margin: 20px 0px 4px;
+    margin-bottom: 4px;
     cursor: pointer;
 
     @media(max-width: 637px) {
-        font-size: 14px;
-        margin: 20px 0px 12px;
+        font-size: 17px;
     }
 `;
