@@ -3,12 +3,13 @@ import { OpenLinkInNewPage } from "../../../utils/PostsUtils";
 import { CheckTextLengthAndReduceItIfNeeded } from "../../../utils/TextAdjustmentsUtils";
 
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import getYouTubeID from "get-youtube-id";
 
 export default function LinkBox() {
     const { link, linkTitle, linkDescription, linkImage } = useContext(PostContext);
     const youtubeId = getYouTubeID(link);
+    const [displayedImage, setDisplayedImage] = useState(linkImage);
 
     if(youtubeId) {
         return (
@@ -22,6 +23,8 @@ export default function LinkBox() {
         );
     }
 
+    console.log(linkImage);
+
     return (
         <Wrapper onClick = {() => OpenLinkInNewPage(link)}>
             <LinkBoxContent>
@@ -29,7 +32,7 @@ export default function LinkBox() {
                 <LinkDescription>{CheckTextLengthAndReduceItIfNeeded(linkDescription,80)}</LinkDescription>
                 <LinkUrl>{CheckTextLengthAndReduceItIfNeeded(link,55)}</LinkUrl>
             </LinkBoxContent>
-            <img src = {linkImage} alt = "link" />
+            <img src = {linkImage} onError={"this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png';"} alt = "link" />
         </Wrapper>
     );
 }
