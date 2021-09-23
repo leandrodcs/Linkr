@@ -115,7 +115,6 @@ function publishNewPost(body, userToken, setIsDataBeingEvaluated, setIsPublishin
     const adjustedBody = {...body, text: textWithLowercaseHashtags(body.text), "geolocation":{"latitude":location.latitude,"longitude":location.longitude}}
     axios.post(`${URL}/posts`, adjustedBody, createConfig(userToken))
     .then( resp => {
-        console.log(resp);
         setIsDataBeingEvaluated(false);
         setIsPublishing(false);
         setNewPost({ text:"",link:"" })

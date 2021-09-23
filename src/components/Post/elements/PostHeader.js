@@ -13,8 +13,6 @@ import { RiPencilFill } from "react-icons/ri";
 import { IoMdPin } from "react-icons/io";
 import { useContext, useState } from "react";
 
-
-
 export default function PostHeader({setIsEditing, isEditing, cancelEditing, setEditedMsg}) {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
     const { user, text, repostedBy, geolocation } = useContext(PostContext);
@@ -34,19 +32,19 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
             </GeoButton>
             }
             {isUsersOriginalPost(repostedBy, login.user.id, user.id) ? 
-                <IconButton right = {"25px"} onClick={() => isEditing ? cancelEditing(isEditing, text, setIsEditing, setEditedMsg) : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
+                <EditButton right = {"25px"} onClick={() => isEditing ? cancelEditing(isEditing, text, setIsEditing, setEditedMsg) : setIsEditing(!isEditing)} disabled={isDataBeingEvaluated}>
                     <RiPencilFill />
-                </IconButton>
+                </EditButton>
                 : ""
             }
             { isUsersOriginalPost(repostedBy, login.user.id, user.id) || isUsersRepost(repostedBy, login.user.id) ?
-                <IconButton right = {"0px"} onClick={() => setOpenModal(true)} disabled={isDataBeingEvaluated}>
+                <TrashButton right = {"0px"} onClick={() => setOpenModal(true)} disabled={isDataBeingEvaluated}>
                     <FaTrash />
-                </IconButton>
+                </TrashButton>
             : ""
             }
             <Modal openModal={openModal} setOpenModal={setOpenModal} />
-            <LocationModal openModal={showLocation} setOpenModal={setShowLocation} geolocation={geolocation} />
+            {geolocation&& <LocationModal openModal={showLocation} setOpenModal={setShowLocation} geolocation={geolocation} username={user.username}/>} 
         </Wrapper>
     );
 }
@@ -73,7 +71,7 @@ const Wrapper = styled.div`
     }
 `;
 
-const IconButton = styled.button`
+const TrashButton = styled.button`
     font-size: 18px;
     color: #FFFFFF;
     position: absolute;
@@ -81,10 +79,8 @@ const IconButton = styled.button`
     top: 0;
     cursor: pointer;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
-    :nth-child(2):hover {
-        color: #1877F2;
-    }
-    :nth-child(3):hover {
+    
+    :hover {
         color: red;
     }
 
@@ -93,3 +89,19 @@ const IconButton = styled.button`
     }
 `;
 
+const EditButton = styled.button`
+    font-size: 18px;
+    color: #FFFFFF;
+    position: absolute;
+    right: ${ ({right}) => right };
+    top: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    :hover {
+        color: #1877F2;
+    }
+
+    @media(max-width: 637px) {
+        font-size: 15px;
+    }
+`;

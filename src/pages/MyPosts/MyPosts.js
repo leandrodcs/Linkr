@@ -29,7 +29,6 @@ export default function MyPosts() {
             </Container>
         );
     }
-    console.log(userPosts);
 
     return (
         <Container>
