@@ -1,13 +1,16 @@
+import Modal from "../../Modals/PreviewModal";
+
 import PostContext from "../../../contexts/PostContext";
 import { OpenLinkInNewPage } from "../../../utils/PostsUtils";
 import { CheckTextLengthAndReduceItIfNeeded } from "../../../utils/TextAdjustmentsUtils";
 
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import getYouTubeID from "get-youtube-id";
 
 export default function LinkBox() {
     const { link, linkTitle, linkDescription, linkImage } = useContext(PostContext);
+    const [openModal, setOpenModal] = useState(false);
     const youtubeId = getYouTubeID(link);
 
     if(youtubeId) {
@@ -25,19 +28,23 @@ export default function LinkBox() {
     }
 
     return (
-        <Wrapper onClick = {() => OpenLinkInNewPage(link)}>
-            <LinkBoxContent>
-                <LinkTitle>{CheckTextLengthAndReduceItIfNeeded(linkTitle, 50)}</LinkTitle>
-                <LinkDescription>{CheckTextLengthAndReduceItIfNeeded(linkDescription,100)}</LinkDescription>
-                <LinkUrl>{link}</LinkUrl>
-            </LinkBoxContent>
-            <img src = {linkImage} alt = "link" />
-        </Wrapper>
+        <>
+            <Wrapper onClick = {() => setOpenModal(true)}>
+                <LinkBoxContent>
+                    <LinkTitle>{CheckTextLengthAndReduceItIfNeeded(linkTitle, 50)}</LinkTitle>
+                    <LinkDescription>{CheckTextLengthAndReduceItIfNeeded(linkDescription,100)}</LinkDescription>
+                    <LinkUrl>{link}</LinkUrl>
+                </LinkBoxContent>
+                <img src = {linkImage} alt = "link" />
+            </Wrapper>
+            <Modal openModal = { openModal } setOpenModal = { setOpenModal } />
+        </>
     );
 }
 
 const Wrapper = styled.div`
     width: 100%;
+    min-height: 155px;
     border: ${props => props.video ? "none" : "1px solid #C4C4C4"};
     border-radius: ${props => props.video ? "0px" : "11px"};
     display: ${props => props.video ? "initial" : "flex"};
@@ -67,6 +74,7 @@ const Wrapper = styled.div`
 
 const LinkBoxContent = styled.div`
     width: calc(100% - 150px);
+    height: 100%;
     padding: 16px;
     font-weight: 400;
     color: #CECECE;
