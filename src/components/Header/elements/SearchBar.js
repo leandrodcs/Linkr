@@ -19,9 +19,11 @@ export default function SearchBar() {
     const history = useHistory();
     const inputRef = useRef(null);
 
-    function closeSuggestionWindow() {
-        setShowUsers(false);
-        setUserList([]);
+    function closeSuggestionWindow(e) {
+        setTimeout(() => {
+            setShowUsers(false);
+            setUserList([]);
+        }, 100);
     }
 
     function searchForUser(e) {
