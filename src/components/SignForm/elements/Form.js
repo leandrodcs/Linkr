@@ -21,6 +21,7 @@ const Form = styled.form`
 
     @media (max-width: 937px) {
         width: 100vw;
+        height: 100%;
         padding: 0px 22px;
         justify-content: initial;
         margin-top: 40px;
