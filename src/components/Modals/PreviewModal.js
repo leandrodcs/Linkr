@@ -7,7 +7,17 @@ import { useContext } from "react";
 
 export default function Modal({setOpenModal}) {
 
-    const { link } = useContext(PostContext)
+    const { link } = useContext(PostContext);
+
+    
+    // try {
+    //     const Teste = new Request(link, {method: "HEAD"});
+    //     Teste.blob()
+    //     .then(resp => console.log(resp))
+    // } catch (error) {
+    //     console.log("Erroooo!!!", error)
+    // }
+
 
     return(
         <Background >
@@ -22,10 +32,14 @@ export default function Modal({setOpenModal}) {
                 </Header>
                 <Preview 
                     src = { link }
+                    onLoad = { (resp) => {
+                        console.log(resp.target.children)
+                    } }
+                    onError = { () => console.log("Dei Shabu!! :D")}
                 />
             </DialogBox>
         </Background>
-    );
+    ) 
 }
 
 const Background = styled.div`
