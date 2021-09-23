@@ -8,6 +8,7 @@ import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import {getUserPosts, getUserData} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
+import { SetInterval } from "../../utils/helpers/Intervals";
 
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router";
@@ -19,13 +20,19 @@ export default function UserPage() {
     const [username, setUsername] = useState("")
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [updateTimelineCounter, setUpdateTimelineCounter] = useState(0);
     const params = useParams()
+    
+
+    SetInterval( () => {
+        setUpdateTimelineCounter(updateTimelineCounter + 1);
+    },15000);
 
     useEffect(() => {
         setLoading(true);
         getUserData( login.token, params.id, setUsername );
         getUserPosts(login.token, params.id, setUserPosts, setLoading)
-    }, [login.token, params, isDataBeingEvaluated]);
+    }, [login.token, params, isDataBeingEvaluated, updateTimelineCounter]);
 
     if(loading && !userPosts.length) {
         return (
@@ -35,8 +42,6 @@ export default function UserPage() {
             </Container>
         );
     }
-
-    window.scrollTo(0,0);
     
     return (
         <Container>
