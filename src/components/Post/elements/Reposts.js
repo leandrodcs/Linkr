@@ -50,11 +50,10 @@ const RepostButton = styled(FaRetweet)`
     font-size: 20px;
     font-weight: 700;
     color: #FFF;
-    margin: 16px 0px 3px;
     cursor: pointer;
+    margin-bottom: 4px;
 
     @media(max-width: 637px) {
         font-size: 17px;
-        margin: 20px 0px 12px;
     }
 `;

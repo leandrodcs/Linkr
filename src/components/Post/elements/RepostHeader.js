@@ -31,12 +31,22 @@ const Wrapper = styled.div`
     align-items: center;
     background-color: #1E1E1E;
     border-radius: 16px 16px 0px 0px;
-    & span, a {
+    
+    & span {
+        max-width: 85%;
+        overflow:hidden;
         font-size: 13px;
         font-weight: 400;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
+
     & a:hover {
         text-decoration: underline;
+    }
+
+    @media(max-width: 637px) {
+        border-radius: 0px;
     }
 `
 
@@ -48,6 +58,5 @@ const Reposted = styled(FaRetweet)`
 
     @media(max-width: 637px) {
         font-size: 17px;
-        margin: 20px 0px 12px;
     }
 `;
