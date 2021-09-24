@@ -7,6 +7,7 @@ import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import {getUserLikes} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
+import { SetInterval } from "../../utils/helpers/Intervals";
 
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
@@ -16,6 +17,11 @@ export default function MyLikes() {
     const [userLikes, setUserLikes] = useState([]);
     const [loading, setLoading] = useState(true);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [updateTimelineCounter, setUpdateTimelineCounter] = useState(0);
+
+    SetInterval( () => {
+        setUpdateTimelineCounter(updateTimelineCounter + 1);
+    },15000);
 
     useEffect(() => {
         getUserLikes(login.token, setUserLikes, setLoading)
