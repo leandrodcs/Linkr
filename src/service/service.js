@@ -43,15 +43,41 @@ function login(body, setLogin, setIsButtonEnabled, history) {
         });
 }
 
-function getTimelinePosts(userToken , setPosts) {
-    axios.get(`${URL}/following/posts`,createConfig(userToken))
+function getTimelinePosts(userToken , setPosts, setHasMore, lastId, posts) {
+    axios.get(`${URL}/following/posts${lastId?`?olderThan=${lastId}`:``}`,createConfig(userToken))
     .then(resp => {
         setPosts(resp.data.posts);
+        if(!lastId) {
+            setPosts(resp.data.posts);
+        }
+        if (lastId) {
+            setPosts([...posts, ...resp.data.posts]);
+        }
+        if(resp.data.posts.length === 0) {
+            setHasMore(false);
+        }
     })
     .catch(error => {
         sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
+        // localStorage.clear();
+        // window.open("/","_self");
+    })
+}
+
+function getNewerTimelinePosts(userToken, lastId, posts, setPosts) {
+    axios.get(`${URL}/following/posts?earlierThan=${lastId}`,createConfig(userToken))
+    .then(resp => {
+        console.log(resp);
+        const newPosts = resp.data.posts;
+        if (newPosts.length) {
+            setPosts([...newPosts, ...posts]);
+        }
+    })
+    .catch(error => {
+        console.log(error);
+        // sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        // localStorage.clear();
+        // window.open("/","_self");
     })
 }
 
@@ -271,5 +297,6 @@ export {
     getFollowingList,
     followUser,
     getPostComments,
-    postComment
+    postComment,
+    getNewerTimelinePosts
 };

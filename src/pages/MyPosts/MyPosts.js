@@ -21,8 +21,10 @@ export default function MyPosts() {
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
     
     useEffect(() => {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading);
+        getUserPosts(login.token, login.user.id, setUserPosts, setLoading, setHasMore);
     }, [login.token, login.user.id, isDataBeingEvaluated]);
+
+    useEffect(() => window.scrollTo(0,0), [])
 
     function loadMorePosts() {
         getUserPosts(login.token, login.user.id, setUserPosts, setLoading, setHasMore, userPosts[userPosts.length -1].id, userPosts);
@@ -36,6 +38,7 @@ export default function MyPosts() {
             </Container>
         );
     }
+
     return (
         <Container>
             <Wrapper>
@@ -43,7 +46,7 @@ export default function MyPosts() {
                 {!userPosts.length ? 
                 "Você ainda não publicou nada!" :
                     <InfiniteScroll
-                        dataLength={userPosts.length}
+                        dataLength={10}
                         pageStart={0}
                         scrollThreshold={1}
                         next={loadMorePosts}
@@ -51,11 +54,11 @@ export default function MyPosts() {
                         loader={<h4>Loading...</h4>}
                         endMessage={
                             <p style={{ textAlign: 'center' }}>
-                              <b>Yay! You have seen it all</b>
+                              <b>Você já viu tudo!</b>
                             </p>
-                          }
+                        }
                     >
-                        { PrintedPosts(userPosts, "Você já viu tudo!", login.user.id) }
+                        { PrintedPosts(userPosts, "", login.user.id) }
                     </InfiniteScroll>
                 }
             </Wrapper>
@@ -69,6 +72,10 @@ const Wrapper = styled.section`
     color: #FFF;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
+
+    .infinite-scroll-component::-webkit-scrollbar {
+        display: none;
+    }
     
     @media(max-width: 637px) {
         width: 100%;
