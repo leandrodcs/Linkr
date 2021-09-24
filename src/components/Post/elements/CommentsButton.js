@@ -1,16 +1,27 @@
 import { formattedNumberOfInteractions } from "../../../utils/PostsUtils";
+import { getPostComments } from "../../../service/service";
+import PostContext from "../../../contexts/PostContext";
+import UserContext from "../../../contexts/UserContext";
 
 import styled from "styled-components";
 import { AiOutlineComment } from "react-icons/ai";
+import { useContext, useEffect, useState } from "react";
 
 
 export default function CommentsButton() {
+    const { id } = useContext(PostContext);
+    const { login } = useContext(UserContext);
+    const [postComments, setPostComments] = useState([]);
+
+    useEffect((() => {
+        getPostComments(login.token, id, setPostComments);
+    }), [id, login.token]);
 
     return (
         <Wrapper>
             <RepostButton />
             <p>
-                { formattedNumberOfInteractions(12, "comment") }
+                { formattedNumberOfInteractions(postComments.length, "comment") }
             </p>
         </Wrapper>
     );

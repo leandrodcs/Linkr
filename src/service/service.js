@@ -224,6 +224,16 @@ function followUser( userToken, followingID, isFollowing, setIsDataBeingEvaluate
         });
 }
 
+function getPostComments( userToken, postID, setPostComments ) {
+    axios.get(`${URL}/posts/${postID}/comments`, createConfig(userToken))
+        .then(resp => {
+            setPostComments(resp.data.comments);
+        })
+        .catch(err => {
+            sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+        });
+}
+
 export {
     createNewUser,
     login,
@@ -241,4 +251,5 @@ export {
     sendRepostToServer,
     getFollowingList,
     followUser,
+    getPostComments
 };
