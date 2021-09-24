@@ -37,7 +37,7 @@ export default function PublishingBox() {
         <Wrapper>
             <div>
                 <Link to={`/my-posts`}>
-                    <img src = { login.user.avatar } alt = {login.user.username} />
+                    <img src = { !!login.token ? login.user.avatar : "" } alt ="avatar" />
                 </Link>
             </div>
             <PublishingBoxContent>
