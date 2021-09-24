@@ -16,9 +16,15 @@ export default function MyPosts() {
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
+    const [lastId, setLastId] = useState("");
+
+    console.log(userPosts);
+
+    console.log(lastId);
+
 
     useEffect(() => {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading);
+        getUserPosts(login.token, login.user.id, setUserPosts, setLoading, lastId, setLastId);
     }, [login.token, login.user.id, isDataBeingEvaluated]);
 
     if(!userPosts.length && loading) {

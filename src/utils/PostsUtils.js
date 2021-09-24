@@ -38,7 +38,7 @@ function PrintedPosts(posts, zeroPostsMessage, loginId, followingList) {
                 <Post 
                     key = { post.repostId || post.id }
                     post = { {...post, hasUserLiked:!!post.likes.find(({userId}) => userId === Number(loginId))} }
-                />)
+            />)
         );
     }
     if(followingList && !followingList.length) {
