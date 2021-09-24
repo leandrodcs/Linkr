@@ -32,6 +32,11 @@ const Wrapper = styled.div`
     word-break: break-word;
     background-color: #1E1E1E;
     border-radius: 16px;
+
+    @media(max-width: 637px) {
+        width: 100%;
+        border-radius: 0px;
+    }
 `
 
 const MainPost = styled.div`
