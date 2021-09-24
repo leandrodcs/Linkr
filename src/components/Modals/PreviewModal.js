@@ -1,26 +1,20 @@
+import Loading from "../Loading/Loading";
+
 import PostContext from "../../contexts/PostContext";
 import { OpenLinkInNewPage } from "../../utils/PostsUtils";
 
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai"
 import { useContext } from "react";
+import { useState } from "react/cjs/react.development";
 
 export default function Modal({setOpenModal}) {
 
     const { link } = useContext(PostContext);
-
-    
-    // try {
-    //     const Teste = new Request(link, {method: "HEAD"});
-    //     Teste.blob()
-    //     .then(resp => console.log(resp))
-    // } catch (error) {
-    //     console.log("Erroooo!!!", error)
-    // }
-
+    const [loading, setLoading] = useState(true);
 
     return(
-        <Background >
+        <Background>
             <DialogBox >
                 <Header>
                     <NewTabButton onClick = { () => OpenLinkInNewPage(link) }  >
@@ -30,12 +24,10 @@ export default function Modal({setOpenModal}) {
                         <AiOutlineClose />
                     </ExitButton>
                 </Header>
-                <Preview 
+                {loading ? <Loading  /> : ""}
+                <Preview
                     src = { link }
-                    onLoad = { (resp) => {
-                        console.log(resp.target.children)
-                    } }
-                    onError = { () => console.log("Dei Shabu!! :D")}
+                    onLoad = { () => setLoading(false) }
                 />
             </DialogBox>
         </Background>
