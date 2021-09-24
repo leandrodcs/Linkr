@@ -5,24 +5,27 @@ import UserContext from "../../../contexts/UserContext";
 
 import styled from "styled-components";
 import { AiOutlineComment } from "react-icons/ai";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 
 export default function CommentsButton() {
-    const { id } = useContext(PostContext);
+    const { 
+        id,
+        showComments,
+        setShowComments,
+        comments,
+        setComments
+    } = useContext(PostContext);
     const { login } = useContext(UserContext);
-    const [postComments, setPostComments] = useState([]);
 
     useEffect((() => {
-        getPostComments(login.token, id, setPostComments);
-    }), [id, login.token]);
+        getPostComments(login.token, id, setComments);
+    }), [id, login.token, setComments]);
 
     return (
         <Wrapper>
-            <RepostButton />
-            <p>
-                { formattedNumberOfInteractions(postComments.length, "comment") }
-            </p>
+            <RepostButton onClick={() => setShowComments(!showComments)} />
+            <p>{formattedNumberOfInteractions(comments.length, "comment")}</p>
         </Wrapper>
     );
 }
