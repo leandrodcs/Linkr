@@ -55,12 +55,19 @@ function getTimelinePosts(userToken , setPosts) {
     })
 }
 
-function getUserPosts(userToken, userId, setUserPosts, setLoading, lastId, setLastId) {
+function getUserPosts(userToken, userId, setUserPosts, setLoading, setHasMore, lastId, userPosts) {
     axios.get(`${URL}/users/${userId}/posts${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken))
     .then(res => {
-        setUserPosts(res.data.posts);
-        setLastId(res.data.posts[res.data.posts.length - 1].id);
+        if(!lastId) {
+            setUserPosts(res.data.posts);
+        }
+        if (lastId) {
+            setUserPosts([...userPosts, ...res.data.posts]);
+        }
         setLoading(false);
+        if(res.data.posts.length === 0) {
+            setHasMore(false);
+        }
     })
     .catch(err => {
         setLoading(false);
