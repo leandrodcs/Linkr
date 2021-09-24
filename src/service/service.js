@@ -234,6 +234,16 @@ function getPostComments( userToken, postID, setPostComments ) {
         });
 }
 
+function postComment( userToken, postID, comment ) {
+    axios.post(`${URL}/posts/${postID}/comment`, comment, createConfig(userToken))
+        .then(resp => {
+            sendAlert("success", "Sucesso!","Você comentou no post!");
+        })
+        .catch(err => {
+            sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+        });
+}
+
 export {
     createNewUser,
     login,
@@ -251,5 +261,6 @@ export {
     sendRepostToServer,
     getFollowingList,
     followUser,
-    getPostComments
+    getPostComments,
+    postComment
 };
