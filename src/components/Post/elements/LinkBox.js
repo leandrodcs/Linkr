@@ -29,8 +29,6 @@ export default function LinkBox() {
         );
     }
 
-    console.log(linkImage);
-
     return (
         <>
             <Wrapper onClick = {() => setOpenModal(true)}>

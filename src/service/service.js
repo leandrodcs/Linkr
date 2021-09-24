@@ -224,6 +224,27 @@ function followUser( userToken, followingID, isFollowing, setIsDataBeingEvaluate
         });
 }
 
+function getPostComments( userToken, postID, setComments ) {
+    axios.get(`${URL}/posts/${postID}/comments`, createConfig(userToken))
+        .then(resp => {
+            setComments(resp.data.comments);
+        })
+        .catch(err => {
+            sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+        });
+}
+
+function postComment( userToken, postID, comment, setComments ) {
+    axios.post(`${URL}/posts/${postID}/comment`, comment, createConfig(userToken))
+        .then(resp => {
+            sendAlert("success", "Sucesso!","Você comentou no post!");
+            getPostComments( userToken, postID, setComments );
+        })
+        .catch(err => {
+            sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+        });
+}
+
 export {
     createNewUser,
     login,
@@ -241,4 +262,6 @@ export {
     sendRepostToServer,
     getFollowingList,
     followUser,
+    getPostComments,
+    postComment
 };
