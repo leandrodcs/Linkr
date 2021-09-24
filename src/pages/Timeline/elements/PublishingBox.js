@@ -10,12 +10,28 @@ import styled from "styled-components";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { CheckPublishingBoxAndSendPost } from "../../../utils/PostsUtils";
+import { IoMdPin } from "react-icons/io";
 
 export default function PublishingBox() {
     const { login } = useContext(UserContext);
     const { setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [ isPublishing, setIsPublishing ] = useState(false);
     const [ newPost, setNewPost ] = useState({ text:"",link:"" });
+    const [location, setLocation] = useState(false);
+
+    function pinOrUnpinLocation() {
+        if (!("geolocation" in navigator)) {
+            alert("Seu navegador não possui suporte para localização ;(");
+            return;
+        }
+        if (location) {
+            setLocation(false);
+            return
+        }
+        navigator.geolocation.getCurrentPosition(p => {
+            setLocation({latitude: p.coords.latitude, longitude: p.coords.longitude});
+        })
+    }
 
     return (
         <Wrapper>
@@ -28,7 +44,7 @@ export default function PublishingBox() {
                 <p>
                     O que você tem pra favoritar hoje?
                 </p>
-                <form onSubmit = { (event) => CheckPublishingBoxAndSendPost(event, newPost, login.token, setIsDataBeingEvaluated, setIsPublishing, setNewPost) } >
+                <form onSubmit = { (event) => CheckPublishingBoxAndSendPost(event, newPost, login.token, setIsDataBeingEvaluated, setIsPublishing, setNewPost, location) } >
                     <Input 
                         placeholder = "http://..."
                         disabled = { isPublishing }
@@ -43,6 +59,12 @@ export default function PublishingBox() {
                         value = {newPost.text}
                         onChange = { e => adjustStateObjectData(newPost, setNewPost, "text", e.target.value)}
                     />
+                    <Location 
+                        isLocationActive={location} 
+                        onClick={() => pinOrUnpinLocation()}>
+                        <IoMdPin />
+                        {location ? `Localização ativada` : `Localização desativada`}
+                    </Location>
                     <Button 
                         disabled = { isPublishing }
                         isPublishing = { isPublishing }
@@ -77,7 +99,7 @@ const Wrapper = styled.div`
             display: none;
         }
     }
-`
+`;
 
 const PublishingBoxContent = styled.div`
     width: 100%;
@@ -95,4 +117,21 @@ const PublishingBoxContent = styled.div`
         line-height: 25px;
     }
     }
-`
+`;
+
+const Location = styled.div`
+    cursor: pointer;
+    position: absolute;
+    color: ${({isLocationActive}) => isLocationActive ? `#238700` : `#949494`};
+    display: flex;
+    gap: 5px;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 16px;
+    left: 0;
+    bottom: 0px;
+    transform: translate(0,-50%);
+    svg {
+        font-size: 15px;
+    }
+`;

@@ -6,10 +6,10 @@ import PostContext from "../../contexts/PostContext";
 
 import styled from "styled-components";
 
-export default function Post({post:{ id, likes, link, linkDescription, linkImage, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked}}) {
+export default function Post({post:{ id, likes, link, linkDescription, linkImage, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked, geolocation}}) {
 
     return (
-        <PostContext.Provider value = {{ id, likes, link, linkDescription, linkImage, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked}}>
+        <PostContext.Provider value = {{ id, likes, link, linkDescription, linkImage, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked, geolocation}}>
             <Wrapper>
             <RepostHeader />
             <MainPost>
