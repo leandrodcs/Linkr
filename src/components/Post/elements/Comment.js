@@ -6,9 +6,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export default function Comment({comment}) {
-    console.log(comment)
     const { login, followingList } = useContext(UserContext);
-    const { id, user } = useContext(PostContext);
+    const { user } = useContext(PostContext);
     const userRoute = comment.user.id === Number(login.user.id) ? "my-posts" : `/user/${comment.user.id}`;
     const isFollowing = (followingList.filter(following => following.id === comment.user.id).length > 0);
     const isAuthor = (user.id === comment.user.id);
@@ -16,7 +15,7 @@ export default function Comment({comment}) {
     return (
         <Wrapper>
             <StyledComment>
-                <Link to={userRoute} ><img src={comment.user.avatar} /></Link>
+                <Link to={userRoute} ><img src={comment.user.avatar} alt="Avatar" /></Link>
                 <div>
                     <Link to={userRoute} >
                         <h1>{comment.user.username}</h1>

@@ -224,20 +224,21 @@ function followUser( userToken, followingID, isFollowing, setIsDataBeingEvaluate
         });
 }
 
-function getPostComments( userToken, postID, setPostComments ) {
+function getPostComments( userToken, postID, setComments ) {
     axios.get(`${URL}/posts/${postID}/comments`, createConfig(userToken))
         .then(resp => {
-            setPostComments(resp.data.comments);
+            setComments(resp.data.comments);
         })
         .catch(err => {
             sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
         });
 }
 
-function postComment( userToken, postID, comment ) {
+function postComment( userToken, postID, comment, setComments ) {
     axios.post(`${URL}/posts/${postID}/comment`, comment, createConfig(userToken))
         .then(resp => {
             sendAlert("success", "Sucesso!","Você comentou no post!");
+            getPostComments( userToken, postID, setComments );
         })
         .catch(err => {
             sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");

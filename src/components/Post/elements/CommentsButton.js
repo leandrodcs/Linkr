@@ -24,7 +24,7 @@ export default function CommentsButton() {
 
     return (
         <Wrapper>
-            <RepostButton onClick={() => setShowComments(!showComments)} />
+            <CommentsBubble onClick={() => setShowComments(!showComments)} />
             <p>{formattedNumberOfInteractions(comments.length, "comment")}</p>
         </Wrapper>
     );
@@ -55,7 +55,7 @@ const Wrapper = styled.div`
     }
 `
 
-const RepostButton = styled(AiOutlineComment)`
+const CommentsBubble = styled(AiOutlineComment)`
     font-size: 20px;
     font-weight: 700;
     color: #FFF;
