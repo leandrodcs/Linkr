@@ -5,8 +5,7 @@ import { OpenLinkInNewPage } from "../../utils/PostsUtils";
 
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai"
-import { useContext } from "react";
-import { useState } from "react/cjs/react.development";
+import { useContext, useState } from "react";
 
 export default function Modal({setOpenModal}) {
 
