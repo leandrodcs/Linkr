@@ -6,15 +6,15 @@ import { repostPost } from "../../utils/PostsUtils";
 import styled from "styled-components";
 import { useContext } from "react";
 
-export default function Modal({openModal, setOpenModal}) {
+export default function Modal({setOpenModal}) {
 
     const {isDataBeingEvaluated, setIsDataBeingEvaluated} = useContext(DataEvaluationContext);
     const { login } = useContext(UserContext);
     const { id } = useContext(PostContext)
 
     return(
-        <Background openModal={openModal}>
-            <DialogBox reposting={isDataBeingEvaluated} openModal={openModal} >
+        <Background >
+            <DialogBox reposting={isDataBeingEvaluated} >
                 {isDataBeingEvaluated ? <h1>Repostando...</h1> : 
                 <>
                     <h1>Tem certeza que deseja<br/>repostar essa publicação?</h1>
@@ -35,11 +35,11 @@ const Buttons = styled.div`
 
 const Background = styled.div`
     position: fixed;
-    z-index: 5;
+    z-index: 6;
     top: 0;
     left: 0;
     width: 100%;
-    height: ${({openModal}) => openModal ? `100%` : `0px`};
+    height: 100%;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.75);
     display: flex;
@@ -61,7 +61,7 @@ const DialogBox = styled.div`
     font-weight: 700;
     transition: 0.1s;
     overflow: hidden;
-    margin-bottom: ${({openModal}) => openModal ? `0px` : `100px`};
+    margin-bottom: 0px;
     h1 {
         margin-bottom: 40px;
         font-size: 34px;
