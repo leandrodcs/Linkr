@@ -1,26 +1,34 @@
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
+import { postComment } from "../../../service/service";
 import Comment from "./Comment";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { PaperPlaneOutline } from "react-ionicons";
 
 
 export default function Comments() {
-    const { comments } = useContext(PostContext);
+    const { comments, id } = useContext(PostContext);
     const { login } = useContext(UserContext);
+    const [text, setText] = useState("");
 
     return (
         <Wrapper>
             {comments.map(comment => <Comment comment={comment}/>)}
-            <StyledForm>
+            <StyledForm onSubmit={(e) => {
+                e.preventDefault();
+                postComment(login.token, id, {text});
+                setText("");
+            }}>
                 <Link to="/my-posts" ><img src={login.user.avatar} /></Link>
                 <input 
                     type="text"
                     placeholder="write a comment..."
                     required
+                    value={text}
+                    onChange={e => setText(e.target.value)}
                 />
                 <button type="submit">
                     <PaperPlaneOutline color="#F3F3F3" width="16px" />
