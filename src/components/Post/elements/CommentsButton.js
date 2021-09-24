@@ -1,17 +1,31 @@
 import { formattedNumberOfInteractions } from "../../../utils/PostsUtils";
+import { getPostComments } from "../../../service/service";
+import PostContext from "../../../contexts/PostContext";
+import UserContext from "../../../contexts/UserContext";
 
 import styled from "styled-components";
 import { AiOutlineComment } from "react-icons/ai";
+import { useContext, useEffect } from "react";
 
 
 export default function CommentsButton() {
+    const { 
+        id,
+        showComments,
+        setShowComments,
+        comments,
+        setComments
+    } = useContext(PostContext);
+    const { login } = useContext(UserContext);
+
+    useEffect((() => {
+        getPostComments(login.token, id, setComments);
+    }), [id, login.token, setComments]);
 
     return (
         <Wrapper>
-            <RepostButton />
-            <p>
-                { formattedNumberOfInteractions(12, "comment") }
-            </p>
+            <CommentsBubble onClick={() => setShowComments(!showComments)} />
+            <p>{formattedNumberOfInteractions(comments.length, "comment")}</p>
         </Wrapper>
     );
 }
@@ -41,7 +55,7 @@ const Wrapper = styled.div`
     }
 `
 
-const RepostButton = styled(AiOutlineComment)`
+const CommentsBubble = styled(AiOutlineComment)`
     font-size: 20px;
     font-weight: 700;
     color: #FFF;

@@ -18,7 +18,7 @@ export default function Reposts() {
             <p>
                 { formattedNumberOfInteractions(repostCount, "re-post") }
             </p>
-            <Modal openModal={openModal} setOpenModal={setOpenModal} />
+            {openModal ? <Modal setOpenModal={setOpenModal} /> : ""}
         </Wrapper>
     );
 }

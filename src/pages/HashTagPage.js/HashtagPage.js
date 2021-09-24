@@ -7,6 +7,7 @@ import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import {getHashtagPosts} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
+import { SetInterval } from "../../utils/helpers/Intervals";
 
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router";
@@ -17,12 +18,17 @@ export default function HashtagPage() {
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [hashtagPosts, setHashtagPosts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const params = useParams()
+    const [updateTimelineCounter, setUpdateTimelineCounter] = useState(0);
+    const params = useParams();
+    
+    SetInterval( () => {
+        setUpdateTimelineCounter(updateTimelineCounter + 1);
+    },15000);
 
     useEffect(() => {
         setLoading(true);
         getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading)
-    }, [login.token, params, isDataBeingEvaluated]);
+    }, [login.token, params, isDataBeingEvaluated, updateTimelineCounter]);
 
     if(loading && !hashtagPosts.length) {
         return (
@@ -32,8 +38,6 @@ export default function HashtagPage() {
             </Container>
         );
     }
-
-    window.scrollTo(0,0);
 
     return (
         <Container>

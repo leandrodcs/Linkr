@@ -1,21 +1,26 @@
 import ProfileImgAndInteractionButtons from "./elements/ProfileImgAndInteractionButtons";
 import PostBox from "./elements/PostBox";
 import RepostHeader from "./elements/RepostHeader";
+import Comments from "./elements/Comments";
 
 import PostContext from "../../contexts/PostContext";
 
 import styled from "styled-components";
+import { useState } from "react";
 
 export default function Post({post:{ id, likes, link, linkDescription, linkImage, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked, geolocation}}) {
+    const [showComments, setShowComments] = useState(false);
+    const [comments, setComments] = useState([]);
 
     return (
-        <PostContext.Provider value = {{ id, likes, link, linkDescription, linkImage, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked, geolocation}}>
+        <PostContext.Provider value = {{ id, likes, link, linkDescription, linkImage, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked, geolocation, showComments, setShowComments, comments, setComments}}>
             <Wrapper>
             <RepostHeader />
             <MainPost>
                 <ProfileImgAndInteractionButtons />
                 <PostBox />
             </MainPost>
+            {showComments ? <Comments /> : ""}
             </Wrapper>
         </PostContext.Provider>
     );
@@ -27,6 +32,11 @@ const Wrapper = styled.div`
     word-break: break-word;
     background-color: #1E1E1E;
     border-radius: 16px;
+
+    @media(max-width: 637px) {
+        width: 100%;
+        border-radius: 0px;
+    }
 `
 
 const MainPost = styled.div`

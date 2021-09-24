@@ -7,6 +7,7 @@ import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
 import {getUserPosts} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
+import { SetInterval } from "../../utils/helpers/Intervals";
 
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
@@ -17,15 +18,15 @@ export default function MyPosts() {
     const [loading, setLoading] = useState(true);
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
     const [lastId, setLastId] = useState("");
+    const [updateTimelineCounter, setUpdateTimelineCounter] = useState(0);
 
-    console.log(userPosts);
-
-    console.log(lastId);
-
+    SetInterval( () => {
+        setUpdateTimelineCounter(updateTimelineCounter + 1);
+    },15000);
 
     useEffect(() => {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading, lastId, setLastId);
-    }, [login.token, login.user.id, isDataBeingEvaluated]);
+        getUserPosts(login.token, login.user.id, setUserPosts, setLoading);
+    }, [login.token, login.user.id, isDataBeingEvaluated, updateTimelineCounter]);
 
     if(!userPosts.length && loading) {
         return (
