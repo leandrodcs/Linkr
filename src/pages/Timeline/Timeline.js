@@ -6,6 +6,7 @@ import PublishingBox from "./elements/PublishingBox";
 
 import { getTimelinePosts } from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
+import { SetInterval } from "../../utils/helpers/Intervals";
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 
@@ -16,12 +17,17 @@ export default function Timeline() {
     const [posts, setPosts] = useState("");
     const { login, followingList } = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const [updateTimelineCounter, setUpdateTimelineCounter] = useState(0);
+
+    SetInterval( () => {
+        setUpdateTimelineCounter(updateTimelineCounter + 1);
+    },15000);
 
     useEffect(() => {
         if(login.token) {
-            getTimelinePosts(login.token, setPosts)
+            getTimelinePosts(login.token, setPosts);
         }
-    },[login,isDataBeingEvaluated]);
+    },[login,isDataBeingEvaluated,updateTimelineCounter]);
 
     if(!posts) {
         return (
