@@ -43,7 +43,7 @@ export default function PostHeader({setIsEditing, isEditing, cancelEditing, setE
                 </TrashButton>
             : ""
             }
-            <Modal openModal={openModal} setOpenModal={setOpenModal} />
+            {openModal ? <Modal setOpenModal={setOpenModal} /> : ""}
             {geolocation&& <LocationModal openModal={showLocation} setOpenModal={setShowLocation} geolocation={geolocation} username={user.username}/>} 
         </Wrapper>
     );

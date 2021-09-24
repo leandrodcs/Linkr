@@ -1,3 +1,5 @@
+import Modal from "../../Modals/PreviewModal";
+
 import PostContext from "../../../contexts/PostContext";
 import { OpenLinkInNewPage } from "../../../utils/PostsUtils";
 import { CheckTextLengthAndReduceItIfNeeded } from "../../../utils/TextAdjustmentsUtils";
@@ -9,6 +11,7 @@ import getYouTubeID from "get-youtube-id";
 
 export default function LinkBox() {
     const { link, linkTitle, linkDescription, linkImage } = useContext(PostContext);
+    const [openModal, setOpenModal] = useState(false);
     const youtubeId = getYouTubeID(link);
     const [displayedImage, setDisplayedImage] = useState(linkImage);
 
@@ -29,19 +32,23 @@ export default function LinkBox() {
     console.log(linkImage);
 
     return (
-        <Wrapper onClick = {() => OpenLinkInNewPage(link)}>
-            <LinkBoxContent>
-                <LinkTitle>{CheckTextLengthAndReduceItIfNeeded(linkTitle, 50)}</LinkTitle>
-                <LinkDescription>{CheckTextLengthAndReduceItIfNeeded(linkDescription,100)}</LinkDescription>
-                <LinkUrl>{link}</LinkUrl>
-            </LinkBoxContent>
-            <img src = {displayedImage} onError={() => setDisplayedImage(defaultLinkImg)} alt = "link" />
-        </Wrapper>
+        <>
+            <Wrapper onClick = {() => setOpenModal(true)}>
+                <LinkBoxContent>
+                    <LinkTitle>{CheckTextLengthAndReduceItIfNeeded(linkTitle, 50)}</LinkTitle>
+                    <LinkDescription>{CheckTextLengthAndReduceItIfNeeded(linkDescription,100)}</LinkDescription>
+                    <LinkUrl>{link}</LinkUrl>
+                </LinkBoxContent>
+                <img src = {displayedImage} onError={() => setDisplayedImage(defaultLinkImg)} alt = "link" />
+            </Wrapper>
+            {openModal ? <Modal setOpenModal = { setOpenModal } /> : ""}
+        </>
     );
 }
 
 const Wrapper = styled.div`
     width: 100%;
+    min-height: 150px;
     border: ${props => props.video ? "none" : "1px solid #C4C4C4"};
     border-radius: ${props => props.video ? "0px" : "11px"};
     display: ${props => props.video ? "initial" : "flex"};
@@ -49,7 +56,7 @@ const Wrapper = styled.div`
     cursor: pointer;
     & img {
         width: 150px;
-        height: 150px;
+        height: 100%;
         object-fit: cover;
         border-radius: 0px 11px 11px 0px;
     }
@@ -71,6 +78,7 @@ const Wrapper = styled.div`
 
 const LinkBoxContent = styled.div`
     width: calc(100% - 150px);
+    height: 100%;
     padding: 16px;
     font-weight: 400;
     color: #CECECE;
