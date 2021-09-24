@@ -28,6 +28,7 @@ export default function Modal({setOpenModal}) {
                 <Preview
                     src = { link }
                     onLoad = { () => setLoading(false) }
+                    display = { !loading }
                 />
             </DialogBox>
         </Background>
@@ -100,4 +101,5 @@ const ExitButton = styled.button`
 const Preview = styled.iframe`
     width: 100%;
     height: calc( 100% - 48px );
+    display: ${ ({display}) =>  display ? "block" : "none"};
 `
