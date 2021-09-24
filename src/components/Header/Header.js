@@ -16,6 +16,7 @@ export default function Header() {
     const history = useHistory();
     const {login, setLogin} = useContext(UserContext);
 
+
     function relocate(whereTo) {
         setShowNavBar(false);
         if(!whereTo) {

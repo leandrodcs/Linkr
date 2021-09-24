@@ -7,6 +7,7 @@ import { DebounceInput } from "react-debounce-input";
 import styled from "styled-components";
 import { useContext, useRef, useState } from "react";
 import { useHistory } from "react-router";
+import SearchBarUser from "./SearchBarUser";
 import { SearchOutline } from 'react-ionicons'
 
 
@@ -84,7 +85,7 @@ export default function SearchBar() {
                 <Fill />
                 <SuggestionWindow userList={userList}>
                     <li>
-                        <p><WhoIsIt>Nenhum usuário encontrado ;(</WhoIsIt></p>
+                        <p><EmptyMsg>Nenhum usuário encontrado ;(</EmptyMsg></p>
                     </li>
                 </SuggestionWindow> 
             </>
@@ -92,15 +93,7 @@ export default function SearchBar() {
             <>
                 <Fill />
                 <SuggestionWindow userList={userList}>
-                    {userList.map(user => (
-                        <li key={user.id} onClick={() => relocate(user.id)}>
-                            <img src={user.avatar} alt="avatar"/>
-                            <p><Username>{user.username}</Username><WhoIsIt>{
-                            Number(login.user.id) === user.id ? " • you :)" : 
-                            user.isFollowingLoggedUser ?"• following":""
-                            }</WhoIsIt></p>
-                        </li>
-                    ))}
+                    {userList.map(user => <SearchBarUser key={user.id} user={user} relocate={relocate} login={login}/>)}
                 </SuggestionWindow> 
             </>
              }
@@ -118,20 +111,7 @@ const Fill = styled.div`
     background: #E7E7E7;
 `;
 
-const Username= styled.span`
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    max-width: 70%;
-
-    @media(max-width: 937px) {
-        max-width: 60%;
-    }
-        @media(max-width: 637px) {
-            max-width: 70%;
-    }
-`;
-
-const WhoIsIt = styled.span`
+const EmptyMsg = styled.span`
     color: #C5C5C5;
     margin-left: 5px;
 `;
