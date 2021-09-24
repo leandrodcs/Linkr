@@ -25,7 +25,7 @@ export default function MyPosts() {
 
     useEffect(() => {
         getUserPosts(login.token, login.user.id, setUserPosts, setLoading);
-    }, [login.token, login.user.id, isDataBeingEvaluated]);
+    }, [login.token, login.user.id, isDataBeingEvaluated, updateTimelineCounter]);
 
     if(!userPosts.length && loading) {
         return (

@@ -25,7 +25,7 @@ export default function MyLikes() {
 
     useEffect(() => {
         getUserLikes(login.token, setUserLikes, setLoading)
-    }, [login.token, isDataBeingEvaluated]);
+    }, [login.token, isDataBeingEvaluated, updateTimelineCounter]);
 
     if(!userLikes.length && loading) {
         return (
