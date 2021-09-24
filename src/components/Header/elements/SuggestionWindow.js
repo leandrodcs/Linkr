@@ -4,24 +4,27 @@ const SuggestionWindow = styled.ul `
 
     border-radius: 8px;
     position: absolute;
-    top: 0;
+    top: 44px;
     left: 0;
     background: #E7E7E7;
-    padding: 60px 17px 23px 17px;
     width: 100%;
+    max-height: 385px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-
+    overflow-y: ${({userList}) => userList.length > 6 ? `scroll` : `auto`};
 
     li {
         display: flex;
+        padding: 8px 15px;
         align-items: center;
         font-size: 19px;
         line-height: 23px;
         color: #515151;
         text-overflow: hidden;
         cursor: pointer;
+        :hover {
+            background: ${({userList}) => userList.length ? `lightgray` : `auto`};
+        }
     }
 
     img {
@@ -35,6 +38,7 @@ const SuggestionWindow = styled.ul `
     p {
         display: flex;
         width: 100%;
+        line-height: 30px;
         overflow-x: hidden;
         white-space: nowrap;
     }

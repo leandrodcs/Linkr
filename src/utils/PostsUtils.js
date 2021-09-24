@@ -23,12 +23,12 @@ function formattedNumberOfInteractions(numberOfLikes, typeOfInteraction, wasThis
     return `${numberOfLikes + likesToBeAdded()} ${numberOfLikes + likesToBeAdded() > 1 ? typeOfInteraction + "s" : typeOfInteraction }`
 }
 
-function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost){
+function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost, location){
     event.preventDefault();
     if (!isInputValid("link",objectToPublish.link)) {return};
     setIsDataBeingEvaluated(true);
     setIsPublishing(true);
-    publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost);
+    publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost, location);
 }
 
 function PrintedPosts(posts, zeroPostsMessage, loginId, followingList) {
