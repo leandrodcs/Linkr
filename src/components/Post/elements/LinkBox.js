@@ -1,14 +1,16 @@
 import PostContext from "../../../contexts/PostContext";
 import { OpenLinkInNewPage } from "../../../utils/PostsUtils";
 import { CheckTextLengthAndReduceItIfNeeded } from "../../../utils/TextAdjustmentsUtils";
+import defaultLinkImg from "../../../assets/defaultLinkImg.png";
 
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import getYouTubeID from "get-youtube-id";
 
 export default function LinkBox() {
     const { link, linkTitle, linkDescription, linkImage } = useContext(PostContext);
     const youtubeId = getYouTubeID(link);
+    const [displayedImage, setDisplayedImage] = useState(linkImage);
 
     if(youtubeId) {
         return (
@@ -24,6 +26,8 @@ export default function LinkBox() {
         );
     }
 
+    console.log(linkImage);
+
     return (
         <Wrapper onClick = {() => OpenLinkInNewPage(link)}>
             <LinkBoxContent>
@@ -31,7 +35,7 @@ export default function LinkBox() {
                 <LinkDescription>{CheckTextLengthAndReduceItIfNeeded(linkDescription,100)}</LinkDescription>
                 <LinkUrl>{link}</LinkUrl>
             </LinkBoxContent>
-            <img src = {linkImage} alt = "link" />
+            <img src = {displayedImage} onError={() => setDisplayedImage(defaultLinkImg)} alt = "link" />
         </Wrapper>
     );
 }
