@@ -43,12 +43,12 @@ function login(body, setLogin, setIsButtonEnabled, history) {
         });
 }
 
-function getTimelinePosts(userToken , setPosts, setHasMore, lastId, posts) {
+function getTimelinePosts(setLoading, userToken , setPosts, setHasMore, lastId, posts) {
     axios.get(`${URL}/following/posts${lastId?`?olderThan=${lastId}`:``}`,createConfig(userToken))
     .then(resp => {
-        setPosts(resp.data.posts);
         if(!lastId) {
             setPosts(resp.data.posts);
+            setLoading(false);
         }
         if (lastId) {
             setPosts([...posts, ...resp.data.posts]);
@@ -64,20 +64,19 @@ function getTimelinePosts(userToken , setPosts, setHasMore, lastId, posts) {
     })
 }
 
-function getNewerTimelinePosts(userToken, lastId, posts, setPosts) {
-    axios.get(`${URL}/following/posts?earlierThan=${lastId}`,createConfig(userToken))
+function getNewerTimelinePosts(userToken, firstId, posts, setPosts, setFirstId) {
+    axios.get(`${URL}/following/posts?earlierThan=${firstId}`,createConfig(userToken))
     .then(resp => {
-        console.log(resp);
         const newPosts = resp.data.posts;
         if (newPosts.length) {
             setPosts([...newPosts, ...posts]);
+            setFirstId(newPosts[0].id);
         }
     })
     .catch(error => {
-        console.log(error);
-        // sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        // localStorage.clear();
-        // window.open("/","_self");
+        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
     })
 }
 
@@ -86,11 +85,11 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading, setHasMore, l
     .then(res => {
         if(!lastId) {
             setUserPosts(res.data.posts);
+            setLoading(false);
         }
         if (lastId) {
             setUserPosts([...userPosts, ...res.data.posts]);
         }
-        setLoading(false);
         if(res.data.posts.length === 0) {
             setHasMore(false);
         }
@@ -103,11 +102,38 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading, setHasMore, l
     });
 }
 
-function getUserLikes(userToken, setUserLikes, setLoading) {
-    axios.get(`${URL}/posts/liked`, createConfig(userToken))
+function getNewerUserPosts(userToken, firstId, posts, setPosts, userId) {
+    axios.get(`${URL}/users/${userId}/posts?earlierThan=${firstId}`,createConfig(userToken))
+    .then(resp => {
+        console.log(resp);
+        const newPosts = resp.data.posts;
+        if (newPosts.length) {
+            setPosts([...newPosts, ...posts]);
+        }
+    })
+    .catch(error => {
+        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
+    })
+}
+
+
+function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading, setHasMore, lastId, hashtagPosts) {
+    axios.get(`${URL}/hashtags/${hashtag}/posts${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken))
     .then(res => {
-        setUserLikes(res.data.posts);
+        setHashtagPosts(res.data.posts);
         setLoading(false);
+        if(!lastId) {
+            setHashtagPosts(res.data.posts);
+            setLoading(false);
+        }
+        if (lastId) {
+            setHashtagPosts([...hashtagPosts, ...res.data.posts]);
+        }
+        if(res.data.posts.length === 0) {
+            setHasMore(false);
+        }
     })
     .catch(err => {
         setLoading(false);
@@ -115,6 +141,59 @@ function getUserLikes(userToken, setUserLikes, setLoading) {
         localStorage.clear();
         window.open("/","_self");
     });
+}
+
+function getNewerHashtagPosts(userToken, firstId, posts, setPosts, hashtag) {
+    axios.get(`${URL}/hashtags/${hashtag}/posts?earlierThan${firstId}`,createConfig(userToken))
+    .then(resp => {
+        console.log(resp);
+        const newPosts = resp.data.posts;
+        if (newPosts.length) {
+            setPosts([...newPosts, ...posts]);
+        }
+    })
+    .catch(error => {
+        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
+    })
+}
+
+function getUserLikes(setLoading, userToken , setUserLikes, setHasMore, lastId, userLikes) {
+    axios.get(`${URL}/posts/liked${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken))
+    .then(res => {
+        if(!lastId) {
+            setUserLikes(res.data.posts);
+            setLoading(false);
+        }
+        if (lastId) {
+            setUserLikes([...userLikes, ...res.data.posts]);
+        }
+        if(res.data.posts.length === 0) {
+            setHasMore(false);
+        }
+    })
+    .catch(err => {
+        setLoading(false);
+        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
+    });
+}
+
+function getNewerUserLikes(userToken, firstId, userLikes, setUserLikes) {
+    axios.get(`${URL}/posts/liked?earlierThan=${firstId}`,createConfig(userToken))
+    .then(resp => {
+        const newPosts = resp.data.posts;
+        if (newPosts.length) {
+            setUserLikes([...newPosts, ...userLikes]);
+        }
+    })
+    .catch(error => {
+        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        localStorage.clear();
+        window.open("/","_self");
+    })
 }
 
 function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
@@ -180,20 +259,6 @@ function getUserData( userToken, userId, setUsername ) {
         localStorage.clear();
         window.open("/","_self");
     })
-}
-
-function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
-    axios.get(`${URL}/hashtags/${hashtag}/posts`, createConfig(userToken))
-    .then(res => {
-        setHashtagPosts(res.data.posts);
-        setLoading(false);
-    })
-    .catch(err => {
-        setLoading(false);
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
-    });
 }
 
 function likePost( postID, userToken, hasUserLiked, setIsLiked, setIsDataBeingEvaluated ) {
@@ -298,5 +363,8 @@ export {
     followUser,
     getPostComments,
     postComment,
-    getNewerTimelinePosts
+    getNewerTimelinePosts,
+    getNewerUserPosts,
+    getNewerHashtagPosts,
+    getNewerUserLikes,
 };

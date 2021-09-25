@@ -20,10 +20,11 @@ export default function Timeline() {
     const { login, followingList } = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [hasMore, setHasMore] =useState(true);
+    const [loading, setLoading] = useState(true);
 
     SetInterval( () => {
         if (posts.length) {
-            getNewerTimelinePosts(login.token, posts[0].id, posts, setPosts);
+            getNewerTimelinePosts(login.token, posts[0].repostId||posts[0].id, posts, setPosts);
         }
     },15000);
 
@@ -31,11 +32,11 @@ export default function Timeline() {
 
     useEffect(() => {
         if(login.token) {
-            getTimelinePosts(login.token, setPosts);
+            getTimelinePosts(setLoading, login.token, setPosts, setHasMore);
         }
     },[login,isDataBeingEvaluated]);
 
-    if(!posts) {
+    if(!posts.length && loading) {
         return (
             <Container>
                 <Loading />
@@ -45,7 +46,7 @@ export default function Timeline() {
     }
 
     function loadMorePosts() {
-        getTimelinePosts(login.token, setPosts, setHasMore, posts[posts.length -1].id, posts);
+        getTimelinePosts(setLoading, login.token, setPosts, setHasMore, posts[posts.length -1].repostId||posts[posts.length -1].id, posts);
     }
 
     return (

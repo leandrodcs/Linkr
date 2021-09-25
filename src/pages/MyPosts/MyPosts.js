@@ -5,8 +5,9 @@ import Trending from "../../components/Trending/Trending";
 
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
-import {getUserPosts} from "../../service/service";
+import {getUserPosts, getNewerUserPosts} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
+import { SetInterval } from "../../utils/helpers/Intervals";
 
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
@@ -19,17 +20,23 @@ export default function MyPosts() {
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] =useState(true);
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
+
+    useEffect(() => window.scrollTo(0,0), [])
+
+    SetInterval( () => {
+        if (userPosts.length) {
+            getNewerUserPosts(login.token, userPosts[0].repostId||userPosts[0].id, userPosts, setUserPosts, login.user.id);
+        }
+    },15000);
     
     useEffect(() => {
         getUserPosts(login.token, login.user.id, setUserPosts, setLoading, setHasMore);
     }, [login.token, login.user.id, isDataBeingEvaluated]);
 
-    useEffect(() => window.scrollTo(0,0), [])
-
     function loadMorePosts() {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading, setHasMore, userPosts[userPosts.length -1].id, userPosts);
+        getUserPosts(login.token, login.user.id, setUserPosts, setLoading, setHasMore, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id, userPosts);
     }
-    console.log(userPosts)
+
     if(!userPosts.length && loading) {
         return (
             <Container>
@@ -46,7 +53,7 @@ export default function MyPosts() {
                 {!userPosts.length ? 
                 "Você ainda não publicou nada!" :
                     <InfiniteScroll
-                        dataLength={10}
+                        dataLength={userPosts.length}
                         pageStart={0}
                         scrollThreshold={1}
                         next={loadMorePosts}
