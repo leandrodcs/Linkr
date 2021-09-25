@@ -2,34 +2,37 @@ import Loading from "../../components/Loading/Loading";
 import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
+import Header from "../../components/Header/Header";
 
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
+import TransitionContext from "../../contexts/TransitionContext";
 import {getUserPosts} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
-import { SetInterval } from "../../utils/helpers/Intervals";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import styled from "styled-components";
 
 export default function MyPosts() {
     const {login} = useContext(UserContext);
+    const { isTransitioning } = useContext(TransitionContext);
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const {isDataBeingEvaluated} = useContext(DataEvaluationContext);
-    const [updateTimelineCounter, setUpdateTimelineCounter] = useState(0);
-
-    SetInterval( () => {
-        setUpdateTimelineCounter(updateTimelineCounter + 1);
-    },15000);
+    const isMountedRef = useRef(null);
 
     useEffect(() => {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading);
-    }, [login.token, login.user.id, isDataBeingEvaluated, updateTimelineCounter]);
+        isMountedRef.current = true;
+        if(login.token) {
+            getUserPosts(login.token, login.user.id, setUserPosts, setLoading, isMountedRef);
+        }
+        return () => isMountedRef.current = false;
+    }, [login, isDataBeingEvaluated]);
 
-    if(!userPosts.length && loading) {
+    if(loading || !userPosts.length || !login.user || isTransitioning) {
         return (
             <Container>
+                <Header />
                 <Loading />
                 <Trending />
             </Container>
@@ -38,6 +41,7 @@ export default function MyPosts() {
 
     return (
         <Container>
+            <Header />
             <Wrapper>
                 <PageTitle text = "my posts" />
                 { PrintedPosts(userPosts, "Você ainda não criou nenhum post!", login.user.id) }

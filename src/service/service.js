@@ -43,10 +43,13 @@ function login(body, setLogin, setIsButtonEnabled, history) {
         });
 }
 
-function getTimelinePosts(userToken , setPosts) {
+function getTimelinePosts(userToken , setPosts, isMountedRef) {
     axios.get(`${URL}/following/posts`,createConfig(userToken))
     .then(resp => {
-        setPosts(resp.data.posts);
+        if (isMountedRef.current) {
+            setPosts(resp.data.posts);
+        } 
+        
     })
     .catch(error => {
         sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
@@ -55,11 +58,13 @@ function getTimelinePosts(userToken , setPosts) {
     })
 }
 
-function getUserPosts(userToken, userId, setUserPosts, setLoading) {
+function getUserPosts(userToken, userId, setUserPosts, setLoading, isMountedRef) {
     axios.get(`${URL}/users/${userId}/posts`, createConfig(userToken))
     .then(res => {
-        setUserPosts(res.data.posts);
-        setLoading(false);
+        if (isMountedRef.current) {
+            setUserPosts(res.data.posts);
+            setLoading(false);
+        }
     })
     .catch(err => {
         setLoading(false);
@@ -69,11 +74,13 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading) {
     });
 }
 
-function getUserLikes(userToken, setUserLikes, setLoading) {
+function getUserLikes(userToken, setUserLikes, setLoading, isMountedRef) {
     axios.get(`${URL}/posts/liked`, createConfig(userToken))
     .then(res => {
-        setUserLikes(res.data.posts);
-        setLoading(false);
+        if(isMountedRef.current) {
+            setUserLikes(res.data.posts);
+            setLoading(false);
+        }
     })
     .catch(err => {
         setLoading(false);
@@ -126,20 +133,24 @@ function publishNewPost(body, userToken, setIsDataBeingEvaluated, setIsPublishin
     })
 }
 
-function getTrendingTopics( userToken, setTrendingTopics ) {
+function getTrendingTopics( userToken, setTrendingTopics, isMountedRef) {
     axios.get(`${URL}/hashtags/trending`,createConfig(userToken))
     .then( resp => {
-        setTrendingTopics(resp.data.hashtags);
+        if (isMountedRef.current) {
+            setTrendingTopics(resp.data.hashtags);
+        }
     })
     .catch( error => {
         sendAlert("error", "Oops!","Não conseguimos carregar os Trendings! Por favor, tente atualizar a página...");
     })
 }
 
-function getUserData( userToken, userId, setUsername ) {
+function getUserData( userToken, userId, setUsername, isMountedRef) {
     axios.get(`${URL}/users/${userId}`,createConfig(userToken))
     .then( resp => {
-        setUsername(resp.data.user.username);
+        if (isMountedRef.current) {
+            setUsername(resp.data.user.username);
+        }
     })
     .catch( error => {
         sendAlert("error", "Houve uma falha ao obter os dados do usuário!","Nos desculpe! A página será atualizada");
@@ -148,11 +159,14 @@ function getUserData( userToken, userId, setUsername ) {
     })
 }
 
-function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
+function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading, isMountedRef) {
     axios.get(`${URL}/hashtags/${hashtag}/posts`, createConfig(userToken))
     .then(res => {
-        setHashtagPosts(res.data.posts);
-        setLoading(false);
+        if (isMountedRef.current) {
+            setHashtagPosts(res.data.posts);
+            setLoading(false);
+        }
+        
     })
     .catch(err => {
         setLoading(false);
@@ -224,10 +238,12 @@ function followUser( userToken, followingID, isFollowing, setIsDataBeingEvaluate
         });
 }
 
-function getPostComments( userToken, postID, setComments ) {
+function getPostComments( userToken, postID, setComments, isMountedRef) {
     axios.get(`${URL}/posts/${postID}/comments`, createConfig(userToken))
         .then(resp => {
-            setComments(resp.data.comments);
+            if (isMountedRef.current) {
+                setComments(resp.data.comments);
+            }
         })
         .catch(err => {
             sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");

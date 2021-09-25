@@ -1,4 +1,5 @@
 import Container from "../../components/Container/Container";
+import Header from "../../components/Header/Header";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
 import Loading from "../../components/Loading/Loading";
@@ -9,29 +10,35 @@ import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
+import TransitionContext from "../../contexts/TransitionContext";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 export default function Timeline() {
     const [posts, setPosts] = useState("");
     const { login, followingList } = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const { isTransitioning} = useContext(TransitionContext);
     const [updateTimelineCounter, setUpdateTimelineCounter] = useState(0);
+    const isMountedRef = useRef(null);
 
     SetInterval( () => {
         setUpdateTimelineCounter(updateTimelineCounter + 1);
     },15000);
 
     useEffect(() => {
+        isMountedRef.current = true;
         if(login.token) {
-            getTimelinePosts(login.token, setPosts);
+            getTimelinePosts(login.token, setPosts, isMountedRef);
         }
+        return () => isMountedRef.current = false;
     },[login,isDataBeingEvaluated,updateTimelineCounter]);
 
-    if(!posts) {
+    if(!posts || !login.user || isTransitioning ) {
         return (
             <Container>
+                <Header />
                 <Loading />
                 <Trending />
             </Container>
@@ -40,6 +47,7 @@ export default function Timeline() {
 
     return (
         <Container>
+            <Header />
             <Wrapper>
                 <PageTitle text = "timeline" />
                 <PublishingBox />

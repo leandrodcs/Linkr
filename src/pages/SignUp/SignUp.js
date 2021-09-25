@@ -13,7 +13,7 @@ export default function SignUp() {
     );
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
     background-color: #333333;
     display: flex;
 

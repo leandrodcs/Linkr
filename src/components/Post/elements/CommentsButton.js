@@ -5,7 +5,7 @@ import UserContext from "../../../contexts/UserContext";
 
 import styled from "styled-components";
 import { AiOutlineComment } from "react-icons/ai";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef} from "react";
 
 
 export default function CommentsButton() {
@@ -17,9 +17,12 @@ export default function CommentsButton() {
         setComments
     } = useContext(PostContext);
     const { login } = useContext(UserContext);
+    const isMountedRef = useRef(null);
 
     useEffect((() => {
-        getPostComments(login.token, id, setComments);
+        isMountedRef.current = true;
+        getPostComments(login.token, id, setComments, isMountedRef);
+        return () => isMountedRef.current = false;
     }), [id, login.token, setComments]);
 
     return (
