@@ -105,7 +105,6 @@ function getUserPosts(userToken, userId, setUserPosts, setLoading, setHasMore, l
 function getNewerUserPosts(userToken, firstId, posts, setPosts, userId) {
     axios.get(`${URL}/users/${userId}/posts?earlierThan=${firstId}`,createConfig(userToken))
     .then(resp => {
-        console.log(resp);
         const newPosts = resp.data.posts;
         if (newPosts.length) {
             setPosts([...newPosts, ...posts]);
@@ -146,7 +145,6 @@ function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading, setHas
 function getNewerHashtagPosts(userToken, firstId, posts, setPosts, hashtag) {
     axios.get(`${URL}/hashtags/${hashtag}/posts?earlierThan${firstId}`,createConfig(userToken))
     .then(resp => {
-        console.log(resp);
         const newPosts = resp.data.posts;
         if (newPosts.length) {
             setPosts([...newPosts, ...posts]);
@@ -175,9 +173,9 @@ function getUserLikes(setLoading, userToken , setUserLikes, setHasMore, lastId, 
     })
     .catch(err => {
         setLoading(false);
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
+        // sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        // localStorage.clear();
+        // window.open("/","_self");
     });
 }
 

@@ -21,7 +21,7 @@ export default function MyLikes() {
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [hasMore, setHasMore] =useState(true);
 
-    useEffect(() => window.scrollTo(0,0), [])
+    useEffect(() => window.scrollTo(0,0), []);
 
     SetInterval( () => {
         if (userLikes.length) {
@@ -50,7 +50,6 @@ export default function MyLikes() {
         <Container>
             <Wrapper>
                 <PageTitle text = "my likes" />
-                { PrintedPosts(userLikes, "Você ainda não curtiu nenhum post!", login.user.id) }
                 {!userLikes.length ? 
                 "Você ainda não curtiu nenhum post!" :
                     <InfiniteScroll

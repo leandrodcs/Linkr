@@ -22,13 +22,13 @@ export default function Timeline() {
     const [hasMore, setHasMore] =useState(true);
     const [loading, setLoading] = useState(true);
 
+    useEffect(() => window.scrollTo(0,0), [])
+
     SetInterval( () => {
         if (posts.length) {
             getNewerTimelinePosts(login.token, posts[0].repostId||posts[0].id, posts, setPosts);
         }
     },15000);
-
-    useEffect(() => window.scrollTo(0,0), [])
 
     useEffect(() => {
         if(login.token) {
