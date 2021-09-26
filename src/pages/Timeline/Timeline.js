@@ -7,6 +7,8 @@ import PublishingBox from "./elements/PublishingBox";
 import { getTimelinePosts, getNewerTimelinePosts } from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
+import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
+import { sendAlert } from "../../utils/helpers/Alerts";
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 
@@ -21,20 +23,38 @@ export default function Timeline() {
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [hasMore, setHasMore] =useState(true);
     const [loading, setLoading] = useState(true);
+    const [interactedPostId, setInteractedPostId] = useState(0);
 
     useEffect(() => window.scrollTo(0,0), [])
 
-    SetInterval( () => {
-        if (posts.length) {
-            getNewerTimelinePosts(login.token, posts[0].repostId||posts[0].id, posts, setPosts);
-        }
-    },15000);
+    // SetInterval( () => {
+    //     if (posts.length) {
+    //         getNewerTimelinePosts(login.token, posts[0].repostId||posts[0].id, posts, setPosts);
+    //     }
+    // },15000);
 
     useEffect(() => {
         if(login.token) {
-            getTimelinePosts(setLoading, login.token, setPosts, setHasMore);
+            if (interactedPostId) {
+                if (!isDataBeingEvaluated) {
+                    reloadCurrentTimeline(interactedPostId, getTimelinePosts, login.token, setPosts);
+                    setInteractedPostId(0);
+                }
+            } else {
+                getTimelinePosts(login.token)
+                .then(resp => {
+                    setPosts(resp.data.posts);
+                    setLoading(false);
+                    if(resp.data.posts.length === 0) {
+                        setHasMore(false);
+                    }
+                })
+                .catch(error => {
+                    sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+                })
+            }
         }
-    },[login,isDataBeingEvaluated]);
+    },[login, isDataBeingEvaluated]);
 
     if(!posts.length && loading) {
         return (
@@ -46,7 +66,16 @@ export default function Timeline() {
     }
 
     function loadMorePosts() {
-        getTimelinePosts(setLoading, login.token, setPosts, setHasMore, posts[posts.length -1].repostId||posts[posts.length -1].id, posts);
+        getTimelinePosts(login.token, posts[posts.length -1].repostId || posts[posts.length -1].id)
+        .then(resp => {
+            setPosts([...posts, ...resp.data.posts]);
+            if(resp.data.posts.length === 0) {
+                setHasMore(false);
+            }
+        })
+        .catch(error => {
+            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        })
     }
 
     return (
@@ -69,7 +98,7 @@ export default function Timeline() {
                             </p>
                         }
                     >
-                        { PrintedPosts(posts, "", login.user.id, followingList) }
+                        { PrintedPosts(posts, "", login.user.id, followingList, setInteractedPostId) }
                     </InfiniteScroll>
                 }
             </Wrapper>

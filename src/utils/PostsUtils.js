@@ -31,13 +31,14 @@ function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsD
     publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost, location);
 }
 
-function PrintedPosts(posts, zeroPostsMessage, loginId, followingList) {
+function PrintedPosts(posts, zeroPostsMessage, loginId, followingList, setInteractedPostId) {
     if (posts.length) {
         return (
             posts.map( (post) => 
                 <Post 
                     key = { post.repostId || post.id }
                     post = { {...post, hasUserLiked:!!post.likes.find(({userId}) => userId === Number(loginId))} }
+                    setInteractedPostId = {setInteractedPostId}
             />)
         );
     }
@@ -59,18 +60,20 @@ function editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, c
     publishEditedPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing);
 }
 
-function analyzeRequest(e, editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg) {
+function analyzeRequest(e, setInteractedPostId, editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg) {
     if(e.keyCode === 27) {
         cancelEditing(isEditing, text, setIsEditing, setEditedMsg)
     }
     if(e.keyCode === 13) {
-        editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing)
+        setInteractedPostId(id);
+        editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing);
     }
 }
 
-function deletePost( setIsDataBeingEvaluated, token, id, setOpenModal ) {
+function deletePost(setIsHidden, setInteractedPostId, setIsDataBeingEvaluated, token, id, setOpenModal ) {
     setIsDataBeingEvaluated(true);
-    deletePostFromServer(token, id, setOpenModal, setIsDataBeingEvaluated);
+    setInteractedPostId(id);
+    deletePostFromServer(setIsHidden, token, id, setOpenModal, setIsDataBeingEvaluated);
 }
 
 function repostPost(userToken, postID, setIsDataBeingEvaluated, setOpenModal) {

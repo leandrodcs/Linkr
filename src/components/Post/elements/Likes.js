@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 
 export default function Likes() {
     const { login } = useContext(UserContext);
-    const { likes, id, hasUserLiked } = useContext(PostContext);
+    const { likes, id, repostId, hasUserLiked, setInteractedPostId } = useContext(PostContext);
     const { setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [ wasThisPostClicked, setWasThisPostClicked ] = useState(false);
     const [ isLiked, setIsLiked ] = useState(hasUserLiked);
@@ -25,7 +25,7 @@ export default function Likes() {
         <Wrapper>
                 <button
                     disabled = {wasThisPostClicked}
-                    onClick={() => likePostHelper( hasUserLiked, setIsLiked, login.token, id, setIsDataBeingEvaluated, setWasThisPostClicked)}
+                    onClick={() => likePostHelper( setInteractedPostId, hasUserLiked, setIsLiked, login.token, id, repostId, setIsDataBeingEvaluated, setWasThisPostClicked)}
                 >
                     {whichButtonIsShown ? <LikedHeart /> : <NotLikedHeart />} 
                 </button>

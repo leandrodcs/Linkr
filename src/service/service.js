@@ -43,25 +43,8 @@ function login(body, setLogin, setIsButtonEnabled, history) {
         });
 }
 
-function getTimelinePosts(setLoading, userToken , setPosts, setHasMore, lastId, posts) {
-    axios.get(`${URL}/following/posts${lastId?`?olderThan=${lastId}`:``}`,createConfig(userToken))
-    .then(resp => {
-        if(!lastId) {
-            setPosts(resp.data.posts);
-            setLoading(false);
-        }
-        if (lastId) {
-            setPosts([...posts, ...resp.data.posts]);
-        }
-        if(resp.data.posts.length === 0) {
-            setHasMore(false);
-        }
-    })
-    .catch(error => {
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        // localStorage.clear();
-        // window.open("/","_self");
-    })
+function getTimelinePosts(userToken, lastId) {
+    return axios.get(`${URL}/following/posts${lastId?`?olderThan=${lastId}`:``}`,createConfig(userToken));
 }
 
 function getNewerTimelinePosts(userToken, firstId, posts, setPosts, setFirstId) {
@@ -194,9 +177,10 @@ function getNewerUserLikes(userToken, firstId, userLikes, setUserLikes) {
     })
 }
 
-function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
+function deletePostFromServer(setIsHidden, userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
     axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))
     .then(res => {
+        setIsHidden(true);
         setIsDataBeingEvaluated(false);
         setOpenModal(false);
     })
