@@ -15,7 +15,7 @@ export default function PostBox() {
     const {isDataBeingEvaluated, setIsDataBeingEvaluated} = useContext(DataEvaluationContext);
     const { id, text, setInteractedPostId } = useContext(PostContext);
     const {login} = useContext(UserContext);
-    const [editedMsg, setEditedMsg] = useState(text);
+    const [editedMsg, setEditedMsg] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef(null);
 
@@ -33,12 +33,12 @@ export default function PostBox() {
             disabled={isDataBeingEvaluated} 
             onKeyUp={(e) => analyzeRequest(e, setInteractedPostId, editedMsg, id, login.token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg)} 
             ref={inputRef} 
-            value={editedMsg} 
+            value={editedMsg || text} 
             onChange={e => setEditedMsg(e.target.value)}
             /> 
             :
             <TextWithHighlightedHashtags 
-                text = {editedMsg}
+                text = {editedMsg || text}
                 MainStyledComponent = {Description}
                 HashtagStyledComponent = {Hashtag}
             />}
