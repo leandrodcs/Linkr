@@ -24,11 +24,11 @@ export default function HashtagPage() {
     
     useEffect(() => window.scrollTo(0,0), [])
 
-    SetInterval( () => {
-        if (hashtagPosts.length) {
-            getNewerHashtagPosts(login.token, hashtagPosts[0].repostId||hashtagPosts[0].id, hashtagPosts, setHashtagPosts, params.hashtag);
-        }
-    },15000);
+    // SetInterval( () => {
+    //     if (hashtagPosts.length) {
+    //         getNewerHashtagPosts(login.token, hashtagPosts[0].repostId||hashtagPosts[0].id, hashtagPosts, setHashtagPosts, params.hashtag);
+    //     }
+    // },15000);
 
     useEffect(() => {
         setLoading(true);

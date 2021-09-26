@@ -2,6 +2,7 @@ import { formattedNumberOfInteractions } from "../../../utils/PostsUtils";
 import { getPostComments } from "../../../service/service";
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
+import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
 
 import styled from "styled-components";
 import { AiOutlineComment } from "react-icons/ai";
@@ -14,18 +15,18 @@ export default function CommentsButton() {
         showComments,
         setShowComments,
         comments,
+        commentCount,
         setComments
     } = useContext(PostContext);
+    const {isDataBeingEvaluated} = useContext(DataEvaluationContext);
     const { login } = useContext(UserContext);
-
-    useEffect((() => {
-        getPostComments(login.token, id, setComments);
-    }), [id, login.token, setComments]);
-
+    
     return (
         <Wrapper>
-            <CommentsBubble onClick={() => setShowComments(!showComments)} />
-            <p>{formattedNumberOfInteractions(comments.length, "comment")}</p>
+            <CommentsBubble onClick={() => { 
+                if(!showComments) {getPostComments(login.token, id, setComments)};
+                setShowComments(!showComments) }} />
+            <p>{formattedNumberOfInteractions(commentCount ? commentCount : 0, "comment")}</p>
         </Wrapper>
     );
 }

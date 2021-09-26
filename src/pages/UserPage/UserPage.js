@@ -6,9 +6,11 @@ import Button from "./elements/Button";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
-import {getUserPosts, getUserData, getNewerUserPosts} from "../../service/service";
+import {getUserPosts, getUserData, getNewerPosts} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
+import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
+import { sendAlert } from "../../utils/helpers/Alerts";
 
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router";
@@ -24,23 +26,51 @@ export default function UserPage() {
     const [loading, setLoading] = useState(true);
     const params = useParams();
     const [hasMore, setHasMore] =useState(true);
-
+    const [interactedPostId, setInteractedPostId] = useState(0);
 
     useEffect(() => window.scrollTo(0,0), [])
 
     SetInterval( () => {
         if (userPosts.length) {
-            getNewerUserPosts(login.token, userPosts[0].repostId||userPosts[0].id, userPosts, setUserPosts, params.id);
+            getNewerPosts(login.token, userPosts[0].repostId||userPosts[0].id, userPosts, setUserPosts, `/users/${params.id}/posts`);
         }
-    },15000);
+    },1000);
 
     useEffect(() => {
         getUserData( login.token, params.id, setUsername );
-        getUserPosts(login.token, params.id, setUserPosts, setLoading, setHasMore)
-    }, [login.token, params, isDataBeingEvaluated]);
+        if (interactedPostId) {
+            if (!isDataBeingEvaluated) {
+                reloadCurrentTimeline(interactedPostId, getUserPosts, login.token, setUserPosts, params.id);
+                setInteractedPostId(0);
+            }
+        } else {
+            getUserPosts(login.token, params.id)
+            .then(res => {
+                setUserPosts(res.data.posts);
+                setLoading(false);
+                if(res.data.posts.length === 0) {
+                    setHasMore(false);
+                }
+            })
+            .catch(err => {
+                setLoading(false);
+                sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
+            })
+        }
+    }, [login.token, isDataBeingEvaluated]);
 
     function loadMorePosts() {
-        getUserPosts(login.token, params.id, setUserPosts, setLoading, setHasMore, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id, userPosts);
+        getUserPosts(login.token, params.id, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id)
+        .then(res => {
+            setUserPosts([...userPosts, ...res.data.posts]);
+            if(res.data.posts.length === 0) {
+                setHasMore(false);
+            }
+        })
+        .catch(err => {
+            setLoading(false);
+            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        })
     }
 
     if(loading && !userPosts.length) {
@@ -74,7 +104,7 @@ export default function UserPage() {
                         </p>
                         }
                     >
-                        { PrintedPosts(userPosts, "", login.user.id) }
+                        { PrintedPosts(userPosts, "", login.user.id, setInteractedPostId) }
                     </InfiniteScroll>
                 }
             </Wrapper>

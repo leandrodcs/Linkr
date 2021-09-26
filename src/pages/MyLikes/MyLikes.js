@@ -23,11 +23,11 @@ export default function MyLikes() {
 
     useEffect(() => window.scrollTo(0,0), []);
 
-    SetInterval( () => {
-        if (userLikes.length) {
-            getNewerUserLikes(login.token, userLikes[0].repostId||userLikes[0].id, userLikes, setUserLikes);
-        }
-    },15000);
+    // SetInterval( () => {
+    //     if (userLikes.length) {
+    //         getNewerUserLikes(login.token, userLikes[0].repostId||userLikes[0].id, userLikes, setUserLikes);
+    //     }
+    // },15000);
 
     useEffect(() => {
         getUserLikes(setLoading, login.token, setUserLikes, setHasMore)

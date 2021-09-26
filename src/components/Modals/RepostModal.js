@@ -10,7 +10,7 @@ export default function Modal({setOpenModal}) {
 
     const {isDataBeingEvaluated, setIsDataBeingEvaluated} = useContext(DataEvaluationContext);
     const { login } = useContext(UserContext);
-    const { id } = useContext(PostContext)
+    const { id, repostId, setInteractedPostId} = useContext(PostContext)
 
     return(
         <Background >
@@ -20,7 +20,7 @@ export default function Modal({setOpenModal}) {
                     <h1>Tem certeza que deseja<br/>repostar essa publicação?</h1>
                     <Buttons>
                         <button onClick={() => setOpenModal(false)}>Não, voltar</button>
-                        <button onClick = { () => repostPost(login.token, id, setIsDataBeingEvaluated, setOpenModal) }>Sim, repostar</button>
+                        <button onClick = { () => repostPost(setInteractedPostId, login.token, id, repostId, setIsDataBeingEvaluated, setOpenModal) }>Sim, repostar</button>
                     </Buttons>
                 </>}
             </DialogBox>

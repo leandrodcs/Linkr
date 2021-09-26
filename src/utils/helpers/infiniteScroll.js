@@ -1,15 +1,18 @@
-async function reloadCurrentTimeline(interactedPostId, getTimelinePosts, userToken, setPosts) {
+async function reloadCurrentTimeline(interactedPostId, getPosts, userToken, setPosts, additionalPageInformation) {
     let updatedPosts = [];
     let lastId;
     while (!updatedPosts.some( ({id, repostId}) => repostId <= interactedPostId || (!repostId && id <= interactedPostId) )) {
-        console.log("OPA")
-        await getTimelinePosts(userToken, lastId)
+        await getPosts(userToken, additionalPageInformation, lastId)
         .then((resp) => {
             updatedPosts = [...updatedPosts, ...resp.data.posts];
             lastId = updatedPosts[updatedPosts.length -1].repostId || updatedPosts[updatedPosts.length -1].id;
         })
     }
-    console.log(updatedPosts);
+    await getPosts(userToken, additionalPageInformation, lastId)
+    .then((resp) => {
+        updatedPosts = [...updatedPosts, ...resp.data.posts];
+        lastId = updatedPosts[updatedPosts.length -1].repostId || updatedPosts[updatedPosts.length -1].id;
+    })
     setPosts([...updatedPosts]);
 }
 

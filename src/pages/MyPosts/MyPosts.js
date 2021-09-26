@@ -5,7 +5,9 @@ import Trending from "../../components/Trending/Trending";
 
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
-import {getUserPosts, getNewerUserPosts} from "../../service/service";
+import {getUserPosts, getNewerPosts} from "../../service/service";
+import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
+import { sendAlert } from "../../utils/helpers/Alerts";
 import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
 
@@ -19,22 +21,54 @@ export default function MyPosts() {
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] =useState(true);
-    const {isDataBeingEvaluated} = useContext(DataEvaluationContext)
+    const {isDataBeingEvaluated} = useContext(DataEvaluationContext);
+    const [interactedPostId, setInteractedPostId] = useState(0);
 
     useEffect(() => window.scrollTo(0,0), [])
 
     SetInterval( () => {
         if (userPosts.length) {
-            getNewerUserPosts(login.token, userPosts[0].repostId||userPosts[0].id, userPosts, setUserPosts, login.user.id);
+            getNewerPosts(login.token, userPosts[0].repostId||userPosts[0].id, userPosts, setUserPosts, `/users/${login.user.id}/posts`);
         }
     },15000);
     
     useEffect(() => {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading, setHasMore);
+        if (interactedPostId) {
+            if (!isDataBeingEvaluated) {
+                reloadCurrentTimeline(interactedPostId, getUserPosts, login.token, setUserPosts, login.user.id);
+                setInteractedPostId(0);
+            }
+        } else {
+            getUserPosts(login.token, login.user.id)
+            .then(res => {
+                setUserPosts(res.data.posts);
+                setLoading(false);
+                if(res.data.posts.length === 0) {
+                    setHasMore(false);
+                }
+            })
+            .catch(err => {
+                setLoading(false);
+                sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
+            })
+        }
+
+
+
     }, [login.token, login.user.id, isDataBeingEvaluated]);
 
     function loadMorePosts() {
-        getUserPosts(login.token, login.user.id, setUserPosts, setLoading, setHasMore, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id, userPosts);
+        getUserPosts(login.token, login.user.id, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id)
+        .then(res => {
+            setUserPosts([...userPosts, ...res.data.posts]);
+            if(res.data.posts.length === 0) {
+                setHasMore(false);
+            }
+        })
+        .catch(err => {
+            setLoading(false);
+            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        })
     }
 
     if(!userPosts.length && loading) {
@@ -65,7 +99,7 @@ export default function MyPosts() {
                             </p>
                         }
                     >
-                        { PrintedPosts(userPosts, "", login.user.id) }
+                        { PrintedPosts(userPosts, "", login.user.id, setInteractedPostId) }
                     </InfiniteScroll>
                 }
             </Wrapper>

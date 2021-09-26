@@ -4,7 +4,7 @@ import Trending from "../../components/Trending/Trending";
 import Loading from "../../components/Loading/Loading";
 import PublishingBox from "./elements/PublishingBox";
 
-import { getTimelinePosts, getNewerTimelinePosts } from "../../service/service";
+import { getTimelinePosts, getNewerPosts } from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
 import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
@@ -24,14 +24,13 @@ export default function Timeline() {
     const [hasMore, setHasMore] =useState(true);
     const [loading, setLoading] = useState(true);
     const [interactedPostId, setInteractedPostId] = useState(0);
-
     useEffect(() => window.scrollTo(0,0), [])
 
-    // SetInterval( () => {
-    //     if (posts.length) {
-    //         getNewerTimelinePosts(login.token, posts[0].repostId||posts[0].id, posts, setPosts);
-    //     }
-    // },15000);
+    SetInterval( () => {
+        if (posts.length) {
+            getNewerPosts(login.token, posts[0].repostId||posts[0].id, posts, setPosts, `/following/posts`);
+        }
+    },15000);
 
     useEffect(() => {
         if(login.token) {
@@ -51,6 +50,7 @@ export default function Timeline() {
                 })
                 .catch(error => {
                     sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+                    console.log("Erro na Timeline");
                 })
             }
         }
@@ -66,7 +66,7 @@ export default function Timeline() {
     }
 
     function loadMorePosts() {
-        getTimelinePosts(login.token, posts[posts.length -1].repostId || posts[posts.length -1].id)
+        getTimelinePosts(login.token, "", posts[posts.length -1].repostId || posts[posts.length -1].id)
         .then(resp => {
             setPosts([...posts, ...resp.data.posts]);
             if(resp.data.posts.length === 0) {
@@ -98,7 +98,7 @@ export default function Timeline() {
                             </p>
                         }
                     >
-                        { PrintedPosts(posts, "", login.user.id, followingList, setInteractedPostId) }
+                        { PrintedPosts(posts, "", login.user.id, setInteractedPostId, followingList) }
                     </InfiniteScroll>
                 }
             </Wrapper>

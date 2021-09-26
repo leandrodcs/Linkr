@@ -8,13 +8,13 @@ import PostContext from "../../contexts/PostContext";
 import styled from "styled-components";
 import { useState } from "react";
 
-export default function Post({setInteractedPostId, post:{ id, likes, link, linkDescription, linkImage, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked, geolocation}}) {
+export default function Post({setInteractedPostId, post:{ id, likes, link, linkDescription, linkImage, linkTitle, commentCount, repostCount, repostId,repostedBy, text, user, hasUserLiked, geolocation}}) {
     const [showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState([]);
     const [isHidden, setIsHidden] = useState(false);
 
     return (
-        <PostContext.Provider value = {{ setIsHidden, setInteractedPostId, id, likes, link, linkDescription, linkImage, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked, geolocation, showComments, setShowComments, comments, setComments}}>
+        <PostContext.Provider value = {{ setIsHidden, setInteractedPostId, id, likes, link, linkDescription, linkImage, commentCount, linkTitle, repostCount, repostId,repostedBy, text, user, hasUserLiked, geolocation, showComments, setShowComments, comments, setComments}}>
             <Wrapper isHidden = {isHidden}>
             <RepostHeader />
             <MainPost>
