@@ -26,7 +26,7 @@ export default function UserPage() {
     const [loading, setLoading] = useState(true);
     const params = useParams();
     const [hasMore, setHasMore] =useState(true);
-    const [interactedPostId, setInteractedPostId] = useState(0);
+    const [interactedPostId, setInteractedPostId] = useState("");
 
     useEffect(() => window.scrollTo(0,0), [])
     useEffect(() => setLoading(true), [params.id])
@@ -44,7 +44,7 @@ export default function UserPage() {
                 reloadCurrentTimeline(interactedPostId, getUserPosts, login.token, setUserPosts, params.id);
                 setInteractedPostId(0);
             }
-        } else {
+        } else if (interactedPostId !== 0) {
             getUserPosts(login.token, params.id)
             .then(res => {
                 setUserPosts(res.data.posts);
@@ -58,7 +58,7 @@ export default function UserPage() {
                 sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
             })
         }
-    }, [login.token, params.id, isDataBeingEvaluated]);
+    }, [login.token, params.id, interactedPostId, isDataBeingEvaluated]);
 
     function loadMorePosts() {
         getUserPosts(login.token, params.id, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id)

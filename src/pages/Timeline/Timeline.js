@@ -23,7 +23,7 @@ export default function Timeline() {
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [hasMore, setHasMore] =useState(true);
     const [loading, setLoading] = useState(true);
-    const [interactedPostId, setInteractedPostId] = useState(0);
+    const [interactedPostId, setInteractedPostId] = useState("");
     useEffect(() => window.scrollTo(0,0), [])
 
     SetInterval( () => {
@@ -39,7 +39,7 @@ export default function Timeline() {
                     reloadCurrentTimeline(interactedPostId, getTimelinePosts, login.token, setPosts);
                     setInteractedPostId(0);
                 }
-            } else {
+            } else if (interactedPostId !== 0) {
                 getTimelinePosts(login.token)
                 .then(resp => {
                     setPosts(resp.data.posts);
@@ -54,9 +54,9 @@ export default function Timeline() {
                 })
             }
         }
-    },[login, isDataBeingEvaluated]);
+    },[login, interactedPostId, isDataBeingEvaluated]);
 
-    if(!posts.length && loading) {
+    if(loading) {
         return (
             <Container>
                 <Loading />

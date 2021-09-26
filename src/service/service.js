@@ -47,20 +47,6 @@ function getTimelinePosts(userToken, additionalPageInformation, lastId) {
     return axios.get(`${URL}/following/posts${lastId?`?olderThan=${lastId}`:``}`,createConfig(userToken));
 }
 
-function getNewerTimelinePosts(userToken, firstId, posts, setPosts, setFirstId) {
-    axios.get(`${URL}/following/posts?earlierThan=${firstId}`,createConfig(userToken))
-    .then(resp => {
-        const newPosts = resp.data.posts;
-        if (newPosts.length) {
-            setPosts([...newPosts, ...posts]);
-            setFirstId(newPosts[0].id);
-        }
-    })
-    .catch(error => {
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-    })
-}
-
 function getUserPosts(userToken, userId, lastId) {
     return axios.get(`${URL}/users/${userId}/posts${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken));
 }
@@ -83,22 +69,7 @@ function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading, setHas
     return axios.get(`${URL}/hashtags/${hashtag}/posts${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken))
 }
 
-function getNewerHashtagPosts(userToken, firstId, posts, setPosts, hashtag) {
-    axios.get(`${URL}/hashtags/${hashtag}/posts?earlierThan${firstId}`,createConfig(userToken))
-    .then(resp => {
-        const newPosts = resp.data.posts;
-        if (newPosts.length) {
-            setPosts([...newPosts, ...posts]);
-        }
-    })
-    .catch(error => {
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
-    })
-}
-
-function getUserLikes(setLoading, userToken , setUserLikes, setHasMore, lastId, userLikes) {
+function getUserLikes(setLoading, userToken , setUserLikes, lastId, userLikes) {
     axios.get(`${URL}/posts/liked${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken))
     .then(res => {
         if(!lastId) {
@@ -108,32 +79,12 @@ function getUserLikes(setLoading, userToken , setUserLikes, setHasMore, lastId, 
         if (lastId) {
             setUserLikes([...userLikes, ...res.data.posts]);
         }
-        if(res.data.posts.length === 0) {
-            setHasMore(false);
-        }
     })
     .catch(err => {
         setLoading(false);
-        // sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        // localStorage.clear();
-        // window.open("/","_self");
     });
 }
 
-function getNewerUserLikes(userToken, firstId, userLikes, setUserLikes) {
-    axios.get(`${URL}/posts/liked?earlierThan=${firstId}`,createConfig(userToken))
-    .then(resp => {
-        const newPosts = resp.data.posts;
-        if (newPosts.length) {
-            setUserLikes([...newPosts, ...userLikes]);
-        }
-    })
-    .catch(error => {
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
-    })
-}
 
 function deletePostFromServer(setIsHidden, userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
     axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))

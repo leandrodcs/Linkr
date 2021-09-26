@@ -2,11 +2,10 @@ import { formattedNumberOfInteractions } from "../../../utils/PostsUtils";
 import { getPostComments } from "../../../service/service";
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
-import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
 
 import styled from "styled-components";
 import { AiOutlineComment } from "react-icons/ai";
-import { useContext, useEffect } from "react";
+import { useContext} from "react";
 
 
 export default function CommentsButton() {
@@ -14,11 +13,9 @@ export default function CommentsButton() {
         id,
         showComments,
         setShowComments,
-        comments,
         commentCount,
         setComments
     } = useContext(PostContext);
-    const {isDataBeingEvaluated} = useContext(DataEvaluationContext);
     const { login } = useContext(UserContext);
     
     return (

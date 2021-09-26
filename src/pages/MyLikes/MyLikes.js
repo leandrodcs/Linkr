@@ -5,13 +5,11 @@ import Trending from "../../components/Trending/Trending";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
-import {getUserLikes, getNewerUserLikes} from "../../service/service";
+import {getUserLikes} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
-import { SetInterval } from "../../utils/helpers/Intervals";
 
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 export default function MyLikes() {
@@ -19,20 +17,15 @@ export default function MyLikes() {
     const [userLikes, setUserLikes] = useState([]);
     const [loading, setLoading] = useState(true);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
-    const [hasMore, setHasMore] =useState(true);
     const [interactedPostId, setInteractedPostId] = useState(0);
 
-    useEffect(() => window.scrollTo(0,0), []);
+    useEffect(() => {window.scrollTo(0,0)}, []);
 
     useEffect(() => {
-        getUserLikes(setLoading, login.token, setUserLikes, setHasMore)
+        getUserLikes(setLoading, login.token, setUserLikes);
     }, [login.token, isDataBeingEvaluated]);
 
-    function loadMorePosts() {
-        getUserLikes(setLoading, login.token, setUserLikes, setHasMore, userLikes[userLikes.length -1].repostId||userLikes[userLikes.length -1].id, userLikes);
-    }
-
-    if(!userLikes.length && loading) {
+    if(!interactedPostId && loading) {
         return (
             <Container>
                 <Loading />

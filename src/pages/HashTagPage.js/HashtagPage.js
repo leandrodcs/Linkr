@@ -23,7 +23,7 @@ export default function HashtagPage() {
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] =useState(true);
     const params = useParams();
-    const [interactedPostId, setInteractedPostId] = useState(0);
+    const [interactedPostId, setInteractedPostId] = useState("");
     
     useEffect(() => window.scrollTo(0,0), [])
     useEffect(() => setLoading(true), [params.hashtag])
@@ -40,7 +40,7 @@ export default function HashtagPage() {
                 reloadCurrentTimeline(interactedPostId, getHashtagPosts, login.token, setHashtagPosts, params.hashtag);
                 setInteractedPostId(0);
             }
-        } else {
+        } else if (interactedPostId !== 0) {
             getHashtagPosts(login.token, params.hashtag)
             .then(res => {
                 setHashtagPosts(res.data.posts);
@@ -54,7 +54,7 @@ export default function HashtagPage() {
                 sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
             })
         }
-    }, [login.token, params.hashtag, isDataBeingEvaluated]);
+    }, [login.token, params.hashtag, interactedPostId, isDataBeingEvaluated]);
 
     function loadMorePosts() {
         getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading, setHasMore, hashtagPosts[hashtagPosts.length -1].repostId||hashtagPosts[hashtagPosts.length -1].id, hashtagPosts)
