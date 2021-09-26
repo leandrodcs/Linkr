@@ -6,7 +6,7 @@ import Button from "./elements/Button";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
-import {getUserPosts, getUserData, getNewerPosts} from "../../service/service";
+import {getUserPosts, getUserData} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
 import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
@@ -29,12 +29,13 @@ export default function UserPage() {
     const [interactedPostId, setInteractedPostId] = useState(0);
 
     useEffect(() => window.scrollTo(0,0), [])
+    useEffect(() => setLoading(true), [params.id])
 
     SetInterval( () => {
         if (userPosts.length) {
-            getNewerPosts(login.token, userPosts[0].repostId||userPosts[0].id, userPosts, setUserPosts, `/users/${params.id}/posts`);
+            reloadCurrentTimeline(userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id, getUserPosts, login.token, setUserPosts, params.id);
         }
-    },1000);
+    },15000);
 
     useEffect(() => {
         getUserData( login.token, params.id, setUsername );
@@ -57,7 +58,7 @@ export default function UserPage() {
                 sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
             })
         }
-    }, [login.token, isDataBeingEvaluated]);
+    }, [login.token, params.id, isDataBeingEvaluated]);
 
     function loadMorePosts() {
         getUserPosts(login.token, params.id, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id)
@@ -73,7 +74,7 @@ export default function UserPage() {
         })
     }
 
-    if(loading && !userPosts.length) {
+    if(loading) {
         return (
             <Container>
                 <Loading />

@@ -8,11 +8,6 @@ async function reloadCurrentTimeline(interactedPostId, getPosts, userToken, setP
             lastId = updatedPosts[updatedPosts.length -1].repostId || updatedPosts[updatedPosts.length -1].id;
         })
     }
-    await getPosts(userToken, additionalPageInformation, lastId)
-    .then((resp) => {
-        updatedPosts = [...updatedPosts, ...resp.data.posts];
-        lastId = updatedPosts[updatedPosts.length -1].repostId || updatedPosts[updatedPosts.length -1].id;
-    })
     setPosts([...updatedPosts]);
 }
 

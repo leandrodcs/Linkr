@@ -4,7 +4,7 @@ import Trending from "../../components/Trending/Trending";
 import Loading from "../../components/Loading/Loading";
 import PublishingBox from "./elements/PublishingBox";
 
-import { getTimelinePosts, getNewerPosts } from "../../service/service";
+import { getTimelinePosts } from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
 import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
@@ -28,7 +28,7 @@ export default function Timeline() {
 
     SetInterval( () => {
         if (posts.length) {
-            getNewerPosts(login.token, posts[0].repostId||posts[0].id, posts, setPosts, `/following/posts`);
+            reloadCurrentTimeline(interactedPostId, getTimelinePosts, login.token, setPosts);
         }
     },15000);
 

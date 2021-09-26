@@ -80,27 +80,7 @@ function getNewerPosts(userToken, firstId, posts, setPosts, URLSufix) {
 
 
 function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading, setHasMore, lastId, hashtagPosts) {
-    axios.get(`${URL}/hashtags/${hashtag}/posts${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken))
-    .then(res => {
-        setHashtagPosts(res.data.posts);
-        setLoading(false);
-        if(!lastId) {
-            setHashtagPosts(res.data.posts);
-            setLoading(false);
-        }
-        if (lastId) {
-            setHashtagPosts([...hashtagPosts, ...res.data.posts]);
-        }
-        if(res.data.posts.length === 0) {
-            setHasMore(false);
-        }
-    })
-    .catch(err => {
-        setLoading(false);
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
-    });
+    return axios.get(`${URL}/hashtags/${hashtag}/posts${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken))
 }
 
 function getNewerHashtagPosts(userToken, firstId, posts, setPosts, hashtag) {

@@ -20,14 +20,9 @@ export default function MyLikes() {
     const [loading, setLoading] = useState(true);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [hasMore, setHasMore] =useState(true);
+    const [interactedPostId, setInteractedPostId] = useState(0);
 
     useEffect(() => window.scrollTo(0,0), []);
-
-    // SetInterval( () => {
-    //     if (userLikes.length) {
-    //         getNewerUserLikes(login.token, userLikes[0].repostId||userLikes[0].id, userLikes, setUserLikes);
-    //     }
-    // },15000);
 
     useEffect(() => {
         getUserLikes(setLoading, login.token, setUserLikes, setHasMore)
@@ -50,24 +45,7 @@ export default function MyLikes() {
         <Container>
             <Wrapper>
                 <PageTitle text = "my likes" />
-                {!userLikes.length ? 
-                "Você ainda não curtiu nenhum post!" :
-                    <InfiniteScroll
-                        dataLength={userLikes.length}
-                        pageStart={0}
-                        scrollThreshold={1}
-                        next={loadMorePosts}
-                        hasMore={hasMore}
-                        loader={<h4>Loading...</h4>}
-                        endMessage={
-                            <p style={{ textAlign: 'center' }}>
-                              <b>Você já viu tudo!</b>
-                            </p>
-                        }
-                    >
-                        { PrintedPosts(userLikes, "", login.user.id) }
-                    </InfiniteScroll>
-                }
+                {PrintedPosts(userLikes, "Você ainda não curtiu nenhum post!", login.user.id, setInteractedPostId)}
             </Wrapper>
             <Trending />
         </Container>

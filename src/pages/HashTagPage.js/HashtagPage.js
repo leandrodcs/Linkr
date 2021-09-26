@@ -5,7 +5,9 @@ import Trending from "../../components/Trending/Trending";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
-import {getHashtagPosts, getNewerHashtagPosts} from "../../service/service";
+import { sendAlert } from "../../utils/helpers/Alerts";
+import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
+import {getHashtagPosts} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
 
@@ -18,28 +20,57 @@ export default function HashtagPage() {
     const {login} = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [hashtagPosts, setHashtagPosts] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] =useState(true);
     const params = useParams();
+    const [interactedPostId, setInteractedPostId] = useState(0);
     
     useEffect(() => window.scrollTo(0,0), [])
+    useEffect(() => setLoading(true), [params.hashtag])
 
-    // SetInterval( () => {
-    //     if (hashtagPosts.length) {
-    //         getNewerHashtagPosts(login.token, hashtagPosts[0].repostId||hashtagPosts[0].id, hashtagPosts, setHashtagPosts, params.hashtag);
-    //     }
-    // },15000);
+    SetInterval( () => {
+        if (hashtagPosts.length) {
+            reloadCurrentTimeline(hashtagPosts[hashtagPosts.length -1].repostId||hashtagPosts[hashtagPosts.length -1].id, getHashtagPosts, login.token, setHashtagPosts, params.hashtag);
+        }
+    },15000);
 
     useEffect(() => {
-        setLoading(true);
-        getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading, setHasMore)
-    }, [login.token, params, isDataBeingEvaluated]);
+        if (interactedPostId) {
+            if (!isDataBeingEvaluated) {
+                reloadCurrentTimeline(interactedPostId, getHashtagPosts, login.token, setHashtagPosts, params.hashtag);
+                setInteractedPostId(0);
+            }
+        } else {
+            getHashtagPosts(login.token, params.hashtag)
+            .then(res => {
+                setHashtagPosts(res.data.posts);
+                setLoading(false);
+                if(res.data.posts.length === 0) {
+                    setHasMore(false);
+                }
+            })
+            .catch(err => {
+                setLoading(false);
+                sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
+            })
+        }
+    }, [login.token, params.hashtag, isDataBeingEvaluated]);
 
     function loadMorePosts() {
-        getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading, setHasMore, hashtagPosts[hashtagPosts.length -1].repostId||hashtagPosts[hashtagPosts.length -1].id, hashtagPosts);
+        getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading, setHasMore, hashtagPosts[hashtagPosts.length -1].repostId||hashtagPosts[hashtagPosts.length -1].id, hashtagPosts)
+        .then(res => {
+            setHashtagPosts([...hashtagPosts, ...res.data.posts]);
+            if(res.data.posts.length === 0) {
+                setHasMore(false);
+            }
+        })
+        .catch(err => {
+            setLoading(false);
+            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        })
     }
 
-    if(loading && !hashtagPosts.length) {
+    if(loading) {
         return (
             <Container>
                 <Loading />
@@ -67,7 +98,7 @@ export default function HashtagPage() {
                         </p>
                         }
                     >
-                        { PrintedPosts(hashtagPosts, "", login.user.id) }
+                        { PrintedPosts(hashtagPosts, "", login.user.id, setInteractedPostId) }
                     </InfiniteScroll>
                 }
             </Wrapper>
