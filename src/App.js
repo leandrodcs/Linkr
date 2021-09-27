@@ -5,7 +5,7 @@ import UserPage from "./pages/UserPage/UserPage";
 import HashtagPage from "./pages/HashTagPage.js/HashtagPage";
 import MyPosts from "./pages/MyPosts/MyPosts";
 import MyLikes from "./pages/MyLikes/MyLikes";
-import Header from "./components/Header/Header";
+import { TransitionsStyles, TransitioningRoutes } from "./utils/helpers/Transitions";
 
 import UserContext from "./contexts/UserContext";
 import DataEvaluationContext from "./contexts/DataEvaluationContext";
@@ -23,7 +23,9 @@ export default function App() {
   const [ isDataBeingEvaluated, setIsDataBeingEvaluated ] = useState(false);
 
   useEffect((() => {
-    if(!!login.token) getFollowingList(login.token, setFollowingList);
+    if(!!login.token) {
+        getFollowingList(login.token, setFollowingList)
+    }
   }), [login, isDataBeingEvaluated]);
   
   return (
@@ -31,20 +33,20 @@ export default function App() {
       <UserContext.Provider value={{login, setLogin, followingList, setFollowingList}}>
         <DataEvaluationContext.Provider value = {{isDataBeingEvaluated, setIsDataBeingEvaluated }} >
           <GlobalReset />
-          <Switch>
-            <Route exact path="/">
-              <SignIn skipThisPage={!!login.token} />
-            </Route>
-            <Route exact path="/sign-up" render={() => <SignUp />} />
-            <>
-              <Header />
-              <Route exact path="/timeline" render={() => <Timeline />} />
-              <Route exact path="/my-posts" render={() => <MyPosts />} />
-              <Route exact path="/my-likes" render={() => <MyLikes />} />
-              <Route exact path="/user/:id" render={() => <UserPage />} />
-              <Route exact path="/hashtag/:hashtag" render={() => <HashtagPage />} />
-            </>
-          </Switch>
+          <TransitionsStyles />
+          <Route render = { ({ location }) => (
+            <TransitioningRoutes location = {location}>
+              <Switch location = {location}>
+                <Route exact path="/" component={SignIn} />
+                <Route exact path="/sign-up" component={SignUp} />
+                <Route exact path="/timeline" component={Timeline} />
+                <Route exact path="/my-posts" component={MyPosts} />
+                <Route exact path="/my-likes" component={MyLikes} />
+                <Route exact path="/user/:id" component={UserPage} />
+                <Route exact path="/hashtag/:hashtag" component={HashtagPage} />
+              </Switch>
+            </TransitioningRoutes>
+          )} />
         </DataEvaluationContext.Provider>
       </UserContext.Provider>
     </Router>

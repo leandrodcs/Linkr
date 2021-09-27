@@ -2,14 +2,16 @@ import Loading from "../../components/Loading/Loading";
 import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
+import Header from "../../components/Header/Header";
 
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import UserContext from "../../contexts/UserContext";
+import TransitionContext from "../../contexts/TransitionContext";
+import { SetInterval } from "../../utils/helpers/Intervals";
 import {getUserPosts} from "../../service/service";
 import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
 import { sendAlert } from "../../utils/helpers/Alerts";
 import { PrintedPosts } from "../../utils/PostsUtils";
-import { SetInterval } from "../../utils/helpers/Intervals";
 
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
@@ -18,6 +20,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function MyPosts() {
     const {login} = useContext(UserContext);
+    const { isTransitioning } = useContext(TransitionContext);
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] =useState(true);
@@ -43,7 +46,7 @@ export default function MyPosts() {
         })
         .catch(err => {
             setLoading(false);
-            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
+            sendAlert("error", "Houve uma falha ao obter os posts!","Por favor, atualize a página!")
         })
     },[login]);
 
@@ -66,21 +69,30 @@ export default function MyPosts() {
         })
         .catch(err => {
             setLoading(false);
-            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+            sendAlert("error", "Houve uma falha ao obter os posts!","Por favor, atualize a página!");
         })
     }
 
     if(!userPosts.length && loading) {
         return (
             <Container>
+                <Header />
                 <Loading />
-                <Trending />
+            </Container>
+        );
+    }
+
+    if(isTransitioning || !login.token) {
+        return (
+            <Container>
+                <Header />
             </Container>
         );
     }
 
     return (
         <Container>
+            <Header />
             <Wrapper>
                 <PageTitle text = "my posts" />
                 {!userPosts.length ? 

@@ -16,7 +16,7 @@ export default function Trending() {
     const history = useHistory();
     
     useEffect(() => {
-        if(login.token) {
+        if(login.token && !isDataBeingEvaluated) {
             getTrendingTopics(login.token, setTrendingTopics)
         }
     },[login,isDataBeingEvaluated]);

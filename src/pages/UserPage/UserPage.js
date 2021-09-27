@@ -3,16 +3,18 @@ import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
 import Button from "./elements/Button";
+import Header from "../../components/Header/Header";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
+import TransitionContext from "../../contexts/TransitionContext";
 import {getUserPosts, getUserData} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
 import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
 import { sendAlert } from "../../utils/helpers/Alerts";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext} from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -21,8 +23,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 export default function UserPage() {
     const {login} = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const { isTransitioning } = useContext(TransitionContext);
     const [username, setUsername] = useState("")
     const [userPosts, setUserPosts] = useState([]);
+    
     const [loading, setLoading] = useState(true);
     const params = useParams();
     const [hasMore, setHasMore] =useState(true);
@@ -49,7 +53,7 @@ export default function UserPage() {
         })
         .catch(err => {
             setLoading(false);
-            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
+            sendAlert("error", "Houve uma falha ao obter os posts!","Por favor, atualize a página!")
         })
     },[login, params.id]);
 
@@ -72,21 +76,30 @@ export default function UserPage() {
         })
         .catch(err => {
             setLoading(false);
-            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+            sendAlert("error", "Houve uma falha ao obter os posts!","Por favor, atualize a página!");
         })
     }
 
     if(loading) {
         return (
             <Container>
+                <Header />
                 <Loading />
-                <Trending />
+            </Container>
+        );
+    }
+
+    if(isTransitioning || !login.token) {
+        return (
+            <Container>
+                <Header />
             </Container>
         );
     }
     
     return (
         <Container>
+            <Header />
             <Wrapper>
                 <StyledTop>
                     <PageTitle type = "UserPosts" text = {<><span>{username}</span> <span>'s Posts</span></>} />

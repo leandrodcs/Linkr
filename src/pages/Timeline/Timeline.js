@@ -1,4 +1,5 @@
 import Container from "../../components/Container/Container";
+import Header from "../../components/Header/Header";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
 import Loading from "../../components/Loading/Loading";
@@ -11,6 +12,7 @@ import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
 import { sendAlert } from "../../utils/helpers/Alerts";
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
+import TransitionContext from "../../contexts/TransitionContext";
 
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -21,6 +23,7 @@ export default function Timeline() {
     const [posts, setPosts] = useState([]);
     const { login, followingList } = useContext(UserContext);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const { isTransitioning} = useContext(TransitionContext);
     const [hasMore, setHasMore] =useState(true);
     const [loading, setLoading] = useState(true);
     const [interactedPostId, setInteractedPostId] = useState(0);
@@ -45,7 +48,7 @@ export default function Timeline() {
                 }
             })
             .catch(error => {
-                sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+                sendAlert("error", "Houve uma falha ao obter os posts!","Por favor, atualize a página!");
             })
         }
     },[login, isPublishing]);
@@ -64,8 +67,16 @@ export default function Timeline() {
     if(loading) {
         return (
             <Container>
+                <Header />
                 <Loading />
-                <Trending />
+            </Container>
+        );
+    }
+
+    if(isTransitioning || !login.token) {
+        return (
+            <Container>
+                <Header />
             </Container>
         );
     }
@@ -79,12 +90,13 @@ export default function Timeline() {
             }
         })
         .catch(error => {
-            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+            sendAlert("error", "Houve uma falha ao obter os posts!","Por favor, atualize a página!");
         })
     }
 
     return (
         <Container>
+            <Header />
             <Wrapper>
                 <PageTitle text = "timeline" />
                 <PublishingBox isPublishing={isPublishing} setIsPublishing={setIsPublishing}/>

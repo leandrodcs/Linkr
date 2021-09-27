@@ -60,7 +60,7 @@ function getNewerPosts(userToken, firstId, posts, setPosts, URLSufix) {
         }
     })
     .catch(error => {
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+        sendAlert("error", "Houve uma falha ao obter os posts!","Por favor, atualize a página!");
     })
 }
 
@@ -131,7 +131,7 @@ function publishNewPost(body, userToken, setIsDataBeingEvaluated, setIsPublishin
     })
 }
 
-function getTrendingTopics( userToken, setTrendingTopics ) {
+function getTrendingTopics( userToken, setTrendingTopics) {
     axios.get(`${URL}/hashtags/trending`,createConfig(userToken))
     .then( resp => {
         setTrendingTopics(resp.data.hashtags);
@@ -141,15 +141,13 @@ function getTrendingTopics( userToken, setTrendingTopics ) {
     })
 }
 
-function getUserData( userToken, userId, setUsername ) {
+function getUserData( userToken, userId, setUsername) {
     axios.get(`${URL}/users/${userId}`,createConfig(userToken))
     .then( resp => {
         setUsername(resp.data.user.username);
     })
     .catch( error => {
-        sendAlert("error", "Houve uma falha ao obter os dados do usuário!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
+        sendAlert("error", "Houve uma falha ao obter os dados do usuário!","Por favor, atualize a página");
     })
 }
 
@@ -215,7 +213,7 @@ function followUser( userToken, followingID, isFollowing, setIsDataBeingEvaluate
         });
 }
 
-function getPostComments( userToken, postID, setComments ) {
+function getPostComments( userToken, postID, setComments) {
     axios.get(`${URL}/posts/${postID}/comments`, createConfig(userToken))
         .then(resp => {
             setComments(resp.data.comments);

@@ -2,9 +2,11 @@ import Loading from "../../components/Loading/Loading";
 import Container from "../../components/Container/Container";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Trending from "../../components/Trending/Trending";
+import Header from "../../components/Header/Header";
 
 import UserContext from "../../contexts/UserContext";
 import DataEvaluationContext from "../../contexts/DataEvaluationContext";
+import TransitionContext from "../../contexts/TransitionContext";
 import {getUserLikes} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 
@@ -14,6 +16,7 @@ import styled from "styled-components";
 
 export default function MyLikes() {
     const {login} = useContext(UserContext);
+    const { isTransitioning } = useContext(TransitionContext);
     const [userLikes, setUserLikes] = useState([]);
     const [loading, setLoading] = useState(true);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
@@ -28,14 +31,23 @@ export default function MyLikes() {
     if(!interactedPostId && loading) {
         return (
             <Container>
+                <Header />
                 <Loading />
-                <Trending />
+            </Container>
+        );
+    }
+
+    if(isTransitioning || !login.token) {
+        return (
+            <Container>
+                <Header />
             </Container>
         );
     }
     
     return (
         <Container>
+            <Header />
             <Wrapper>
                 <PageTitle text = "my likes" />
                 {PrintedPosts(userLikes, "Você ainda não curtiu nenhum post!", login.user.id, setInteractedPostId)}
