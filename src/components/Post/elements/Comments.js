@@ -12,7 +12,7 @@ import { PaperPlaneOutline } from "react-ionicons";
 
 export default function Comments() {
     const { comments, setComments, id, repostId, setInteractedPostId } = useContext(PostContext);
-    const { setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
+    const { isDataBeingEvaluated, setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
     const { login } = useContext(UserContext);
     const [text, setText] = useState("");
 
@@ -27,10 +27,11 @@ export default function Comments() {
                     type="text"
                     placeholder="write a comment..."
                     required
+                    disabled={isDataBeingEvaluated}
                     value={text}
                     onChange={e => setText(e.target.value)}
                 />
-                <button type="submit">
+                <button type="submit" disabled={isDataBeingEvaluated}>
                     <PaperPlaneOutline color="#F3F3F3" width="16px" />
                 </button>
             </StyledForm>

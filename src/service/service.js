@@ -228,7 +228,7 @@ function getPostComments( userToken, postID, setComments ) {
 function postComment( userToken, postID, comment, setComments, setIsDataBeingEvaluated, setText) {
     axios.post(`${URL}/posts/${postID}/comment`, comment, createConfig(userToken))
         .then(resp => {
-            sendAlert("success", "Sucesso!","Você comentou no post!");
+            // sendAlert("success", "Sucesso!","Você comentou no post!");
             getPostComments( userToken, postID, setComments );
             setText("");
             setIsDataBeingEvaluated(false);
