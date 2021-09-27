@@ -3,12 +3,13 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import styled from "styled-components";
 
-export default function Loading() {
+export default function Loading({scrollColor}) {
+    const color = scrollColor||"#FFFFFF";
     return (
         <Wrapper>
             <SpinLoader
                 type="TailSpin"
-                color="#FFFFFF"
+                color= {color}
                 height={300}
                 width={300}
             />
@@ -35,8 +36,8 @@ const Wrapper = styled.div`
             height: 170px;
         }
     }
-`
+`;
 
 const SpinLoader = styled(Loader)`
     margin-bottom: 50px;
-`
+`;

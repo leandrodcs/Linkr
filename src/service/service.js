@@ -43,54 +43,59 @@ function login(body, setLogin, setIsButtonEnabled, history) {
         });
 }
 
-function getTimelinePosts(userToken , setPosts) {
-    axios.get(`${URL}/following/posts`,createConfig(userToken))
+function getTimelinePosts(userToken, additionalPageInformation, lastId) {
+    return axios.get(`${URL}/following/posts${lastId?`?olderThan=${lastId}`:``}`,createConfig(userToken));
+}
+
+function getUserPosts(userToken, userId, lastId) {
+    return axios.get(`${URL}/users/${userId}/posts${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken));
+}
+
+function getNewerPosts(userToken, firstId, posts, setPosts, URLSufix) {
+    axios.get(`${URL}${URLSufix}?earlierThan=${firstId}`,createConfig(userToken))
     .then(resp => {
-        setPosts(resp.data.posts);
+        const newPosts = resp.data.posts;
+        if (newPosts.length) {
+            setPosts([...newPosts, ...posts]);
+        }
     })
     .catch(error => {
         sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
     })
 }
 
-function getUserPosts(userToken, userId, setUserPosts, setLoading) {
-    axios.get(`${URL}/users/${userId}/posts`, createConfig(userToken))
+
+function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading, setHasMore, lastId, hashtagPosts) {
+    return axios.get(`${URL}/hashtags/${hashtag}/posts${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken))
+}
+
+function getUserLikes(setLoading, userToken , setUserLikes, lastId, userLikes) {
+    axios.get(`${URL}/posts/liked${lastId?`?olderThan=${lastId}`:``}`, createConfig(userToken))
     .then(res => {
-        setUserPosts(res.data.posts);
-        setLoading(false);
+        if(!lastId) {
+            setUserLikes(res.data.posts);
+            setLoading(false);
+        }
+        if (lastId) {
+            setUserLikes([...userLikes, ...res.data.posts]);
+        }
     })
     .catch(err => {
         setLoading(false);
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
     });
 }
 
-function getUserLikes(userToken, setUserLikes, setLoading) {
-    axios.get(`${URL}/posts/liked`, createConfig(userToken))
-    .then(res => {
-        setUserLikes(res.data.posts);
-        setLoading(false);
-    })
-    .catch(err => {
-        setLoading(false);
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
-    });
-}
 
-function deletePostFromServer(userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
+function deletePostFromServer(setIsHidden, userToken, postId, setOpenModal, setIsDataBeingEvaluated) {
     axios.delete(`${URL}/posts/${postId}`, createConfig(userToken))
     .then(res => {
+        setIsHidden(true);
         setIsDataBeingEvaluated(false);
         setOpenModal(false);
     })
     .catch(err => {
         sendAlert("error", "Oops!","Seu post não pôde ser excluído! Tente novamente...");
+        console.log("Erro no delete");
         setIsDataBeingEvaluated(false);
         setOpenModal(false);
     });
@@ -146,20 +151,6 @@ function getUserData( userToken, userId, setUsername ) {
         localStorage.clear();
         window.open("/","_self");
     })
-}
-
-function getHashtagPosts(userToken, hashtag, setHashtagPosts, setLoading) {
-    axios.get(`${URL}/hashtags/${hashtag}/posts`, createConfig(userToken))
-    .then(res => {
-        setHashtagPosts(res.data.posts);
-        setLoading(false);
-    })
-    .catch(err => {
-        setLoading(false);
-        sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-        localStorage.clear();
-        window.open("/","_self");
-    });
 }
 
 function likePost( postID, userToken, hasUserLiked, setIsLiked, setIsDataBeingEvaluated ) {
@@ -234,14 +225,17 @@ function getPostComments( userToken, postID, setComments ) {
         });
 }
 
-function postComment( userToken, postID, comment, setComments ) {
+function postComment( userToken, postID, comment, setComments, setIsDataBeingEvaluated, setText) {
     axios.post(`${URL}/posts/${postID}/comment`, comment, createConfig(userToken))
         .then(resp => {
-            sendAlert("success", "Sucesso!","Você comentou no post!");
+            // sendAlert("success", "Sucesso!","Você comentou no post!");
             getPostComments( userToken, postID, setComments );
+            setText("");
+            setIsDataBeingEvaluated(false);
         })
         .catch(err => {
             sendAlert("error", "Erro no servidor!","Por favor, tente novamente...");
+            setIsDataBeingEvaluated(false);
         });
 }
 
@@ -263,5 +257,6 @@ export {
     getFollowingList,
     followUser,
     getPostComments,
-    postComment
+    postComment,
+    getNewerPosts,
 };

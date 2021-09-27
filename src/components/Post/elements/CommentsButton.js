@@ -5,7 +5,7 @@ import UserContext from "../../../contexts/UserContext";
 
 import styled from "styled-components";
 import { AiOutlineComment } from "react-icons/ai";
-import { useContext, useEffect } from "react";
+import { useContext} from "react";
 
 
 export default function CommentsButton() {
@@ -13,19 +13,17 @@ export default function CommentsButton() {
         id,
         showComments,
         setShowComments,
-        comments,
+        commentCount,
         setComments
     } = useContext(PostContext);
     const { login } = useContext(UserContext);
-
-    useEffect((() => {
-        getPostComments(login.token, id, setComments);
-    }), [id, login.token, setComments]);
-
+    
     return (
         <Wrapper>
-            <CommentsBubble onClick={() => setShowComments(!showComments)} />
-            <p>{formattedNumberOfInteractions(comments.length, "comment")}</p>
+            <CommentsBubble onClick={() => { 
+                if(!showComments) {getPostComments(login.token, id, setComments)};
+                setShowComments(!showComments) }} />
+            <p>{formattedNumberOfInteractions(commentCount ? commentCount : 0, "comment")}</p>
         </Wrapper>
     );
 }
