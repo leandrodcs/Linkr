@@ -24,14 +24,32 @@ export default function Timeline() {
     const [hasMore, setHasMore] =useState(true);
     const [loading, setLoading] = useState(true);
     const [interactedPostId, setInteractedPostId] = useState(0);
-    useEffect(() => window.scrollTo(0,0), [])
+    const [ isPublishing, setIsPublishing ] = useState(false);
+
+    useEffect(() => window.scrollTo(0,0), []);
 
     SetInterval( () => {
         if (posts.length) {
-            reloadCurrentTimeline(interactedPostId, getTimelinePosts, login.token, setPosts);
+            reloadCurrentTimeline(posts[posts.length -1].repostId || posts[posts.length -1].id, getTimelinePosts, login.token, setPosts);
         }
     },15000);
 
+    useEffect(() => {
+        if(login.token && !isPublishing) {
+            getTimelinePosts(login.token)
+            .then(resp => {
+                setPosts(resp.data.posts);
+                setLoading(false);
+                if(resp.data.posts.length === 0) {
+                    setHasMore(false);
+                }
+            })
+            .catch(error => {
+                sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
+            })
+        }
+    },[login, isPublishing]);
+    
     useEffect(() => {
         if(login.token) {
             if (interactedPostId) {
@@ -39,22 +57,9 @@ export default function Timeline() {
                     reloadCurrentTimeline(interactedPostId, getTimelinePosts, login.token, setPosts);
                     setInteractedPostId(0);
                 }
-            } else {
-                getTimelinePosts(login.token)
-                .then(resp => {
-                    setPosts(resp.data.posts);
-                    setLoading(false);
-                    if(resp.data.posts.length === 0) {
-                        setHasMore(false);
-                    }
-                })
-                .catch(error => {
-                    sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada");
-                    console.log("Erro na Timeline");
-                })
             }
         }
-    },[login, isDataBeingEvaluated]);
+    },[login, isDataBeingEvaluated, interactedPostId]);
     
     if(loading) {
         return (
@@ -82,7 +87,7 @@ export default function Timeline() {
         <Container>
             <Wrapper>
                 <PageTitle text = "timeline" />
-                <PublishingBox />
+                <PublishingBox isPublishing={isPublishing} setIsPublishing={setIsPublishing}/>
                 {!posts.length ? 
                 "Você ainda não publicou nada!" :
                     <InfiniteScroll

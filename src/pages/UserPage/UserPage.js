@@ -39,26 +39,28 @@ export default function UserPage() {
 
     useEffect(() => {
         getUserData( login.token, params.id, setUsername );
+        getUserPosts(login.token, params.id)
+        .then(res => {
+            setUserPosts(res.data.posts);
+            setLoading(false);
+            if(res.data.posts.length === 0) {
+                setHasMore(false);
+            }
+        })
+        .catch(err => {
+            setLoading(false);
+            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
+        })
+    },[login.token, params.id]);
+
+    useEffect(() => {
         if (interactedPostId) {
             if (!isDataBeingEvaluated) {
                 reloadCurrentTimeline(interactedPostId, getUserPosts, login.token, setUserPosts, params.id);
                 setInteractedPostId(0);
             }
-        } else {
-            getUserPosts(login.token, params.id)
-            .then(res => {
-                setUserPosts(res.data.posts);
-                setLoading(false);
-                if(res.data.posts.length === 0) {
-                    setHasMore(false);
-                }
-            })
-            .catch(err => {
-                setLoading(false);
-                sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
-            })
         }
-    }, [login.token, params.id, isDataBeingEvaluated]);
+    }, [login.token, params.id, isDataBeingEvaluated, interactedPostId]);
 
     function loadMorePosts() {
         getUserPosts(login.token, params.id, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id)

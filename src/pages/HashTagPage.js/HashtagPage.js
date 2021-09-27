@@ -35,26 +35,28 @@ export default function HashtagPage() {
     },15000);
 
     useEffect(() => {
+        getHashtagPosts(login.token, params.hashtag)
+        .then(res => {
+            setHashtagPosts(res.data.posts);
+            setLoading(false);
+            if(res.data.posts.length === 0) {
+                setHasMore(false);
+            }
+        })
+        .catch(err => {
+            setLoading(false);
+            sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
+        })
+    },[login.token, params.hashtag]);
+
+    useEffect(() => {
         if (interactedPostId) {
             if (!isDataBeingEvaluated) {
                 reloadCurrentTimeline(interactedPostId, getHashtagPosts, login.token, setHashtagPosts, params.hashtag);
                 setInteractedPostId(0);
             }
-        } else {
-            getHashtagPosts(login.token, params.hashtag)
-            .then(res => {
-                setHashtagPosts(res.data.posts);
-                setLoading(false);
-                if(res.data.posts.length === 0) {
-                    setHasMore(false);
-                }
-            })
-            .catch(err => {
-                setLoading(false);
-                sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
-            })
         }
-    }, [login.token, params.hashtag, isDataBeingEvaluated]);
+    }, [login.token, params.hashtag, isDataBeingEvaluated, interactedPostId]);
 
     function loadMorePosts() {
         getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading, setHasMore, hashtagPosts[hashtagPosts.length -1].repostId||hashtagPosts[hashtagPosts.length -1].id, hashtagPosts)

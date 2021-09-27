@@ -54,21 +54,20 @@ function cancelEditing(isEditing, text, setIsEditing, setEditedMsg) {
     setEditedMsg(text);
 }
 
-function editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing) {
-    setIsDataBeingEvaluated(true);
+async function editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, setInteractedPostId) {
+    await setIsDataBeingEvaluated(true);
+    setInteractedPostId(id);
     setIsEditing(true);
     publishEditedPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing);
 }
 
-async function analyzeRequest(e, setInteractedPostId, editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg) {
+function analyzeRequest(e, setInteractedPostId, editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg) {
     if(e.keyCode === 27) {
         cancelEditing(isEditing, text, setIsEditing, setEditedMsg)
     }
     if(e.keyCode === 13) {
         if (editedMsg !== 0) {
-            console.log("enter", id)
-            await setInteractedPostId(id);
-            editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing);
+            editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, setInteractedPostId);
         } else {
             cancelEditing(isEditing, text, setIsEditing, setEditedMsg)
         }
@@ -76,14 +75,14 @@ async function analyzeRequest(e, setInteractedPostId, editedMsg, id, token, setI
 }
 
 async function deletePost(setIsHidden, setInteractedPostId, setIsDataBeingEvaluated, token, id, setOpenModal ) {
-    await setInteractedPostId(id);
-    setIsDataBeingEvaluated(true);
+    await setIsDataBeingEvaluated(true);
+    setInteractedPostId(id);
     deletePostFromServer(setIsHidden, token, id, setOpenModal, setIsDataBeingEvaluated);
 }
 
 async function repostPost(setInteractedPostId, userToken, postID, repostId, setIsDataBeingEvaluated, setOpenModal) {
-    await setInteractedPostId(repostId || postID);
-    setIsDataBeingEvaluated(true);
+    await setIsDataBeingEvaluated(true);
+     setInteractedPostId(repostId || postID);
     sendRepostToServer(userToken, postID, setIsDataBeingEvaluated, setOpenModal);
 }
 
@@ -97,8 +96,8 @@ function isUsersRepost(repostedBy, userId) {
 
 async function sendCommentAndUpdatePosts (e, postComment, userToken, id, repostId, text, setComments, setText, setIsDataBeingEvaluated, setInteractedPostId) {
     e.preventDefault();
-    await setInteractedPostId(repostId || id);
-    setIsDataBeingEvaluated(true);
+    await setIsDataBeingEvaluated(true);
+    setInteractedPostId(repostId || id);
     postComment(userToken, id, {text}, setComments, setIsDataBeingEvaluated, setText);
 }
 

@@ -2,8 +2,8 @@ import { likePost } from "../service/service";
 
 async function likePostHelper(setInteractedPostId, hasUserLiked, setIsLiked, userToken, postID, repostId,  setIsDataBeingEvaluated, setWasThisPostClicked) {
     setIsLiked(!hasUserLiked);
-    await setInteractedPostId(repostId || postID);
-    setIsDataBeingEvaluated(true);
+    await setIsDataBeingEvaluated(true);
+    setInteractedPostId(repostId || postID);
     setWasThisPostClicked(true);
     likePost(postID, userToken, hasUserLiked, setIsLiked, setIsDataBeingEvaluated)
 }
