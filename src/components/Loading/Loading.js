@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 export default function Loading({scrollColor}) {
     const color = scrollColor||"#FFFFFF";
-    console.log(scrollColor);
     return (
         <Wrapper>
             <SpinLoader

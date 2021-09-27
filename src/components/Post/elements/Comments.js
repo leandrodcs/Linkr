@@ -52,6 +52,7 @@ const StyledForm = styled.form`
         height: 38px;
         border-radius: 38px;
         cursor: pointer;
+        object-fit: cover;
     }
     & input {
         width: calc(100% - 52px);

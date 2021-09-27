@@ -24,7 +24,7 @@ export default function Timeline() {
     const [hasMore, setHasMore] =useState(true);
     const [loading, setLoading] = useState(true);
     const [interactedPostId, setInteractedPostId] = useState(0);
-    // useEffect(() => window.scrollTo(0,0), [])
+    useEffect(() => window.scrollTo(0,0), [])
 
     SetInterval( () => {
         if (posts.length) {
