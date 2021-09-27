@@ -26,9 +26,9 @@ export default function UserPage() {
     const [loading, setLoading] = useState(true);
     const params = useParams();
     const [hasMore, setHasMore] =useState(true);
-    const [interactedPostId, setInteractedPostId] = useState("");
+    const [interactedPostId, setInteractedPostId] = useState(0);
 
-    useEffect(() => window.scrollTo(0,0), [])
+    useEffect(() => window.scrollTo(0,0), [params.id])
     useEffect(() => setLoading(true), [params.id])
 
     SetInterval( () => {
@@ -44,7 +44,7 @@ export default function UserPage() {
                 reloadCurrentTimeline(interactedPostId, getUserPosts, login.token, setUserPosts, params.id);
                 setInteractedPostId(0);
             }
-        } else if (interactedPostId !== 0) {
+        } else {
             getUserPosts(login.token, params.id)
             .then(res => {
                 setUserPosts(res.data.posts);
@@ -58,7 +58,7 @@ export default function UserPage() {
                 sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
             })
         }
-    }, [login.token, params.id, interactedPostId, isDataBeingEvaluated]);
+    }, [login.token, params.id, isDataBeingEvaluated]);
 
     function loadMorePosts() {
         getUserPosts(login.token, params.id, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id)
@@ -98,12 +98,8 @@ export default function UserPage() {
                         scrollThreshold={1}
                         next={loadMorePosts}
                         hasMore={hasMore}
-                        loader={<h4>{userPosts.length < 10 || <b>Loading...</b>}</h4>}
-                        endMessage={
-                        <p style={{ textAlign: 'center' }}>
-                            {userPosts.length < 10 || <b>Você já viu tudo!</b>}
-                        </p>
-                        }
+                        loader={<ScrollLoader><Loading scrollColor="#6D6D6D"/></ScrollLoader>}
+                        endMessage={<p style={{ textAlign: 'center' }}>Você já viu tudo!</p>}
                     >
                         { PrintedPosts(userPosts, "", login.user.id, setInteractedPostId) }
                     </InfiniteScroll>
@@ -143,5 +139,22 @@ const StyledTop = styled.div`
         flex-direction: column;
         justify-content: space-between;
         align-items: left;
+    }
+`;
+
+const ScrollLoader = styled.div`
+    div {
+        margin: 0 0 0 0;
+        font-size: 22px;
+        line-height: 26px;
+        letter-spacing: 0.05em;
+        color: #6D6D6D;
+    }
+
+    svg {
+        width: 36px;
+        margin: 0 0 0 0;
+        height: 36px;
+        color: #6D6D6D;
     }
 `;

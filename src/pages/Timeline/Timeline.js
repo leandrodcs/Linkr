@@ -23,8 +23,8 @@ export default function Timeline() {
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [hasMore, setHasMore] =useState(true);
     const [loading, setLoading] = useState(true);
-    const [interactedPostId, setInteractedPostId] = useState("");
-    useEffect(() => window.scrollTo(0,0), [])
+    const [interactedPostId, setInteractedPostId] = useState(0);
+    // useEffect(() => window.scrollTo(0,0), [])
 
     SetInterval( () => {
         if (posts.length) {
@@ -39,7 +39,7 @@ export default function Timeline() {
                     reloadCurrentTimeline(interactedPostId, getTimelinePosts, login.token, setPosts);
                     setInteractedPostId(0);
                 }
-            } else if (interactedPostId !== 0) {
+            } else {
                 getTimelinePosts(login.token)
                 .then(resp => {
                     setPosts(resp.data.posts);
@@ -54,8 +54,8 @@ export default function Timeline() {
                 })
             }
         }
-    },[login, interactedPostId, isDataBeingEvaluated]);
-
+    },[login, isDataBeingEvaluated]);
+    
     if(loading) {
         return (
             <Container>
@@ -91,12 +91,8 @@ export default function Timeline() {
                         scrollThreshold={1}
                         next={loadMorePosts}
                         hasMore={hasMore}
-                        loader={<h4>Loading...</h4>}
-                        endMessage={
-                            <p style={{ textAlign: 'center' }}>
-                              <b>Você já viu tudo!</b>
-                            </p>
-                        }
+                        loader={<ScrollLoader><Loading scrollColor="#6D6D6D"/></ScrollLoader>}
+                        endMessage={<p style={{ textAlign: 'center' }}>Você já viu tudo!</p>}
                     >
                         { PrintedPosts(posts, "", login.user.id, setInteractedPostId, followingList) }
                     </InfiniteScroll>
@@ -113,12 +109,34 @@ const Wrapper = styled.section`
     font-family: 'Lato', sans-serif;
     font-weight: 700;
 
+    svg {
+        width: 100px;
+    }
+
     .infinite-scroll-component::-webkit-scrollbar {
         display: none;
     }
 
     @media(max-width: 637px) {
         width: 100%;
+    }
+`;
+
+const ScrollLoader = styled.div`
+
+    div {
+        margin: 0 0 0 0;
+        font-size: 22px;
+        line-height: 26px;
+        letter-spacing: 0.05em;
+        color: #6D6D6D;
+    }
+
+    svg {
+        width: 36px;
+        margin: 0 0 0 0;
+        height: 36px;
+        color: #6D6D6D;
     }
 `;
 

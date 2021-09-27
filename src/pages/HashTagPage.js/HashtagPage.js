@@ -23,9 +23,9 @@ export default function HashtagPage() {
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] =useState(true);
     const params = useParams();
-    const [interactedPostId, setInteractedPostId] = useState("");
+    const [interactedPostId, setInteractedPostId] = useState(0);
     
-    useEffect(() => window.scrollTo(0,0), [])
+    useEffect(() => window.scrollTo(0,0), [params.hashtag])
     useEffect(() => setLoading(true), [params.hashtag])
 
     SetInterval( () => {
@@ -40,7 +40,7 @@ export default function HashtagPage() {
                 reloadCurrentTimeline(interactedPostId, getHashtagPosts, login.token, setHashtagPosts, params.hashtag);
                 setInteractedPostId(0);
             }
-        } else if (interactedPostId !== 0) {
+        } else {
             getHashtagPosts(login.token, params.hashtag)
             .then(res => {
                 setHashtagPosts(res.data.posts);
@@ -54,7 +54,7 @@ export default function HashtagPage() {
                 sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
             })
         }
-    }, [login.token, params.hashtag, interactedPostId, isDataBeingEvaluated]);
+    }, [login.token, params.hashtag, isDataBeingEvaluated]);
 
     function loadMorePosts() {
         getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading, setHasMore, hashtagPosts[hashtagPosts.length -1].repostId||hashtagPosts[hashtagPosts.length -1].id, hashtagPosts)
@@ -91,12 +91,8 @@ export default function HashtagPage() {
                         scrollThreshold={1}
                         next={loadMorePosts}
                         hasMore={hasMore}
-                        loader={<h4>{hashtagPosts.length < 10 || <b>Loading...</b>}</h4>}
-                        endMessage={
-                        <p style={{ textAlign: 'center' }}>
-                            <b>Você já viu tudo!</b>
-                        </p>
-                        }
+                        loader={<ScrollLoader><Loading scrollColor="#6D6D6D"/></ScrollLoader>}
+                        endMessage={<p style={{ textAlign: 'center' }}>Você já viu tudo!</p>}
                     >
                         { PrintedPosts(hashtagPosts, "", login.user.id, setInteractedPostId) }
                     </InfiniteScroll>
@@ -119,5 +115,27 @@ const Wrapper = styled.section`
 
     @media(max-width: 637px) {
         width: 100%;
+    }
+`;
+
+const ScrollLoading = styled.div`
+    background: red;
+    
+`;
+
+const ScrollLoader = styled.div`
+    div {
+        margin: 0 0 0 0;
+        font-size: 22px;
+        line-height: 26px;
+        letter-spacing: 0.05em;
+        color: #6D6D6D;
+    }
+
+    svg {
+        width: 36px;
+        margin: 0 0 0 0;
+        height: 36px;
+        color: #6D6D6D;
     }
 `;
