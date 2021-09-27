@@ -11,10 +11,14 @@ import TransitionContext from "../../contexts/TransitionContext";
 import {getUserPosts, getUserData} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
 import { SetInterval } from "../../utils/helpers/Intervals";
+import { reloadCurrentTimeline } from "../../utils/helpers/infiniteScroll";
+import { sendAlert } from "../../utils/helpers/Alerts";
 
-import { useEffect, useState, useContext, useRef} from "react";
+import { useEffect, useState, useContext} from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 
 export default function UserPage() {
     const {login} = useContext(UserContext);
@@ -22,31 +26,73 @@ export default function UserPage() {
     const { isTransitioning } = useContext(TransitionContext);
     const [username, setUsername] = useState("")
     const [userPosts, setUserPosts] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [updateTimelineCounter, setUpdateTimelineCounter] = useState(0);
-    const params = useParams();
-    const isMountedRef = useRef(null);
     
+    const [loading, setLoading] = useState(true);
+    const params = useParams();
+    const [hasMore, setHasMore] =useState(true);
+    const [interactedPostId, setInteractedPostId] = useState(0);
+
+    useEffect(() => window.scrollTo(0,0), [params.id])
+    useEffect(() => setLoading(true), [params.id])
+
     SetInterval( () => {
-        setUpdateTimelineCounter(updateTimelineCounter + 1);
+        if (userPosts.length) {
+            reloadCurrentTimeline(userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id, getUserPosts, login.token, setUserPosts, params.id);
+        }
     },15000);
 
     useEffect(() => {
-        isMountedRef.current = true;
-        if(login.token) {
-            setLoading(true);
-            getUserData( login.token, params.id, setUsername, isMountedRef );
-            getUserPosts(login.token, params.id, setUserPosts, setLoading, isMountedRef);
-        }
-        return () => isMountedRef.current = false;
-    }, [login, params, isDataBeingEvaluated, updateTimelineCounter]);
+        getUserData( login.token, params.id, setUsername );
+        getUserPosts(login.token, params.id)
+        .then(res => {
+            setUserPosts(res.data.posts);
+            setLoading(false);
+            if(res.data.posts.length === 0) {
+                setHasMore(false);
+            }
+        })
+        .catch(err => {
+            setLoading(false);
+            sendAlert("error", "Houve uma falha ao obter os posts!","Por favor, atualize a página!")
+        })
+    },[login, params.id]);
 
-    if(loading || !userPosts.length || !login.user || isTransitioning) {
+    useEffect(() => {
+        if (interactedPostId) {
+            if (!isDataBeingEvaluated) {
+                reloadCurrentTimeline(interactedPostId, getUserPosts, login.token, setUserPosts, params.id);
+                setInteractedPostId(0);
+            }
+        }
+    }, [login, params.id, isDataBeingEvaluated, interactedPostId]);
+
+    function loadMorePosts() {
+        getUserPosts(login.token, params.id, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id)
+        .then(res => {
+            setUserPosts([...userPosts, ...res.data.posts]);
+            if(res.data.posts.length === 0) {
+                setHasMore(false);
+            }
+        })
+        .catch(err => {
+            setLoading(false);
+            sendAlert("error", "Houve uma falha ao obter os posts!","Por favor, atualize a página!");
+        })
+    }
+
+    if(loading) {
         return (
             <Container>
                 <Header />
                 <Loading />
-                <Trending />
+            </Container>
+        );
+    }
+
+    if(isTransitioning || !login.token) {
+        return (
+            <Container>
+                <Header />
             </Container>
         );
     }
@@ -59,7 +105,20 @@ export default function UserPage() {
                     <PageTitle type = "UserPosts" text = {<><span>{username}</span> <span>'s Posts</span></>} />
                     <Button />
                 </StyledTop>
-                { PrintedPosts(userPosts, "Este usuário ainda não criou nenhum post!", login.user.id) }
+                {!userPosts.length ? 
+                "Este usuário ainda não criou nenhum post!" :
+                    <InfiniteScroll
+                        dataLength={userPosts.length}
+                        pageStart={0}
+                        scrollThreshold={1}
+                        next={loadMorePosts}
+                        hasMore={hasMore}
+                        loader={<ScrollLoader><Loading scrollColor="#6D6D6D"/></ScrollLoader>}
+                        endMessage={<p style={{ textAlign: 'center' }}>Você já viu tudo!</p>}
+                    >
+                        { PrintedPosts(userPosts, "", login.user.id, setInteractedPostId) }
+                    </InfiniteScroll>
+                }
             </Wrapper>
             <Trending />
         </Container>
@@ -71,6 +130,10 @@ const Wrapper = styled.section`
     color: #FFF;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
+
+    .infinite-scroll-component::-webkit-scrollbar {
+        display: none;
+    }
 
     @media(max-width: 637px) {
         width: 100%;
@@ -91,5 +154,21 @@ const StyledTop = styled.div`
         flex-direction: column;
         justify-content: space-between;
         align-items: left;
+    }
+`;
+
+const ScrollLoader = styled.div`
+    div {
+        margin: 0 0 0 0;
+        font-size: 22px;
+        line-height: 26px;
+        letter-spacing: 0.05em;
+        color: #6D6D6D;
+    }
+    svg {
+        width: 36px;
+        margin: 0 0 0 0;
+        height: 36px;
+        color: #6D6D6D;
     }
 `;

@@ -12,10 +12,9 @@ import { Link } from "react-router-dom";
 import { CheckPublishingBoxAndSendPost } from "../../../utils/PostsUtils";
 import { IoMdPin } from "react-icons/io";
 
-export default function PublishingBox() {
+export default function PublishingBox({isPublishing, setIsPublishing}) {
     const { login } = useContext(UserContext);
     const { setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
-    const [ isPublishing, setIsPublishing ] = useState(false);
     const [ newPost, setNewPost ] = useState({ text:"",link:"" });
     const [location, setLocation] = useState(false);
 
@@ -37,7 +36,7 @@ export default function PublishingBox() {
         <Wrapper>
             <div>
                 <Link to={`/my-posts`}>
-                    <img src = { login.user.avatar } alt = {login.user.username} />
+                    <img src = { !!login.token ? login.user.avatar : "" } alt ="avatar" />
                 </Link>
             </div>
             <PublishingBoxContent>

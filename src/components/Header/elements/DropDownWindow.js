@@ -6,7 +6,7 @@ const DropDownWindow = styled.nav`
     background: #171717;
     border-radius: ${({showNavBar}) => showNavBar ? `0px 0px 20px 20px` : `5px`};
     position: fixed;
-    z-index: 4;
+    z-index: 7;
     top: ${({showNavBar}) => showNavBar ? `72px` : `-37px`};
     right: 0;
     display: flex;

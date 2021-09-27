@@ -9,10 +9,10 @@ import DataEvaluationContext from "../../contexts/DataEvaluationContext";
 import TransitionContext from "../../contexts/TransitionContext";
 import {getUserLikes} from "../../service/service";
 import { PrintedPosts } from "../../utils/PostsUtils";
-import { SetInterval } from "../../utils/helpers/Intervals";
 
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
+
 
 export default function MyLikes() {
     const {login} = useContext(UserContext);
@@ -20,27 +20,27 @@ export default function MyLikes() {
     const [userLikes, setUserLikes] = useState([]);
     const [loading, setLoading] = useState(true);
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
-    const [updateTimelineCounter, setUpdateTimelineCounter] = useState(0);
-    const isMountedRef = useRef(null);
+    const [interactedPostId, setInteractedPostId] = useState(0);
 
-    SetInterval( () => {
-        setUpdateTimelineCounter(updateTimelineCounter + 1);
-    },15000);
+    useEffect(() => {window.scrollTo(0,0)}, []);
 
     useEffect(() => {
-        isMountedRef.current = true;
-        if(login.token) {
-            getUserLikes(login.token, setUserLikes, setLoading, isMountedRef);
-        }
-        return () => isMountedRef.current = false;
-    }, [login, isDataBeingEvaluated, updateTimelineCounter]);
+        getUserLikes(setLoading, login.token, setUserLikes);
+    }, [login.token, isDataBeingEvaluated]);
 
-    if(loading || !userLikes.length || !login.user || isTransitioning) {
+    if(!interactedPostId && loading) {
         return (
             <Container>
                 <Header />
                 <Loading />
-                <Trending />
+            </Container>
+        );
+    }
+
+    if(isTransitioning || !login.token) {
+        return (
+            <Container>
+                <Header />
             </Container>
         );
     }
@@ -50,7 +50,7 @@ export default function MyLikes() {
             <Header />
             <Wrapper>
                 <PageTitle text = "my likes" />
-                { PrintedPosts(userLikes, "Você ainda não curtiu nenhum post!", login.user.id) }
+                {PrintedPosts(userLikes, "Você ainda não curtiu nenhum post!", login.user.id, setInteractedPostId)}
             </Wrapper>
             <Trending />
         </Container>
@@ -62,6 +62,10 @@ const Wrapper = styled.section`
     color: #FFF;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
+
+    .infinite-scroll-component::-webkit-scrollbar {
+        display: none;
+    }
 
     @media(max-width: 637px) {
         width: 100%;

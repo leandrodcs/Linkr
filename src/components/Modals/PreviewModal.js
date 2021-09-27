@@ -36,7 +36,7 @@ export default function Modal({setOpenModal}) {
 
 const Background = styled.div`
     position: fixed;
-    z-index: 6;
+    z-index: 12;
     top: 0;
     left: 0;
     width: 100%;

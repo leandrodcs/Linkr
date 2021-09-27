@@ -31,14 +31,15 @@ function CheckPublishingBoxAndSendPost(event, objectToPublish, userToken, setIsD
     publishNewPost(objectToPublish, userToken, setIsDataBeingEvaluated, setIsPublishing, setNewPost, location);
 }
 
-function PrintedPosts(posts, zeroPostsMessage, loginId, followingList) {
+function PrintedPosts(posts, zeroPostsMessage, loginId, setInteractedPostId, followingList) {
     if (posts.length) {
         return (
             posts.map( (post) => 
                 <Post 
                     key = { post.repostId || post.id }
                     post = { {...post, hasUserLiked:!!post.likes.find(({userId}) => userId === Number(loginId))} }
-                />)
+                    setInteractedPostId = {setInteractedPostId}
+            />)
         );
     }
     if(followingList && !followingList.length) {
@@ -53,29 +54,36 @@ function cancelEditing(isEditing, text, setIsEditing, setEditedMsg) {
     setEditedMsg(text);
 }
 
-function editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing) {
-    setIsDataBeingEvaluated(true);
+async function editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, setInteractedPostId) {
+    await setIsDataBeingEvaluated(true);
+    setInteractedPostId(id);
     setIsEditing(true);
     publishEditedPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing);
 }
 
-function analyzeRequest(e, editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg) {
+function analyzeRequest(e, setInteractedPostId, editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg) {
     if(e.keyCode === 27) {
         cancelEditing(isEditing, text, setIsEditing, setEditedMsg)
     }
     if(e.keyCode === 13) {
-        editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing)
+        if (editedMsg !== 0) {
+            editPost(editedMsg, id, token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, setInteractedPostId);
+        } else {
+            cancelEditing(isEditing, text, setIsEditing, setEditedMsg)
+        }
     }
 }
 
-function deletePost( setIsDataBeingEvaluated, token, id, setOpenModal ) {
-    setIsDataBeingEvaluated(true);
-    deletePostFromServer(token, id, setOpenModal, setIsDataBeingEvaluated);
+async function deletePost(setIsHidden, setInteractedPostId, setIsDataBeingEvaluated, token, id, setOpenModal ) {
+    await setIsDataBeingEvaluated(true);
+    setInteractedPostId(id);
+    deletePostFromServer(setIsHidden, token, id, setOpenModal, setIsDataBeingEvaluated);
 }
 
-function repostPost(userToken, postID, setIsDataBeingEvaluated, setOpenModal) {
-    setIsDataBeingEvaluated(true);
-    sendRepostToServer(userToken, postID, setIsDataBeingEvaluated, setOpenModal)
+async function repostPost(setInteractedPostId, userToken, postID, repostId, setIsDataBeingEvaluated, setOpenModal) {
+    await setIsDataBeingEvaluated(true);
+     setInteractedPostId(repostId || postID);
+    sendRepostToServer(userToken, postID, setIsDataBeingEvaluated, setOpenModal);
 }
 
 function isUsersOriginalPost(repostedBy, userId, postUserId){
@@ -84,6 +92,13 @@ function isUsersOriginalPost(repostedBy, userId, postUserId){
 
 function isUsersRepost(repostedBy, userId) {
     return repostedBy && Number(userId) === Number(repostedBy.id);
+}
+
+async function sendCommentAndUpdatePosts (e, postComment, userToken, id, repostId, text, setComments, setText, setIsDataBeingEvaluated, setInteractedPostId) {
+    e.preventDefault();
+    await setIsDataBeingEvaluated(true);
+    setInteractedPostId(repostId || id);
+    postComment(userToken, id, {text}, setComments, setIsDataBeingEvaluated, setText);
 }
 
 export {
@@ -98,5 +113,6 @@ export {
     deletePost,
     repostPost,
     isUsersOriginalPost,
-    isUsersRepost
+    isUsersRepost,
+    sendCommentAndUpdatePosts,
 }

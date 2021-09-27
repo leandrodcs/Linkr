@@ -13,9 +13,9 @@ import { useContext, useState, useRef, useEffect } from "react";
 export default function PostBox() {
 
     const {isDataBeingEvaluated, setIsDataBeingEvaluated} = useContext(DataEvaluationContext);
-    const { id, text } = useContext(PostContext);
+    const { id, text, setInteractedPostId } = useContext(PostContext);
     const {login} = useContext(UserContext);
-    const [editedMsg, setEditedMsg] = useState(text);
+    const [editedMsg, setEditedMsg] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef(null);
 
@@ -31,14 +31,14 @@ export default function PostBox() {
             {isEditing ?
             <EditInput 
             disabled={isDataBeingEvaluated} 
-            onKeyUp={(e) => analyzeRequest(e, editedMsg, id, login.token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg)} 
+            onKeyUp={(e) => analyzeRequest(e, setInteractedPostId, editedMsg, id, login.token, setIsDataBeingEvaluated, setIsEditing, cancelEditing, isEditing, text, setEditedMsg)} 
             ref={inputRef} 
-            value={editedMsg} 
+            value={editedMsg === 0 ? text : editedMsg} 
             onChange={e => setEditedMsg(e.target.value)}
             /> 
             :
             <TextWithHighlightedHashtags 
-                text = {editedMsg}
+                text = {editedMsg === 0 ? text : editedMsg}
                 MainStyledComponent = {Description}
                 HashtagStyledComponent = {Hashtag}
             />}

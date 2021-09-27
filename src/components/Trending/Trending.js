@@ -4,7 +4,7 @@ import { TextWithHighlightedHashtags } from "../../utils/TextAdjustmentsUtils";
 import { getTrendingTopics } from "../../service/service";
 import { sendAlert } from "../../utils/helpers/Alerts";
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 
@@ -14,14 +14,11 @@ export default function Trending() {
     const { isDataBeingEvaluated } = useContext(DataEvaluationContext);
     const [searchedHashtag, setSearchedHashtag] = useState("");
     const history = useHistory();
-    const isMountedRef = useRef(null);
     
     useEffect(() => {
-        isMountedRef.current = true;
-        if(login.token) {
-            getTrendingTopics(login.token, setTrendingTopics, isMountedRef)
+        if(login.token && !isDataBeingEvaluated) {
+            getTrendingTopics(login.token, setTrendingTopics)
         }
-        return () => isMountedRef.current = false;
     },[login,isDataBeingEvaluated]);
 
     function searchHashtag(e) {

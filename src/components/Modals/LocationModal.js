@@ -95,7 +95,7 @@ const Header = styled.div`
 
 const Background = styled.div`
     position: fixed;
-    z-index: 1;
+    z-index: 12;
     top: 0;
     left: 0;
     width: 100%;

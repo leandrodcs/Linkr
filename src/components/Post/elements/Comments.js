@@ -1,16 +1,18 @@
 import PostContext from "../../../contexts/PostContext";
 import UserContext from "../../../contexts/UserContext";
+import DataEvaluationContext from "../../../contexts/DataEvaluationContext";
 import Comment from "./Comment";
 import { postComment } from "../../../service/service";
+import { sendCommentAndUpdatePosts } from "../../../utils/PostsUtils";
 
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { PaperPlaneOutline } from "react-ionicons";
 
-
 export default function Comments() {
-    const { comments, setComments, id } = useContext(PostContext);
+    const { comments, setComments, id, repostId, setInteractedPostId } = useContext(PostContext);
+    const { isDataBeingEvaluated, setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
     const { login } = useContext(UserContext);
     const [text, setText] = useState("");
 
@@ -18,19 +20,18 @@ export default function Comments() {
         <Wrapper>
             {comments.map(comment => <Comment comment={comment} key={comment.id}/>)}
             <StyledForm onSubmit={(e) => {
-                e.preventDefault();
-                postComment(login.token, id, {text}, setComments);
-                setText("");
+                sendCommentAndUpdatePosts (e, postComment, login.token, id, repostId, text, setComments, setText, setIsDataBeingEvaluated, setInteractedPostId);
             }}>
                 <Link to="/my-posts" ><img src={login.user.avatar} alt="my-posts" /></Link>
                 <input 
                     type="text"
                     placeholder="write a comment..."
                     required
+                    disabled={isDataBeingEvaluated}
                     value={text}
                     onChange={e => setText(e.target.value)}
                 />
-                <button type="submit">
+                <button type="submit" disabled={isDataBeingEvaluated}>
                     <PaperPlaneOutline color="#F3F3F3" width="16px" />
                 </button>
             </StyledForm>
@@ -52,6 +53,7 @@ const StyledForm = styled.form`
         height: 38px;
         border-radius: 38px;
         cursor: pointer;
+        object-fit: cover;
     }
     & input {
         width: calc(100% - 52px);

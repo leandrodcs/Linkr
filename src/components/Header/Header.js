@@ -31,7 +31,7 @@ export default function Header() {
     return (
         <>
             <HeaderWrapper >
-                <Link to="/timeline">linkr</Link>
+                <Link to="/timeline" onClick = {() => window.scrollTo(0,0)} >linkr</Link>
                 <DropDownMenu onClick={() => showNavBar ? setShowNavBar(false) : setShowNavBar(true)} showNavBar={showNavBar}>
                     <IoIosArrowDown />
                     <img src={!!login.token ? login.user.avatar : ""} alt="avatar" />
