@@ -47,7 +47,7 @@ export default function HashtagPage() {
             setLoading(false);
             sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
         })
-    },[login.token, params.hashtag]);
+    },[login, params.hashtag]);
 
     useEffect(() => {
         if (interactedPostId) {
@@ -56,7 +56,7 @@ export default function HashtagPage() {
                 setInteractedPostId(0);
             }
         }
-    }, [login.token, params.hashtag, isDataBeingEvaluated, interactedPostId]);
+    }, [login, params.hashtag, isDataBeingEvaluated, interactedPostId]);
 
     function loadMorePosts() {
         getHashtagPosts(login.token, params.hashtag, setHashtagPosts, setLoading, setHasMore, hashtagPosts[hashtagPosts.length -1].repostId||hashtagPosts[hashtagPosts.length -1].id, hashtagPosts)

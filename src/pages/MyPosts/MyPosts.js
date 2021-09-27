@@ -45,7 +45,7 @@ export default function MyPosts() {
             setLoading(false);
             sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
         })
-    },[login.token, login.user.id]);
+    },[login]);
 
     useEffect(() => {
         if (interactedPostId) {
@@ -54,7 +54,7 @@ export default function MyPosts() {
                 setInteractedPostId(0);
             }
         }
-    }, [login.token, isDataBeingEvaluated, interactedPostId]);
+    }, [login, isDataBeingEvaluated, interactedPostId]);
 
     function loadMorePosts() {
         getUserPosts(login.token, login.user.id, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id)

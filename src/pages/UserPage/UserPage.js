@@ -51,7 +51,7 @@ export default function UserPage() {
             setLoading(false);
             sendAlert("error", "Houve uma falha ao obter os posts!","Nos desculpe! A página será atualizada")
         })
-    },[login.token, params.id]);
+    },[login, params.id]);
 
     useEffect(() => {
         if (interactedPostId) {
@@ -60,7 +60,7 @@ export default function UserPage() {
                 setInteractedPostId(0);
             }
         }
-    }, [login.token, params.id, isDataBeingEvaluated, interactedPostId]);
+    }, [login, params.id, isDataBeingEvaluated, interactedPostId]);
 
     function loadMorePosts() {
         getUserPosts(login.token, params.id, userPosts[userPosts.length -1].repostId||userPosts[userPosts.length -1].id)
