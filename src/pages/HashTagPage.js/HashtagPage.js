@@ -118,11 +118,6 @@ const Wrapper = styled.section`
     }
 `;
 
-const ScrollLoading = styled.div`
-    background: red;
-    
-`;
-
 const ScrollLoader = styled.div`
     div {
         margin: 0 0 0 0;

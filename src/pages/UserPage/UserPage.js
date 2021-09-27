@@ -150,7 +150,6 @@ const ScrollLoader = styled.div`
         letter-spacing: 0.05em;
         color: #6D6D6D;
     }
-
     svg {
         width: 36px;
         margin: 0 0 0 0;

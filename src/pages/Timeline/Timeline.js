@@ -109,10 +109,6 @@ const Wrapper = styled.section`
     font-family: 'Lato', sans-serif;
     font-weight: 700;
 
-    svg {
-        width: 100px;
-    }
-
     .infinite-scroll-component::-webkit-scrollbar {
         display: none;
     }
@@ -123,7 +119,6 @@ const Wrapper = styled.section`
 `;
 
 const ScrollLoader = styled.div`
-
     div {
         margin: 0 0 0 0;
         font-size: 22px;
@@ -131,7 +126,6 @@ const ScrollLoader = styled.div`
         letter-spacing: 0.05em;
         color: #6D6D6D;
     }
-
     svg {
         width: 36px;
         margin: 0 0 0 0;
