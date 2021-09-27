@@ -36,7 +36,7 @@ const Wrapper = styled.div`
     & img {
         width: 50px;
         height: 50px;
-        margin-bottom: 20px;
+        /* margin-bottom: 20px; */
         border-radius: 50%;
         object-fit: cover;
     }
@@ -47,7 +47,7 @@ const Wrapper = styled.div`
         & img {
             width: 40px;
             height: 40px;
-            margin-bottom: 17px;
+            /* margin-bottom: 17px; */
         }
     }
 `;

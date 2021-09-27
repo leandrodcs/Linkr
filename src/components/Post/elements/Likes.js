@@ -48,9 +48,9 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 20px 0px;
     @media(max-width: 637px) {
-        margin-bottom: 17px;
+        margin: 17px 0px;
     }
 `
 
