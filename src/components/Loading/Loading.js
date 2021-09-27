@@ -19,7 +19,7 @@ export default function Loading({scrollColor}) {
 }
 
 const Wrapper = styled.div`
-    width: 601px;
+    width: 100%;
     font-family: 'Oswald', sans-serif;
     font-size: 40px;
     margin-top: 40px;
