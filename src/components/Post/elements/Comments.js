@@ -5,7 +5,7 @@ import Comment from "./Comment";
 import { postComment } from "../../../service/service";
 import { sendCommentAndUpdatePosts } from "../../../utils/PostsUtils";
 
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { PaperPlaneOutline } from "react-ionicons";
@@ -15,6 +15,11 @@ export default function Comments() {
     const { isDataBeingEvaluated, setIsDataBeingEvaluated } = useContext(DataEvaluationContext);
     const { login } = useContext(UserContext);
     const [text, setText] = useState("");
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, []);
 
     return (
         <Wrapper>
@@ -28,6 +33,7 @@ export default function Comments() {
                     placeholder="write a comment..."
                     required
                     disabled={isDataBeingEvaluated}
+                    ref={inputRef} 
                     value={text}
                     onChange={e => setText(e.target.value)}
                 />
