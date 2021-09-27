@@ -12,7 +12,7 @@ const HeaderWrapper= styled.header`
     color: #FFFFFF;
     top: 0;
     left: 0;
-    z-index: 5;
+    z-index: 8;
     
     a {
         margin-left: 28px;
